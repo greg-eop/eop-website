@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:John D. Ostrander
+N:Ostrander;John;D.;;
+ORG:Elliott, Ostrander & Preston, P.C.
+TITLE:Attorney
+TEL;TYPE=WORK,VOICE:+15032247112
+EMAIL;TYPE=WORK:john@eoplaw.com
+ADR;TYPE=WORK:;;707 SW Washington St., Suite 1500;Portland;OR;97205;USA
+URL:http://localhost:4321/our-attorneys/john-d-ostrander
+NOTE:John specializes in trial work, focusing on commercial, employment, insurance, tort, and transportation litigation.
+END:VCARD

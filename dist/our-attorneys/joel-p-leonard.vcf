@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Joel P. Leonard
+N:Leonard;Joel;P.;;
+ORG:Elliott, Ostrander & Preston, P.C.
+TITLE:Attorney
+TEL;TYPE=WORK,VOICE:+15032247112
+EMAIL;TYPE=WORK:joel@eoplaw.com
+ADR;TYPE=WORK:;;707 SW Washington St., Suite 1500;Portland;OR;97205;USA
+URL:http://localhost:4321/our-attorneys/joel-p-leonard
+NOTE:
+END:VCARD

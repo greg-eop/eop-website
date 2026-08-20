@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Robert J. Preston
+N:Preston;Robert;J.;;
+ORG:Elliott, Ostrander & Preston, P.C.
+TITLE:Attorney
+TEL;TYPE=WORK,VOICE:+15032247112
+EMAIL;TYPE=WORK:robert@eoplaw.com
+ADR;TYPE=WORK:;;707 SW Washington St., Suite 1500;Portland;OR;97205;USA
+URL:http://localhost:4321/our-attorneys/robert-j-preston
+NOTE:Robert advises clients on long-range planning, tax strategy, and complex business matters.
+END:VCARD

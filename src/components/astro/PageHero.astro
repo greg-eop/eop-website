@@ -1,0 +1,84 @@
+---
+interface Props {
+  title: string;
+  subtitle?: string;
+  backgroundImageSrc?: string;
+  containerMaxWidthClass?: string;
+  sectionClass?: string;
+  showCta?: boolean;
+  ctaDescription?: string;
+  ctaText?: string;
+  ctaHref?: string;
+}
+
+const {
+  title,
+  subtitle,
+  backgroundImageSrc,
+  containerMaxWidthClass = "max-w-6xl",
+  sectionClass = "",
+  showCta = false,
+  ctaDescription: ctaDescriptionRaw,
+  ctaText: ctaTextRaw,
+  ctaHref: ctaHrefRaw,
+} = Astro.props as Props;
+
+const ctaDescription = ctaDescriptionRaw || "Ready to discuss your matter? Our attorneys are here to help.";
+const ctaText = ctaTextRaw || "Schedule Your Free Case Evaluation";
+const ctaHref = ctaHrefRaw || "/contact-us";
+
+const sectionStyle = backgroundImageSrc
+  ? `background-image: url(${backgroundImageSrc}); background-size: contain; background-position: center;`
+  : undefined;
+---
+
+<section
+  class={`relative overflow-hidden bg-[#101624] bg-cover bg-center ${sectionClass}`}
+  style={sectionStyle}
+>
+  <div
+    class="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/40"
+  >
+  </div>
+  <div
+    class={`relative mx-auto w-full ${containerMaxWidthClass} px-6 py-16 md:py-24`}
+  >
+    <h1
+      class="font-serif text-3xl md:text-4xl lg:text-7xl text-transparent bg-gradient-to-b from-white via-[#f0d9a0] to-[#b98935] bg-clip-text pb-2"
+    >
+      {title}
+    </h1>
+    {
+      subtitle && (
+        <p class="mt-4 max-w-3xl font-sans text-base text-white/85 md:text-lg">
+          {subtitle}
+        </p>
+      )
+    }
+  </div>
+  {showCta && (
+    <div class="backdrop-blur-sm py-10 border-t-1 border-accent/40">
+      <div
+        class="mx-auto w-full max-w-7xl px-6 flex flex-wrap items-center justify-between gap-4"
+      >
+        <p class="text-white/90 text-sm md:text-base font-sans">
+          {ctaDescription}
+        </p>
+        <a
+          href={ctaHref}
+          class="inline-flex items-center justify-center px-7 py-4 bg-accent text-accent-foreground font-sans font-semibold text-sm whitespace-nowrap transition-colors hover:bg-white hover:text-primary"
+        >
+          {ctaText}
+        </a>
+      </div>
+    </div>
+  )}
+</section>
+
+<style>
+  @media (hover: hover) {
+    section[style*="background-image"] {
+      background-attachment: fixed;
+    }
+  }
+</style>

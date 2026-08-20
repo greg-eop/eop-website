@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import page from '../data/home.json';
+import firmInfo from '../data/firm-info.json';
+---
+
+<BaseLayout title="Accessibility | EOP Law" description={page.meta.description}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <section class="mx-auto w-full max-w-5xl px-6 pt-10 pb-16 md:pt-14 md:pb-20">
+        <h1 class="font-serif text-4xl text-primary md:text-5xl">Accessibility</h1>
+        <h2 class="mt-8 font-serif text-2xl text-primary md:text-3xl">We're committed to easy access for everyone</h2>
+        <div class="mt-6 space-y-6 text-[1.05rem] leading-relaxed text-neutral-700">
+          <p>
+            Elliott Ostrander &amp; Preston, P.C. is committed to making our website as accessible as possible to people
+            with special needs, including those with visual, hearing, cognitive, and motor impairments. We are
+            constantly working to improve accessibility and provide equal access to all users.
+          </p>
+          <p>
+            We are actively taking steps and devoting resources to follow accessibility best practices and adhere to
+            level AA of the
+            <a
+              class="text-primary underline decoration-accent underline-offset-4"
+              href="https://www.w3.org/TR/WCAG20/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Web Content Accessibility Guidelines (WCAG 2.0)
+            </a>
+            . This work is ongoing, and we welcome your feedback on how we can improve.
+          </p>
+        </div>
+
+        <h2 class="mt-10 font-serif text-2xl text-primary md:text-3xl">Contacting us</h2>
+        <div class="mt-6 space-y-6 text-[1.05rem] leading-relaxed text-neutral-700">
+          <p>
+            If you would like to request accessibility-related assistance, report accessibility problems, or request
+            information in accessible alternative formats, please use one of the methods on our
+            <a class="text-primary underline decoration-accent underline-offset-4" href="/contact-us">Contact Us</a>
+            page.
+          </p>
+          <p>
+            To help us assist you with any issue, we recommend reviewing the WAI guidance:
+            <a
+              class="text-primary underline decoration-accent underline-offset-4"
+              href="https://www.w3.org/WAI/users/inaccessible"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Contacting Organisations about Inaccessible Websites
+            </a>
+            , and including the suggested details in your request.
+          </p>
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

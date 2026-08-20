@@ -1,0 +1,67 @@
+---
+interface Member {
+  id: string;
+  name: string;
+  role: string;
+  specialty: string;
+  photo?: string | null;
+}
+
+interface Props {
+  eyebrow: string;
+  heading: string;
+  description: string;
+  members: Member[];
+}
+
+const { eyebrow, heading, description, members } = Astro.props;
+---
+
+<section id="team" class="py-8 md:py-16 lg:py-32 bg-background border-t border-accent/30">
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div data-motion="motion-preset-slide-up motion-duration-700" class="text-center mb-20">
+      <div class="inline-block px-6 py-2 bg-accent/10 border border-accent/30 mb-6">
+        <span class="text-accent-foreground">{eyebrow}</span>
+      </div>
+      <h2 class="text-4xl md:text-6xl text-primary mb-6">{heading}</h2>
+      <p class="text-lg text-muted-foreground max-w-3xl mx-auto">{description}</p>
+    </div>
+
+    <div class="team-carousel flex gap-6 overflow-x-auto snap-x snap-mandatory pb-6 md:pb-0 md:grid md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+      {members.map((member) => (
+        <a href={`/our-attorneys/${member.id}`} data-motion="motion-preset-slide-up motion-duration-500" data-motion-delay={String(members.indexOf(member) * 100)} class="group relative overflow-hidden block hover:shadow-lg transition-shadow snap-start shrink-0 w-[72vw] sm:w-[52vw] md:w-auto md:shrink">
+          <div class="aspect-[3/4] bg-gradient-to-b from-muted to-accent/20 overflow-hidden">
+            {member.photo ? (
+              <img
+                src={member.photo}
+                alt={member.name}
+                class="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-300"
+              />
+            ) : (
+              <div class="w-full h-full flex items-center justify-center text-6xl text-accent/30 font-serif">
+                {member.name.charAt(0)}
+              </div>
+            )}
+          </div>
+          <div class="p-8 bg-white border-t-4 border-accent">
+            <h3 class="text-2xl text-primary mb-2 group-hover:text-accent transition-colors">{member.name}</h3>
+            <p class="text-accent mb-2">{member.role}</p>
+            <p class="text-muted-foreground">{member.specialty}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <p class="mt-4 text-center text-muted-foreground/40 text-xs tracking-widest uppercase md:hidden">Swipe to explore</p>
+  </div>
+</section>
+
+<style>
+  .team-carousel {
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .team-carousel::-webkit-scrollbar {
+    display: none;
+  }
+</style>

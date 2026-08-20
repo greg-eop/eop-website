@@ -1,0 +1,392 @@
+---
+import Logo from '../../images/logo.svg';
+import { getCollection } from 'astro:content';
+
+interface Props {
+  transparentAtTop?: boolean;
+}
+const { transparentAtTop = false } = Astro.props;
+
+const practiceAreaItems = (await getCollection('practiceAreas'))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .map((entry) => ({
+    href: `/practice-areas/${entry.id}`,
+    label: entry.data.title,
+  }));
+
+const attorneyItems = (await getCollection('attorneys'))
+  .sort((a, b) => a.data.name.split(' ')[0].localeCompare(b.data.name.split(' ')[0]))
+  .map((entry) => ({
+    href: `/our-attorneys/${entry.id}`,
+    label: entry.data.name,
+  }));
+
+const otherNavLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/case-studies', label: 'Case Studies' },
+  {
+    href: '/contact-us',
+    label: 'Contact',
+    class: 'px-8 py-3 bg-accent border border-accent text-primary hover:bg-primary hover:text-white transition-colors',
+  },
+];
+
+const normalizePath = (path: string) =>
+  path !== '/' && path.endsWith('/') ? path.slice(0, -1) : path;
+
+const currentPath = normalizePath(Astro.url.pathname);
+const isActiveLink = (href: string) => {
+  const normalizedHref = normalizePath(href);
+  return currentPath === normalizedHref || currentPath.startsWith(`${normalizedHref}/`);
+};
+
+const isPracticeAreaActive = currentPath === '/practice-areas' || currentPath.startsWith('/practice-areas/');
+const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsWith('/our-attorneys/');
+---
+
+<header
+  id="site-header"
+  data-transparent-top={transparentAtTop ? 'true' : undefined}
+  class="sticky top-0 z-50 transition-colors duration-300 bg-white/95 backdrop-blur-sm border-b border-border"
+>
+  <nav class="max-w-7xl mx-auto px-6 lg:px-12 py-6">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="/">
+          <Logo class="logo-default h-14 w-auto" role="img" aria-label="EOP | Elliott Ostrander & Preston, PC" />
+        </a>
+      </div>
+
+      <!-- Desktop nav -->
+      <div class="hidden lg:flex items-center gap-10">
+
+        <!-- Practice Areas dropdown -->
+        <div class="relative" data-dropdown>
+          <button
+            data-dropdown-trigger
+            aria-haspopup="true"
+            aria-expanded="false"
+            class={`flex items-center gap-1 nav-top-link text-foreground hover:text-accent transition-colors ${isPracticeAreaActive ? 'underline decoration-accent underline-offset-8' : ''}`}
+          >
+            Practice Areas
+            <svg data-dropdown-chevron xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div data-dropdown-menu role="menu" class="absolute left-0 top-full hidden w-72 z-50">
+            <div class="h-3"></div>
+            <div class="bg-white border border-border shadow-lg py-2">
+              <a
+                href="/practice-areas"
+                role="menuitem"
+                class={`block px-5 py-2.5 text-sm text-foreground hover:text-accent hover:bg-neutral-50 transition-colors ${currentPath === '/practice-areas' ? 'text-accent font-medium' : ''}`}
+              >
+                All Practice Areas
+              </a>
+              <div class="mx-5 my-1.5 border-t border-border"></div>
+              {practiceAreaItems.map((item) => (
+                <a
+                  href={item.href}
+                  role="menuitem"
+                  class={`block px-5 py-2.5 text-sm text-foreground hover:text-accent hover:bg-neutral-50 transition-colors ${isActiveLink(item.href) ? 'text-accent font-medium' : ''}`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <!-- Our Attorneys dropdown -->
+        <div class="relative" data-dropdown>
+          <button
+            data-dropdown-trigger
+            aria-haspopup="true"
+            aria-expanded="false"
+            class={`flex items-center gap-1 nav-top-link text-foreground hover:text-accent transition-colors ${isAttorneyActive ? 'underline decoration-accent underline-offset-8' : ''}`}
+          >
+            Our Team
+            <svg data-dropdown-chevron xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div data-dropdown-menu role="menu" class="absolute left-0 top-full hidden w-56 z-50">
+            <div class="h-3"></div>
+            <div class="bg-white border border-border shadow-lg py-2">
+              <a
+                href="/our-attorneys"
+                role="menuitem"
+                class={`block px-5 py-2.5 text-sm text-foreground hover:text-accent hover:bg-neutral-50 transition-colors ${currentPath === '/our-attorneys' ? 'text-accent font-medium' : ''}`}
+              >
+                All Attorneys
+              </a>
+              <div class="mx-5 my-1.5 border-t border-border"></div>
+              {attorneyItems.map((item) => (
+                <a
+                  href={item.href}
+                  role="menuitem"
+                  class={`block px-5 py-2.5 text-sm text-foreground hover:text-accent hover:bg-neutral-50 transition-colors ${isActiveLink(item.href) ? 'text-accent font-medium' : ''}`}
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {otherNavLinks.map((link) => (
+          <a
+            href={link.href}
+            class={`${link.class ? 'nav-cta' : 'nav-top-link'} text-foreground hover:text-accent transition-colors ${
+              isActiveLink(link.href)
+                ? 'underline decoration-accent underline-offset-8'
+                : ''
+            } ${link.class || ''}`}
+          >
+            {link.label}
+          </a>
+        ))}
+      </div>
+
+      <button class="nav-top-link lg:hidden p-2" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+        <svg class="burger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <line class="burger-line line-1" x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line class="burger-line line-2" x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line class="burger-line line-3" x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden lg:hidden mt-6 pt-6 border-t border-border space-y-4" data-mobile-menu>
+
+      <!-- Practice Areas expandable -->
+      <div>
+        <div class="flex items-center justify-between py-2">
+          <a
+            href="/practice-areas"
+            class={`text-foreground hover:text-accent transition-colors ${isPracticeAreaActive ? 'underline decoration-accent underline-offset-4' : ''}`}
+          >
+            Practice Areas
+          </a>
+          <button
+            data-mobile-toggle="mobile-pa-list"
+            aria-expanded="false"
+            aria-controls="mobile-pa-list"
+            aria-label="Toggle practice areas list"
+            class="p-1 text-foreground hover:text-accent transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+        <div id="mobile-pa-list" class="mobile-sub-list hidden pl-4 space-y-1 pb-2">
+          {practiceAreaItems.map((item) => (
+            <a
+              href={item.href}
+              class={`block py-2 text-sm text-foreground hover:text-accent transition-colors ${isActiveLink(item.href) ? 'text-accent font-medium' : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Our Attorneys expandable -->
+      <div>
+        <div class="flex items-center justify-between py-2">
+          <a
+            href="/our-attorneys"
+            class={`text-foreground hover:text-accent transition-colors ${isAttorneyActive ? 'underline decoration-accent underline-offset-4' : ''}`}
+          >
+            Our Attorneys
+          </a>
+          <button
+            data-mobile-toggle="mobile-att-list"
+            aria-expanded="false"
+            aria-controls="mobile-att-list"
+            aria-label="Toggle attorneys list"
+            class="p-1 text-foreground hover:text-accent transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+        <div id="mobile-att-list" class="mobile-sub-list hidden pl-4 space-y-1 pb-2">
+          {attorneyItems.map((item) => (
+            <a
+              href={item.href}
+              class={`block py-2 text-sm text-foreground hover:text-accent transition-colors ${isActiveLink(item.href) ? 'text-accent font-medium' : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <a
+        href="/resources"
+        class={`block text-foreground hover:text-accent py-2 transition-colors ${isActiveLink('/resources') ? 'underline decoration-accent underline-offset-4' : ''}`}
+      >
+        Resources
+      </a>
+      {otherNavLinks.map((link) => (
+        <a
+          href={link.href}
+          class={`block transition-colors ${
+            link.class
+              ? `w-full text-center ${link.class}`
+              : `text-foreground hover:text-accent py-2 ${
+                  isActiveLink(link.href)
+                    ? 'underline decoration-accent underline-offset-4'
+                    : ''
+                }`
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <script is:inline>
+    // Mobile hamburger
+    var menuButton = document.querySelector('[data-menu-toggle]');
+    var mobileMenu = document.querySelector('[data-mobile-menu]');
+    var siteHeader = document.getElementById('site-header');
+
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener('click', function () {
+        var isNowHidden = mobileMenu.classList.toggle('hidden');
+        menuButton.setAttribute('aria-expanded', String(!isNowHidden));
+        if (siteHeader) siteHeader.classList.toggle('menu-open', !isNowHidden);
+      });
+    }
+
+    // Mobile sub-list toggles
+    document.querySelectorAll('[data-mobile-toggle]').forEach(function (btn) {
+      var targetId = btn.getAttribute('data-mobile-toggle');
+      var list = document.getElementById(targetId);
+      var chevron = btn.querySelector('svg');
+      if (!list || !chevron) return;
+      btn.addEventListener('click', function () {
+        var isNowHidden = list.classList.toggle('hidden');
+        chevron.style.transform = isNowHidden ? '' : 'rotate(180deg)';
+        btn.setAttribute('aria-expanded', String(!isNowHidden));
+      });
+    });
+
+    // Desktop dropdowns
+    document.querySelectorAll('[data-dropdown]').forEach(function (dropdown) {
+      var trigger = dropdown.querySelector('[data-dropdown-trigger]');
+      var menu = dropdown.querySelector('[data-dropdown-menu]');
+      var chevron = dropdown.querySelector('[data-dropdown-chevron]');
+      var closeTimer = null;
+
+      var open = function () {
+        if (!menu || !chevron || !trigger) return;
+        if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
+        menu.classList.remove('hidden');
+        chevron.style.transform = 'rotate(180deg)';
+        trigger.setAttribute('aria-expanded', 'true');
+      };
+
+      var scheduleClose = function () {
+        closeTimer = setTimeout(close, 100);
+      };
+
+      var close = function () {
+        if (!menu || !chevron || !trigger) return;
+        menu.classList.add('hidden');
+        chevron.style.transform = '';
+        trigger.setAttribute('aria-expanded', 'false');
+      };
+
+      dropdown.addEventListener('mouseenter', open);
+      dropdown.addEventListener('mouseleave', scheduleClose);
+
+      trigger.addEventListener('click', function () {
+        menu.classList.contains('hidden') ? open() : close();
+      });
+
+      dropdown.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') close();
+      });
+
+      document.addEventListener('focusin', function (e) {
+        if (!dropdown.contains(e.target)) close();
+      });
+    });
+  </script>
+
+  <style is:global>
+    #site-header[data-transparent-top]:not(.scrolled) {
+      background-color: transparent;
+      border-color: transparent;
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+    #site-header[data-transparent-top]:not(.scrolled) .nav-top-link {
+      color: white;
+    }
+    #site-header[data-transparent-top].menu-open .nav-top-link {
+      color: oklch(0.145 0 0);
+    }
+    #site-header[data-transparent-top].menu-open {
+      background-color: rgb(255 255 255 / 0.95);
+      border-color: var(--border);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+    }
+    #site-header[data-transparent-top]:not(.scrolled) .logo-default {
+      display: block;
+    }
+    /* Mobile menu & sub-menu slide-down animations */
+    @keyframes mobileSlideDown {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    #mobile-menu:not(.hidden) {
+      animation: mobileSlideDown 0.25s ease forwards;
+    }
+    .mobile-sub-list:not(.hidden) {
+      animation: mobileSlideDown 0.2s ease forwards;
+    }
+    /* Burger → X animation */
+    .burger-line {
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    [data-menu-toggle][aria-expanded="true"] .line-1 {
+      transform: translateY(6px) rotate(45deg);
+    }
+    [data-menu-toggle][aria-expanded="true"] .line-2 {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+    [data-menu-toggle][aria-expanded="true"] .line-3 {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+  </style>
+
+  <script is:inline>
+    (function () {
+      var header = document.getElementById('site-header');
+      if (!header || header.getAttribute('data-transparent-top') !== 'true') return;
+
+      function update() {
+        if (window.scrollY > 10) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      }
+
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+    })();
+  </script>
+</header>

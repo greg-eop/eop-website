@@ -1,0 +1,160 @@
+---
+interface Stat {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  badge: string;
+  heading: string;
+  subheading: string;
+  primaryCta: string;
+  secondaryCta: string;
+  stats: Stat[];
+}
+
+const { badge, heading, subheading, primaryCta, secondaryCta, stats } = Astro.props;
+import bg from "../../images/pdx2.avif";
+
+const FOUNDING_YEAR = 1995;
+const yearsOfExperience = new Date().getFullYear() - FOUNDING_YEAR;
+
+// Replace hardcoded years value for the "Years Experience" stat
+const computedStats = stats.map((stat) =>
+  stat.label.toLowerCase().includes('year')
+    ? { ...stat, value: String(yearsOfExperience) }
+    : stat
+);
+---
+
+<section class="hero-section relative isolate min-h-screen flex items-start justify-center overflow-hidden -mt-[114px]"
+  style={`background-image: url(${bg.src}); background-size: cover; background-position: center; background-color: var(--color-primary);`}
+>
+  <div class="absolute inset-0 bg-gradient-to-b from-primary/90 to-primary/60 -z-10"></div>
+
+  <div class="relative max-w-7xl mx-auto px-6 lg:px-12 pt-40 pb-24 lg:pt-52 lg:pb-32 text-center">
+    <div class="motion-preset-fade motion-duration-500 hidden md:inline-block px-6 py-2 mb-12 text-lg font-serif">
+      <span class="text-accent">{badge}</span>
+    </div>
+
+    <h1
+      class="motion-preset-slide-up motion-duration-700 motion-delay-200 text-3xl md:text-5xl lg:text-6xl text-white mb-8 max-w-5xl mx-auto"
+    >
+      {heading}
+    </h1>
+
+    <p class="motion-preset-slide-up motion-duration-700 motion-delay-300 text-md md:text-lg text-white/90 max-w-3xl mx-auto mb-12 leading-relaxed">{subheading}</p>
+
+    <div class="motion-preset-slide-up motion-duration-700 motion-delay-500 flex flex-col sm:flex-row gap-6 justify-center items-center">
+      <a href="#contact" class="group px-10 py-5 bg-accent text-accent-foreground hover:bg-white transition-all flex items-center gap-3 min-w-[240px] justify-center font-bold border-2 border-accent">
+        <span>{primaryCta}</span>
+      </a>
+      <a href="#practice" class="px-10 py-5 border-2 border-white text-white hover:bg-white hover:text-primary transition-all min-w-[240px] font-bold">
+        {secondaryCta}
+      </a>
+    </div>
+
+    <div class="motion-preset-slide-up motion-duration-700 motion-delay-700 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mt-24 pt-12 border-t border-accent">
+      {computedStats.map((stat) => (
+        <div>
+          <div class="text-4xl md:text-5xl text-accent mb-2 font-serif" data-hero-stat-value data-stat-value={stat.value}>{stat.value}</div>
+          <!-- stat.value for years is computed dynamically -->
+          <div class="text-white/80">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <script is:inline>
+    const parseStatValue = (rawValue) => {
+      const trimmed = rawValue.trim();
+      const match = trimmed.match(/^([^0-9]*)([0-9][0-9,.\s]*)(.*)$/);
+
+      if (!match) {
+        return null;
+      }
+
+      const [, prefix, numericPortion, suffix] = match;
+      const normalizedNumber = Number(numericPortion.replace(/,/g, '').trim());
+
+      if (Number.isNaN(normalizedNumber)) {
+        return null;
+      }
+
+      const decimalPart = numericPortion.split('.')[1] || '';
+
+      return {
+        prefix,
+        suffix,
+        value: normalizedNumber,
+        decimals: decimalPart.length,
+      };
+    };
+
+    const formatValue = (value, decimals) => {
+      if (decimals > 0) {
+        return value.toLocaleString(undefined, {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals,
+        });
+      }
+
+      return Math.round(value).toLocaleString();
+    };
+
+    const statNodes = document.querySelectorAll('[data-hero-stat-value]');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    statNodes.forEach((node) => {
+      const finalValue = node.getAttribute('data-stat-value') || node.textContent || '';
+
+      if (prefersReducedMotion) {
+        node.textContent = finalValue;
+        return;
+      }
+
+      const parsed = parseStatValue(finalValue);
+
+      if (!parsed) {
+        node.textContent = finalValue;
+        return;
+      }
+
+      const durationMs = 1400;
+      const startTime = performance.now();
+
+      const render = (currentValue) => {
+        node.textContent = `${parsed.prefix}${formatValue(currentValue, parsed.decimals)}${parsed.suffix}`;
+      };
+
+      render(0);
+
+      const step = (currentTime) => {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / durationMs, 1);
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        const nextValue = parsed.value * easedProgress;
+
+        render(nextValue);
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+          return;
+        }
+
+        node.textContent = finalValue;
+      };
+
+      requestAnimationFrame(step);
+    });
+  </script>
+
+  <style>
+    /* background-attachment: fixed breaks on iOS Safari — only apply on hover-capable (non-touch) devices */
+    @media (hover: hover) {
+      .hero-section {
+        background-attachment: fixed;
+      }
+    }
+  </style>
+</section>

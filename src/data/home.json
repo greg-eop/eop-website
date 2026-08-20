@@ -1,0 +1,156 @@
+{
+  "meta": {
+    "title": "Portland Oregon Attorneys | Elliott Ostrander & Preston, P.C.",
+    "description": "Dedicated legal representation for businesses and individuals in Portland and beyond."
+  },
+  "homepageSettings": {
+    "headline": "Trusted Portland Attorneys. Big-Firm Experience. Boutique-Firm Attention.",
+    "subhead": "We provide the full range of legal services expected of a larger firm, but without the inefficiency of an institutional bureaucracy. "
+  },
+  "hero": {
+    "badge": "Excellence in Legal Practice Since 1995",
+    "heading": "Your Trusted Legal Partner",
+    "subheading": "Dedicated to protecting your rights and delivering exceptional legal representation across all practice areas.",
+    "primaryCta": "Get in Touch",
+    "secondaryCta": "Our Practice Areas",
+    "stats": [
+      { "value": "500+", "label": "Cases Won" },
+      { "value": "98%", "label": "Success Rate" },
+      { "value": "30", "label": "Years Experience" },
+      { "value": "10", "label": "Expert Attorneys" }
+    ]
+  },
+  "practiceAreas": {
+    "eyebrow": "Our Expertise",
+    "heading": "Practice Areas",
+    "description": "Comprehensive legal services tailored to meet your unique needs with precision and dedication."
+  },
+  "about": {
+    "eyebrow": "About Our Firm",
+    "heading": "Decades of Legal Excellence",
+    "lead": "Founded in 1995, Elliott Ostrander & Preston has built a reputation as one of the region's most trusted law firms.",
+    "body": "We combine deep legal expertise with a genuine understanding of our clients' needs, delivering personalized strategies that achieve real results.",
+    "highlights": [
+      {
+        "title": "Client-Centered Approach",
+        "description": "Your goals are our priority, and every strategy is tailored to your situation."
+      },
+      {
+        "title": "Proven Track Record",
+        "description": "Hundreds of successful outcomes across diverse legal matters."
+      },
+      {
+        "title": "Innovative Solutions",
+        "description": "We use practical, modern legal strategies to move your matter forward."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Why Choose Us",
+    "heading": "Commitment to Your Success",
+    "description": "We provide clear guidance and focused execution at every stage of your legal matter.",
+    "steps": [
+      {
+        "title": "Initial Consultation",
+        "description": "We listen carefully to understand your goals and legal priorities."
+      },
+      {
+        "title": "Strategic Planning",
+        "description": "Our attorneys build a customized legal strategy aligned to your objectives."
+      },
+      {
+        "title": "Execution & Results",
+        "description": "We advocate with precision to deliver the strongest possible outcome."
+      }
+    ]
+  },
+  "team": {
+    "eyebrow": "Meet Our Attorneys",
+    "heading": "Expert Legal Team",
+    "description": "Our attorneys bring decades of combined experience and unwavering dedication to every case.",
+    "members": [
+      {
+        "name": "Jerome F. Elliott",
+        "role": "Business, Finance & Real Estate",
+        "specialty": "Jerry assists clients primarily on business and real estate matters, including formations, financings, and transactions."
+      },
+      {
+        "name": "John D. Ostrander",
+        "role": "Litigation",
+        "specialty": "John specializes in trial work, focusing on commercial, employment, insurance, tort, and transportation litigation."
+      },
+      {
+        "name": "Robert J. Preston",
+        "role": "Business, Tax & Estate Planning",
+        "specialty": "Robert advises clients on long-range planning, tax strategy, and complex business matters."
+      },
+      {
+        "name": "William A. Drew",
+        "role": "Litigation & Appellate Practices",
+        "specialty": "William represents clients in high-stakes disputes and appellate proceedings."
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Client Testimonials",
+    "heading": "What Our Clients Say",
+    "items": [
+      {
+        "quote": "John Ostrander represented me years ago. The hard work he and his firm put in changed things for all women employed at my place of work. A simple Google search made me realize he was the way to go.",
+        "author": "Lola Nicols",
+        "title": "Google Review"
+      },
+      {
+        "quote": "I have nothing but the highest praise and recommendation for EOP Law, especially Joel Leonard and Katelyn Blaney. They were beyond helpful and helped me through the entire process.",
+        "author": "Ben Alexander",
+        "title": "Google Review"
+      },
+      {
+        "quote": "Has been a customer of ours for several years. Their staff is always great to work with and they take security very seriously.",
+        "author": "Phil",
+        "title": "Google Review"
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Schedule Your Consultation",
+    "description": "Ready to discuss your legal needs? Contact our team for a confidential consultation.",
+    "phone": "+1 503.224.7112",
+    "email": "contact@eoplaw.com",
+    "addressLines": [
+      "707 SW Washington St., Suite 1500",
+      "Portland, OR 97205"
+    ],
+    "officeHours": [
+      "Monday - Friday: 8:00 AM - 6:00 PM"
+    ]
+  },
+  "footer": {
+    "summary": "Founded in Portland, Oregon. Providing legal guidance to businesses and individuals since 1995.",
+    "practiceLinks": [
+      { "label": "Affordable Housing Development & Financing", "href": "/practice-areas/affordable-housing-development-financing" },
+      { "label": "Business & Finance", "href": "/practice-areas/business-finance" },
+      { "label": "Employment", "href": "/practice-areas/employment" },
+      { "label": "Entertainment & New Technologies", "href": "/practice-areas/entertainment-new-technologies" },
+      { "label": "Insurance", "href": "/practice-areas/insurance" },
+      { "label": "Intellectual Property", "href": "/practice-areas/intellectual-property" },
+      { "label": "Litigation & Appellate Practices", "href": "/practice-areas/litigation-appellate-practices" },
+      { "label": "Real Estate", "href": "/practice-areas/real-estate" },
+      { "label": "Tax & Estate Planning", "href": "/practice-areas/tax-estate-planning" }
+    ],
+    "companyLinks": [
+      { "label": "About The Firm", "href": "/about" },
+      { "label": "Our Team", "href": "/our-attorneys" },
+      { "label": "Case Studies", "href": "/case-studies" },
+      { "label": "Contact", "href": "/contact-us" }
+    ],
+    "legalLinks": [
+      { "label": "Resources", "href": "/resources" },
+      { "label": "Privacy Policy", "href": "/privacy-policy" },
+      { "label": "Terms of Service", "href": "/terms-of-service" },
+      { "label": "Disclaimer", "href": "/legal-notice" }
+    ],
+    "socialLinks": ["LinkedIn"],
+    "copyright": "© 2026 Elliott Ostrander & Preston, PC. All rights reserved."
+  }
+}

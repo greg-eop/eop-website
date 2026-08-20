@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/astro/Header.astro";
+import Footer from "../components/astro/Footer.astro";
+import PageHero from "../components/astro/PageHero.astro";
+import page from "../data/home.json";
+import firmInfo from "../data/firm-info.json";
+import courthousePanelImg from "../images/courthouse-panel.webp";
+import woodPanelJpg from "../images/wood-panel.webp";
+import { getCollection } from "astro:content";
+
+const toPlainText = (markdown: string) =>
+  markdown
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/`([^`]+)`/g, "$1")
+    .replace(/[*_~>#-]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const excerptText = (value: string, max = 200) =>
+  value.length <= max ? value : `${value.slice(0, max).trimEnd()}...`;
+
+const attorneyEntries = (await getCollection("attorneys")).sort(
+  (a, b) => a.data.name.split(' ')[0].localeCompare(b.data.name.split(' ')[0]),
+);
+
+const attorneys = attorneyEntries.map((entry) => {
+  const bioSource = toPlainText(entry.body || "") || entry.data.specialty;
+  const initials = entry.data.name
+    .split(" ")
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  return {
+    slug: entry.id,
+    name: entry.data.name,
+    role: entry.data.practiceAreas?.join(", ") || entry.data.role || "",
+    photo: entry.data.photo,
+    initials,
+    excerpt: excerptText(bioSource),
+  };
+});
+---
+
+<BaseLayout title="Our Attorneys | EOP Law" description={page.meta.description}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <PageHero
+        title="Our Attorneys"
+        subtitle="Trusted counsel with deep experience across a wide range of legal matters."
+        backgroundImageSrc={courthousePanelImg.src}
+        containerMaxWidthClass="max-w-6xl"
+      />
+
+      <section class="mx-auto w-full max-w-6xl px-6 py-16 md:py-20">
+        <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            attorneys.map((attorney) => (
+              <a
+                href={`/our-attorneys/${attorney.slug}`}
+                class="block overflow-hidden border border-neutral-200 bg-white shadow-sm transition-shadow hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2"
+              >
+                <article>
+                  {attorney.photo ? (
+                    <div
+                      class="h-64 w-full bg-cover bg-center"
+                      style={`background-image: linear-gradient(rgba(16, 22, 36, 0.84), rgba(16, 22, 36, 0.2)), url(${woodPanelJpg.src});`}
+                  >
+                      <img
+                        src={attorney.photo}
+                        alt={attorney.name}
+                        class="h-64 w-full object-contain object-center pt-6"
+                        loading="lazy"
+                      />
+                    </div>
+                  ) : (
+                    <div
+                      class="flex h-64 w-full items-center justify-center bg-cover bg-center"
+                      style={`background-image: linear-gradient(rgba(16, 22, 36, 0.84), rgba(16, 22, 36, 0.2)), url(${woodPanelJpg.src});`}
+                    >
+                      <span class="font-serif text-4xl text-white/80">
+                        {attorney.initials}
+                      </span>
+                    </div>
+                  )}
+
+                  <div class="space-y-3 p-6">
+                    <h2 class="font-serif text-xl text-primary">
+                      {attorney.name}
+                    </h2>
+                    <p class="text-sm font-semibold uppercase tracking-wide text-accent">
+                      {attorney.role}
+                    </p>
+                    <p class="text-[1.02rem] leading-relaxed text-neutral-700">
+                      {attorney.excerpt}
+                    </p>
+                    <span class="inline-block text-primary underline decoration-accent underline-offset-4">
+                      Read more
+                    </span>
+                  </div>
+                </article>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

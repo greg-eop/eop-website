@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/astro/Header.astro';
+import Footer from '../../components/astro/Footer.astro';
+import PageHero from '../../components/astro/PageHero.astro';
+import page from '../../data/home.json';
+import firmInfo from '../../data/firm-info.json';
+import courthousePanelImg from '../../images/courthouse-panel.webp';
+import { getCollection } from 'astro:content';
+
+const allCaseStudies = (await getCollection('caseStudies'))
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<BaseLayout
+  title="Case Studies | EOP Law"
+  description="Real results for real clients. Explore representative matters handled by Elliott, Ostrander & Preston."
+>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <PageHero
+        title="Case Studies"
+        subtitle="Representative matters illustrating how we approach complex legal challenges and deliver results."
+        backgroundImageSrc={courthousePanelImg.src}
+        containerMaxWidthClass="max-w-6xl"
+      />
+
+      <section class="mx-auto w-full max-w-6xl px-6 py-12 md:py-20">
+        <div class="space-y-6">
+          {allCaseStudies.map((cs) => (
+            <a
+              href={`/case-studies/${cs.id}`}
+              class="group flex flex-col md:flex-row border border-neutral-200 hover:border-accent transition-colors overflow-hidden bg-white"
+            >
+              <!-- Left: main content -->
+              <div class="flex-1 p-8 md:p-10">
+                <p class="text-[0.7rem] font-bold uppercase tracking-[0.18em] text-accent mb-4">
+                  {cs.data.practiceArea}
+                </p>
+                <h2 class="font-serif text-2xl md:text-[1.75rem] text-primary group-hover:text-accent transition-colors leading-snug mb-2">
+                  {cs.data.title}
+                </h2>
+                <p class="text-md text-neutral-400 uppercase tracking-wide mb-6">
+                  {cs.data.clientDescription}{cs.data.isAnonymized ? ' (anonymized)' : ''}
+                </p>
+                <p class="text-neutral-600 text-[0.95rem] leading-relaxed line-clamp-2 mb-8 max-w-xl">
+                  {cs.data.challenge}
+                </p>
+                <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary group-hover:gap-4 transition-all duration-200 bg-accent px-8 py-4">
+                  Read Case Study
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </div>
+
+              {cs.data.stats.length > 0 && (
+                <div class="flex md:flex-col justify-start md:justify-center gap-6 md:gap-8 px-8 py-6 md:py-10 md:w-52 bg-accent/20 border-t md:border-t-0 md:border-l border-neutral-200">
+                  {cs.data.stats.map((stat) => (
+                    <div class="min-w-0">
+                      <p class="font-serif text-md sm:text-2xl md:text-3xl text-accent leading-none">{stat.value}</p>
+                      <p class="text-[0.65rem] text-primary uppercase tracking-widest mt-1.5 leading-tight">{stat.label}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

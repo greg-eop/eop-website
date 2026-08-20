@@ -1,0 +1,98 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/astro/Header.astro";
+import Hero from "../components/astro/Hero.astro";
+import PracticeAreas from "../components/astro/PracticeAreas.astro";
+import About from "../components/astro/About.astro";
+import ProcessSection from "../components/astro/ProcessSection.astro";
+import Team from "../components/astro/Team.astro";
+import Testimonials from "../components/astro/Testimonials.astro";
+import Footer from "../components/astro/Footer.astro";
+import page from "../data/home.json";
+import firmInfo from "../data/firm-info.json";
+import { getCollection } from "astro:content";
+
+const heroHeadline = page.homepageSettings?.headline || page.hero.heading;
+const heroSubhead = page.homepageSettings?.subhead || page.hero.subheading;
+const attorneys = (await getCollection("attorneys"))
+  .sort((a, b) =>
+    a.data.name.split(" ")[0].localeCompare(b.data.name.split(" ")[0]),
+  )
+  .map((entry) => ({
+    id: entry.id,
+    name: entry.data.name,
+    role: entry.data.practiceAreas?.join(", ") || entry.data.role || "",
+    specialty: entry.data.specialty,
+    photo: entry.data.photo || null,
+  }));
+
+const attorneyCount = attorneys.length;
+const heroStats = page.hero.stats.map((stat) =>
+  stat.label.toLowerCase().includes("attorney")
+    ? { ...stat, value: String(attorneyCount) }
+    : stat,
+);
+
+const practiceAreaCards = (await getCollection("practiceAreas"))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .map((entry) => ({
+    title: entry.data.title,
+    description: entry.data.description,
+    href: `/practice-areas/${entry.id}`,
+  }));
+---
+
+<BaseLayout title={page.meta.title} description={page.meta.description}>
+  <div class="min-h-screen">
+    <Header transparentAtTop />
+    <Hero
+      badge={page.hero.badge}
+      heading={heroHeadline}
+      subheading={heroSubhead}
+      primaryCta={page.hero.primaryCta}
+      secondaryCta={page.hero.secondaryCta}
+      stats={heroStats}
+    />
+    <PracticeAreas
+      eyebrow={page.practiceAreas.eyebrow}
+      heading={page.practiceAreas.heading}
+      description={page.practiceAreas.description}
+      items={practiceAreaCards}
+    />
+    <ProcessSection
+      eyebrow={page.process.eyebrow}
+      heading={page.process.heading}
+      description={page.process.description}
+      steps={page.process.steps}
+    />
+    <About
+      eyebrow={page.about.eyebrow}
+      heading={page.about.heading}
+      lead={page.about.lead}
+      body={page.about.body}
+      highlights={page.about.highlights}
+    />
+
+    <Team
+      eyebrow={page.team.eyebrow}
+      heading={page.team.heading}
+      description={page.team.description}
+      members={attorneys}
+    />
+    <Testimonials
+      eyebrow={page.testimonials.eyebrow}
+      heading={page.testimonials.heading}
+      items={page.testimonials.items}
+    />
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

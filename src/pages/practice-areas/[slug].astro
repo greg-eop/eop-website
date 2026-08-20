@@ -1,0 +1,266 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/astro/Header.astro";
+import Footer from "../../components/astro/Footer.astro";
+import PageHero from "../../components/astro/PageHero.astro";
+import page from "../../data/home.json";
+import firmInfo from "../../data/firm-info.json";
+import courthousePanelImg from "../../images/courthouse-panel.webp";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export const getStaticPaths = async () => {
+  const areas = await getCollection("practiceAreas");
+  return areas.map((entry) => ({
+    params: { slug: entry.id },
+    props: { area: entry },
+  }));
+};
+
+interface Props {
+  area: CollectionEntry<"practiceAreas">;
+}
+
+const { area } = Astro.props as Props;
+
+const { title, description, overview, services, clientProblem, faqs } =
+  area.data;
+
+// Match attorneys whose practiceAreas overlap with this page's title keywords
+const allAttorneys = await getCollection("attorneys");
+const matchedAttorneys = allAttorneys
+  .filter((a) =>
+    (a.data.practiceAreas ?? []).some(
+      (pa) =>
+        title.toLowerCase().includes(pa.toLowerCase()) ||
+        pa.toLowerCase().includes(title.toLowerCase().split(" ")[0]),
+    ),
+  )
+  .sort((a, b) =>
+    a.data.name.split(" ")[0].localeCompare(b.data.name.split(" ")[0]),
+  );
+
+const phoneHref = `tel:${firmInfo.phone.replace(/\s/g, "")}`;
+const yearsOfExperience = new Date().getFullYear() - 1995;
+---
+
+<BaseLayout
+  title={`${title} | Practice Areas | EOP Law`}
+  description={description}
+>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <!-- Hero -->
+      <PageHero
+        title={`Portland ${title} Attorneys`}
+        subtitle={description}
+        backgroundImageSrc={courthousePanelImg.src}
+        containerMaxWidthClass="max-w-7xl"
+        showCta={area.data.showCta}
+        ctaDescription={area.data.ctaDescription}
+        ctaText={area.data.ctaText}
+        ctaHref={area.data.ctaHref}
+      />
+
+      <div class="mx-auto w-full max-w-7xl px-6 py-12 md:py-16">
+        <div class="grid lg:grid-cols-[1fr_320px] gap-12 lg:gap-16 items-start">
+          <!-- Main content -->
+          <div class="space-y-16 min-w-0">
+            <!-- Overview -->
+            <section
+              class="space-y-5 text-[1.05rem] leading-relaxed text-neutral-700"
+            >
+              {overview.map((paragraph) => <p>{paragraph}</p>)}
+            </section>
+
+            <!-- Client Problem -->
+            {
+              clientProblem.length > 0 && (
+                <section class="bg-neutral-50 border-l-4 border-accent px-8 py-8 space-y-4">
+                  <h2 class="font-serif text-2xl text-primary md:text-3xl">
+                    Common Challenges We Solve
+                  </h2>
+                  <ul class="mt-3 space-y-3 text-[1.05rem] leading-relaxed text-neutral-700">
+                    {clientProblem.map((item) => (
+                      <li class="flex gap-3">
+                        <span class="mt-1 text-accent font-bold flex-shrink-0">
+                          &#10003;
+                        </span>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )
+            }
+
+            <!-- Trust Markers -->
+            <section class="bg-primary text-white px-8 py-10">
+              <h2
+                class="font-serif text-2xl md:text-3xl mb-8 border-b border-accent pb-2"
+              >
+                Why Clients Trust EOP Law
+              </h2>
+              <div class="grid sm:grid-cols-3 gap-8">
+                <div>
+                  <h3 class="font-serif text-xl text-accent mb-3">
+                    Deep Experience
+                  </h3>
+                  <p class="text-white/70 text-sm leading-relaxed">
+                    Our attorneys bring decades of experience helping Portland
+                    businesses and individuals navigate complex legal matters.
+                  </p>
+                </div>
+                <div>
+                  <h3 class="font-serif text-xl text-accent mb-3">
+                    Boutique Service
+                  </h3>
+                  <p class="text-white/70 text-sm leading-relaxed">
+                    You'll work directly with experienced attorneys who know
+                    your goals and provide personalized guidance.
+                  </p>
+                </div>
+                <div>
+                  <h3 class="font-serif text-xl text-accent mb-3">
+                    Trusted Relationships
+                  </h3>
+                  <p class="text-white/70 text-sm leading-relaxed">
+                    We're known for our approachable, responsive style and
+                    commitment to building lasting client relationships.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- FAQs -->
+            {
+              faqs.length > 0 && (
+                <section class="px-8 py-10 border border-neutral-200 rounded-sm">
+                  <h2 class="font-serif text-2xl text-primary md:text-3xl">
+                    Frequently Asked Questions
+                  </h2>
+                  <dl class="mt-6 divide-y divide-neutral-200">
+                    {faqs.map((faq) => (
+                      <details class="group py-5 -mx-4 px-4 hover:bg-neutral-50 transition-colors duration-150">
+                        <summary class="flex cursor-pointer items-center justify-between gap-4 list-none">
+                          <dt class="font-serif text-lg text-primary group-hover:text-accent transition-colors">
+                            {faq.question}
+                          </dt>
+                          <span
+                            class="flex-shrink-0 text-accent transition-transform duration-200 group-open:rotate-180"
+                            aria-hidden="true"
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
+                              <polyline points="6 9 12 15 18 9" />
+                            </svg>
+                          </span>
+                        </summary>
+                        <dd class="mt-3 text-[1.05rem] leading-relaxed text-neutral-700">
+                          {faq.answer}
+                        </dd>
+                      </details>
+                    ))}
+                  </dl>
+                </section>
+              )
+            }
+
+            <!-- Bottom nav links -->
+            <div class="flex flex-wrap items-center gap-4 pt-2">
+              <a
+                href="/practice-areas"
+                class="inline-flex items-center justify-center px-6 py-3 border border-primary text-primary transition-colors hover:border-accent hover:text-accent"
+              >
+                ← Back To Practice Areas
+              </a>
+            </div>
+          </div><!-- /main content -->
+
+          <!-- Sidebar -->
+          <aside class="space-y-10 lg:sticky lg:top-24">
+            <!-- Attorneys -->
+            {
+              matchedAttorneys.length > 0 && (
+                <div class="border border-neutral-200">
+                  <div class="bg-primary px-6 py-4">
+                    <h2 class="font-serif text-lg text-white">Attorneys</h2>
+                  </div>
+                  <div class="divide-y divide-neutral-100">
+                    {matchedAttorneys.map((attorney) => (
+                      <a
+                        href={`/our-attorneys/${attorney.id}`}
+                        class="flex gap-4 p-4 hover:bg-neutral-50 transition-colors group"
+                      >
+                        {attorney.data.photo ? (
+                          <img
+                            src={attorney.data.photo}
+                            alt={attorney.data.name}
+                            class="w-14 h-14 object-cover object-top flex-shrink-0 grayscale group-hover:grayscale-0 transition-all"
+                          />
+                        ) : (
+                          <div class="w-14 h-14 flex-shrink-0 bg-neutral-100 flex items-center justify-center text-xl text-neutral-400 font-serif">
+                            {attorney.data.name.charAt(0)}
+                          </div>
+                        )}
+                        <div class="min-w-0">
+                          <p class="font-serif text-base text-primary group-hover:text-accent transition-colors leading-snug">
+                            {attorney.data.name}
+                          </p>
+                          <p class="text-xs text-neutral-500 mt-0.5">
+                            {(attorney.data.practiceAreas ?? []).join(" · ")}
+                          </p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )
+            }
+
+            <!-- Key Services -->
+            {
+              services.length > 0 && (
+                <div class="border border-neutral-200">
+                  <div class="bg-primary px-6 py-4 mb-2">
+                    <h2 class="font-serif text-lg text-white">Key Services</h2>
+                  </div>
+                  <ul class="divide-y divide-neutral-100">
+                    {services.map((service) => (
+                      <li class="flex gap-3 px-5 py-3 text-sm text-neutral-700 leading-snug">
+                        <span class="text-accent font-bold flex-shrink-0 mt-0.5">
+                          &#10003;
+                        </span>
+                        <span>{service}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )
+            }
+          </aside><!-- /sidebar -->
+        </div><!-- /grid -->
+      </div>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

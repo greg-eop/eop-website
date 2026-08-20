@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import PageHero from '../components/astro/PageHero.astro';
+import page from '../data/home.json';
+import firmInfo from '../data/firm-info.json';
+import { getCollection } from 'astro:content';
+import courthousePanelImg from '../images/courthouse-panel.webp';
+
+interface ListingArea {
+  title: string;
+  slug: string;
+  summary: string;
+}
+
+const listingAreas: ListingArea[] = (await getCollection('practiceAreas'))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title))
+  .map((entry) => ({
+    title: entry.data.title,
+    slug: entry.id,
+    summary: entry.data.description,
+  }));
+---
+
+<BaseLayout title="Practice Areas | EOP Law" description={page.meta.description}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <PageHero
+        title="Practice Areas"
+        subtitle={page.practiceAreas.description}
+        backgroundImageSrc={courthousePanelImg.src}
+        containerMaxWidthClass="max-w-5xl"
+      />
+
+      <section id="practice" class="mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
+        <div class="max-w-4xl text-neutral-700">
+          <p class="text-[1.05rem] leading-relaxed">
+            We advise businesses and individuals across a broad range of legal matters. Explore each practice area to
+            learn how our attorneys approach strategy, risk, and results.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-6 md:grid-cols-2">
+          {listingAreas.map((area) => (
+            <article class="rounded-sm border border-border bg-white p-8 shadow-sm transition-shadow hover:shadow-md">
+              <h2 class="font-serif text-2xl text-primary">{area.title}</h2>
+              <p class="mt-4 text-[1.05rem] leading-relaxed text-neutral-700">{area.summary}</p>
+              <a
+                href={`/practice-areas/${area.slug}`}
+                class="mt-6 inline-flex items-center text-primary underline decoration-accent underline-offset-4 transition-colors hover:text-accent"
+              >
+                View Practice Area
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

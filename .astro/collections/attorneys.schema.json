@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "practiceAreas": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "role": {
+      "type": "string"
+    },
+    "specialty": {
+      "type": "string"
+    },
+    "photo": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+    },
+    "order": {
+      "default": 100,
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "specialty",
+    "email"
+  ]
+}

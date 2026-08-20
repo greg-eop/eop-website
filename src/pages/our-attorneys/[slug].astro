@@ -1,0 +1,257 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/astro/Header.astro";
+import Footer from "../../components/astro/Footer.astro";
+import page from "../../data/home.json";
+import firmInfo from "../../data/firm-info.json";
+import woodPanelJpg from "../../images/wood-panel.webp";
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+const normalizePracticeTitle = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/,/g, " ")
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+
+const titleAliases: Record<string, string> = {
+  "business finance and real estate": "business-finance",
+  business: "business-finance",
+  finance: "business-finance",
+  tax: "tax-estate-planning",
+  "estate planning": "tax-estate-planning",
+  entertainment: "entertainment-new-technologies",
+  "new technologies": "entertainment-new-technologies",
+  litigation: "litigation-appellate-practices",
+  "appellate practices": "litigation-appellate-practices",
+  "tax and estate planning": "tax-estate-planning",
+  "affordable housing development and financing": "affordable-housing-development-financing",
+};
+
+interface Props {
+  entry: CollectionEntry<"attorneys">;
+}
+
+export async function getStaticPaths() {
+  const attorneys = await getCollection("attorneys");
+
+  return attorneys.map((entry: CollectionEntry<"attorneys">) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as Props;
+const { Content } = await render(entry);
+const practiceAreaEntries = await getCollection("practiceAreas");
+const practiceAreaSlugByTitle = new Map<string, string>(
+  practiceAreaEntries.map((practiceArea) => [
+    normalizePracticeTitle(practiceArea.data.title),
+    practiceArea.id,
+  ])
+);
+
+const getPracticeAreaSlugFromTitle = (title: string) =>
+  practiceAreaSlugByTitle.get(normalizePracticeTitle(title)) ||
+  titleAliases[normalizePracticeTitle(title)];
+
+const firstName = entry.data.name.split(" ")[0];
+const practiceAreaItems = entry.data.practiceAreas?.length
+  ? entry.data.practiceAreas
+  : (entry.data.role || "")
+      .split(",")
+      .map((item: string) => item.trim())
+      .filter(Boolean);
+const practiceAreaLinks = practiceAreaItems.map((area) => {
+  const slug = getPracticeAreaSlugFromTitle(area);
+  return {
+    label: area,
+    href: slug ? `/practice-areas/${slug}` : undefined,
+  };
+});
+const practiceAreas = practiceAreaItems.join(", ");
+const rawPhoto = entry.data.photo?.trim();
+const heroImageSrc = rawPhoto
+  ? /^(https?:)?\/\//.test(rawPhoto) || rawPhoto.startsWith("/")
+    ? rawPhoto
+    : `/${rawPhoto.replace(/^\.?\//, "")}`
+  : undefined;
+const hasHeroImage = Boolean(heroImageSrc);
+
+const bioPlainText = (entry.body || "")
+  .replace(/\u00a0/g, " ")
+  .replace(/\s+/g, " ")
+  .trim();
+
+const experienceItems = bioPlainText
+  .split(".")
+  .map((sentence: string) => sentence.trim())
+  .filter((sentence: string) => sentence.length > 40)
+  .slice(1, 4)
+  .map((sentence: string) => `${sentence}.`);
+---
+
+<BaseLayout
+  title={`${entry.data.name} | EOP Law`}
+  description={page.meta.description}
+>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+
+    <main
+      class="flex-1 bg-gradient-to-b from-[#ece9e1] via-[#f4f2ed] to-[#f8f7f3]"
+    >
+      <section
+        class="bg-[#101624] bg-cover bg-center text-white"
+        style={`background-image: linear-gradient(rgba(16, 22, 36, 0.84), rgba(16, 22, 36, 0.2)), url(${woodPanelJpg.src});`}
+      >
+        <div class="mx-auto w-full max-w-5xl px-6 pt-4 pb-14 md:pt-5 md:pb-0">
+          <div
+            class={`mt-8 grid items-center gap-8 md:gap-12 ${
+              hasHeroImage ? "md:grid-cols-[300px_1fr]" : "md:grid-cols-1"
+            }`}
+          >
+            {
+              heroImageSrc && (
+                <img
+                  src={heroImageSrc}
+                  alt={entry.data.name}
+                  class="h-[320px] w-full object-contain object-left-bottom"
+                />
+              )
+            }
+
+            <div class="mb-20">
+              <h1
+                class="font-serif text-5xl leading-tight text-transparent bg-gradient-to-b from-[#ffffff] to-[#b98935] bg-clip-text md:text-7xl font-bold"
+              >
+                {entry.data.name}
+              </h1>
+              <h2 class="mt-4 font-sans text-sm text-white/85 md:text-base">
+                {practiceAreas || entry.data.specialty}
+              </h2>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="relative overflow-hidden py-12 md:py-16">
+
+        <div class="relative mx-auto w-full max-w-5xl px-6">
+          <a
+            href="/our-attorneys"
+            class="text-sm text-primary underline decoration-[#d0a448] underline-offset-4 transition-colors"
+            >← Back to Our Attorneys</a
+          >
+
+          <div
+            class="mt-8 grid gap-12 lg:grid-cols-[minmax(0,1.65fr)_minmax(0,1fr)]"
+          >
+            <div
+              class="rounded-sm border border-[#d7d2c5] border-t-[3px] border-t-[#d4ae6a] p-7 shadow-[0_12px_40px_-25px_rgba(24,32,54,0.45)] md:p-9 bg-white"
+            >
+              <h1 class="font-serif text-4xl font-bold text-primary md:text-5xl">
+                About {firstName}
+              </h1>
+              <div class="mt-3 mb-6 h-0.5 w-14 bg-[#d4ae6a]"></div>
+              <div
+                class="prose prose-neutral max-w-none leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0"
+              >
+                {
+                  entry.body?.trim() ? (
+                    <Content />
+                  ) : (
+                    <p>{entry.data.specialty}</p>
+                  )
+                }
+              </div>
+            </div>
+
+            <aside class="space-y-8">
+              <section
+                class="rounded-sm border border-[#d7d2c5] border-t-[3px] border-t-[#d4ae6a] p-6 shadow-[0_12px_40px_-25px_rgba(24,32,54,0.45)] bg-white"
+              >
+                <h2 class="font-serif text-xl font-semibold text-primary">
+                  Practice Areas
+                </h2>
+                <div class="mt-2 mb-4 h-px w-8 bg-[#d4ae6a]"></div>
+                <ul class="mt-3 list-disc space-y-2 pl-6 text-[#1f2233]">
+                  {practiceAreaLinks.map((area) => (
+                    <li>
+                      {
+                        area.href ? (
+                          <a
+                            href={area.href}
+                            class="text-primary underline decoration-[#d0a448] underline-offset-4 transition-colors hover:text-accent"
+                          >
+                            {area.label}
+                          </a>
+                        ) : (
+                          area.label
+                        )
+                      }
+                    </li>
+                  ))}
+                </ul>
+              </section>
+
+              <a
+                href={`/our-attorneys/${entry.id}.vcf`}
+                download
+                class="flex items-center justify-center gap-2 w-full px-5 py-3 border bg-accent text-black text-sm hover:bg-accent-foreground hover:text-white transition-colors"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Save Contact
+              </a>
+
+              <section
+                class="rounded-sm border border-[#d7d2c5] border-t-[3px] border-t-[#d4ae6a] p-6 shadow-[0_12px_40px_-25px_rgba(24,32,54,0.45)] bg-white"
+              >
+                <h2 class="font-serif text-xl font-semibold text-primary">
+                  Experience
+                </h2>
+                <div class="mt-2 mb-4 h-px w-8 bg-[#d4ae6a]"></div>
+                <ul class="mt-3 list-disc space-y-2 pl-6 text-[#1f2233]">
+                  {
+                    (experienceItems.length
+                      ? experienceItems
+                      : [entry.data.specialty]
+                    ).map((item) => <li>{item}</li>)
+                  }
+                </ul>
+              </section>
+
+              <!-- <section
+                class="rounded-sm border border-[#d7d2c5] bg-white/75 p-6 shadow-[0_12px_40px_-25px_rgba(24,32,54,0.45)] backdrop-blur-sm"
+              >
+                <h2 class="font-serif text-4xl text-primary md:text-4xl">
+                  Favorite Quote
+                </h2>
+                <blockquote
+                  class="mt-3 border-l-4 border-[#d0a448] bg-[#f7f2e6] px-6 py-4 italic text-[#30354a]"
+                >
+                  Here's a place where we could add a short quote from the
+                  attorney in order to give it a bit more personality!
+                </blockquote>
+              </section> -->
+            </aside>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

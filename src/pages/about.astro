@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import PageHero from '../components/astro/PageHero.astro';
+import page from '../data/home.json';
+import firmInfo from '../data/firm-info.json';
+import courthousePanelImg from '../images/courthouse-panel.webp';
+---
+
+<BaseLayout title="About | EOP Law" description={page.meta.description}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <PageHero
+        title="About the Firm"
+        subtitle="Experienced counsel with practical, business-minded legal strategy."
+        backgroundImageSrc={courthousePanelImg.src}
+        containerMaxWidthClass="max-w-5xl"
+      />
+
+      <section class="mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
+        <div class="mt-8 space-y-12 text-[1.05rem] leading-relaxed text-neutral-700">
+
+          <div class="space-y-5">
+            <h2 class="font-serif text-2xl text-primary md:text-3xl">Our Firm</h2>
+            <p>
+              Our law firm was established in 1995 in Portland, Oregon. Our attorneys provide advice derived from
+              experience gained at law firms throughout the U.S. and from handling matters for clients across the U.S.
+              and other countries. We believe that our broad collective experience benefits our clients by providing a
+              solid foundation for the legal guidance we provide.
+            </p>
+            <p>
+              Our experience and training allow us to provide the full range of legal services expected of a larger
+              firm, but without the inefficiency of an institutional bureaucracy. Our practice areas include business,
+              finance, real estate, entertainment, new technologies, insurance, intellectual property, litigation,
+              appeals, tax, and estate planning.
+            </p>
+          </div>
+
+          <div class="space-y-5">
+            <h2 class="font-serif text-2xl text-primary md:text-3xl">Our Philosophy</h2>
+            <p>
+              Our practice philosophy is based on clear communication and prompt service. We provide sound solutions to
+              our clients' legal problems in a personalized, responsive, and cost-effective manner. Not mere scriveners
+              and litigators, we strive to become trusted counselors.
+            </p>
+            <p>
+              Our clients want timely and sensible advice. Beginning with applicable legal principles, we remain aware
+              of relevant business and relationship issues that may affect a client's overall strategy. Those whom we
+              advise typically do not want a voluminous legal memo with footnotes in response to a relatively
+              straightforward question.
+            </p>
+          </div>
+
+          <div class="space-y-5">
+            <h2 class="font-serif text-2xl text-primary md:text-3xl">Our Approach to Value</h2>
+            <p>
+              We know who pays the bills and where that money comes from. Consequently, we urge our clients to decide
+              how much practical risk they are comfortable accepting, based on their own cost/benefit analysis, to avoid
+              creating a $10,000 legal bill in order to solve a $5,000 business problem. Through our advice and counsel,
+              and in concert with client objectives, we aim to provide real value.
+            </p>
+            <p>
+              Please see our
+              <a class="text-primary underline decoration-accent underline-offset-4" href="/our-attorneys">Our Attorneys</a>
+              page for more information about each lawyer.
+            </p>
+          </div>
+
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

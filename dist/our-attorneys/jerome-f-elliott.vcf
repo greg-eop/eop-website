@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:3.0
+FN:Jerome F. Elliott
+N:Elliott;Jerome;F.;;
+ORG:Elliott, Ostrander & Preston, P.C.
+TITLE:Attorney
+TEL;TYPE=WORK,VOICE:+15032247112
+EMAIL;TYPE=WORK:jerry@eoplaw.com
+ADR;TYPE=WORK:;;707 SW Washington St., Suite 1500;Portland;OR;97205;USA
+URL:http://localhost:4321/our-attorneys/jerome-f-elliott
+NOTE:Jerry assists clients primarily on business and real estate matters, including formations, financings, and transactions.
+END:VCARD

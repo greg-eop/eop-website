@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import PageHero from '../components/astro/PageHero.astro';
+import Contact from '../components/astro/Contact.astro';
+import page from '../data/home.json';
+import firmInfo from '../data/firm-info.json';
+import courthousePanelImg from '../images/courthouse-panel.webp';
+---
+
+<BaseLayout title="Contact Us | EOP Law" description={page.meta.description}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <PageHero
+        title="Contact"
+        subtitle="Connect with our team to discuss your legal needs."
+        backgroundImageSrc={courthousePanelImg.src}
+        containerMaxWidthClass="max-w-5xl"
+      />
+
+      <Contact
+        eyebrow={page.contact.eyebrow}
+        heading={page.contact.heading}
+        description={page.contact.description}
+        phone={firmInfo.phone}
+        email={firmInfo.email}
+        addressLines={firmInfo.addressLines}
+        officeHours={firmInfo.officeHours}
+        mapUrl={firmInfo.mapUrl}
+        parkingInfo={firmInfo.parkingInfo}
+      />
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

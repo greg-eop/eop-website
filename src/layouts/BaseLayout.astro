@@ -1,0 +1,72 @@
+---
+import '../styles/globals.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+  </head>
+  <body>
+    <slot />
+    <script is:inline>
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', (event) => {
+          const href = anchor.getAttribute('href');
+          if (!href || href === '#') return;
+
+          const target = document.querySelector(href);
+          if (!target) return;
+
+          event.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    </script>
+
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll('[data-motion]');
+
+        if (typeof IntersectionObserver === 'undefined') {
+          return;
+        }
+
+        // Hide elements immediately so they don't flash at full opacity before
+        // the observer fires and the animation starts.
+        els.forEach(function (el) {
+          el.style.opacity = '0';
+        });
+
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            var delay = el.getAttribute('data-motion-delay');
+            if (delay) el.style.animationDelay = delay + 'ms';
+            // Clear the inline opacity so the animation's 0%→natural fade works.
+            el.style.opacity = '';
+            var classes = (el.getAttribute('data-motion') || '').split(' ').filter(Boolean);
+            el.classList.add.apply(el.classList, classes);
+            observer.unobserve(el);
+          });
+        }, { rootMargin: '0px 0px 150px 0px', threshold: 0 });
+
+        els.forEach(function (el) {
+          observer.observe(el);
+        });
+      })();
+    </script>
+  </body>
+</html>

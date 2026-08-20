@@ -1,0 +1,281 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Header from "../../components/astro/Header.astro";
+import Footer from "../../components/astro/Footer.astro";
+import page from "../../data/home.json";
+import firmInfo from "../../data/firm-info.json";
+import courthousePanelImg from "../../images/courthouse-panel.webp";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+export const getStaticPaths = async () => {
+  const cases = await getCollection("caseStudies");
+  return cases.map((entry) => ({
+    params: { slug: entry.id },
+    props: { cs: entry },
+  }));
+};
+
+interface Props {
+  cs: CollectionEntry<"caseStudies">;
+}
+
+const { cs } = Astro.props;
+const {
+  title,
+  practiceArea,
+  practiceAreaSlug,
+  clientDescription,
+  isAnonymized,
+  challenge,
+  solution,
+  outcome,
+  stats,
+  quote,
+  quoteAttribution,
+} = cs.data;
+
+const phoneHref = `tel:${firmInfo.phone.replace(/\s/g, "")}`;
+
+// Fetch adjacent case studies for the bottom nav
+const allCases = (await getCollection("caseStudies")).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const currentIndex = allCases.findIndex((c) => c.id === cs.id);
+const prevCase = currentIndex > 0 ? allCases[currentIndex - 1] : null;
+const nextCase =
+  currentIndex < allCases.length - 1 ? allCases[currentIndex + 1] : null;
+---
+
+<BaseLayout
+  title={`${title} | Case Studies | EOP Law`}
+  description={`${practiceArea} case study: ${challenge.slice(0, 140)}...`}
+>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1">
+      <!-- Hero -->
+      <section
+        class="relative bg-[#101624] bg-cover bg-center"
+        style={`background-image: url(${courthousePanelImg.src});`}
+      >
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-[#101624]/95 via-[#101624]/15 to-[#101624]/30"
+        >
+        </div>
+        <div class="relative mx-auto w-full max-w-5xl px-6 py-16 md:py-24">
+          <a
+            href="/case-studies"
+            class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-white/50 hover:text-accent transition-colors mb-8"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Case Studies
+          </a>
+
+          <p
+            class="text-xs font-semibold uppercase tracking-widest text-accent mb-4"
+          >
+            {practiceArea}
+          </p>
+
+          <h1
+            class="font-serif text-4xl md:text-6xl text-white leading-tight pb-2 mb-4 max-w-3xl"
+          >
+            {title}
+          </h1>
+
+          <p class="text-white/60 text-sm">
+            {
+              isAnonymized
+                ? `Client: ${clientDescription} (anonymized)`
+                : `Client: ${clientDescription}`
+            }
+          </p>
+        </div>
+        <!-- Stats bar -->
+        {
+          stats.length > 0 && (
+            <div class="backdrop-blur-sm py-5 border-t-1 border-accent/40">
+              <div class="mx-auto w-full max-w-5xl px-6 py-8 flex flex-wrap gap-10 md:gap-16">
+                {stats.map((stat) => (
+                  <div>
+                    <p class="font-serif text-4xl text-accent">{stat.value}</p>
+                    <p class="text-xs uppercase tracking-widest text-white/60 mt-1">
+                      {stat.label}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </section>
+
+
+      <!-- Body -->
+      <div class="bg-white">
+        <div class="mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
+          <div
+            class="grid md:grid-cols-[1fr_320px] gap-12 md:gap-16 items-start"
+          >
+            <!-- Narrative -->
+            <div class="space-y-12">
+              <div class="relative pl-6 border-l-2 border-accent">
+                <h2 class="font-serif text-2xl text-primary mb-4">
+                  The Challenge
+                </h2>
+                <p class="text-[1.05rem] leading-relaxed text-neutral-700">
+                  {challenge}
+                </p>
+              </div>
+
+              <div class="relative pl-6 border-l-2 border-neutral-300">
+                <h2 class="font-serif text-2xl text-primary mb-4">
+                  Our Strategy
+                </h2>
+                <p class="text-[1.05rem] leading-relaxed text-neutral-700">
+                  {solution}
+                </p>
+              </div>
+
+              <div class="relative pl-6 border-l-2 border-neutral-300">
+                <h2 class="font-serif text-2xl text-primary mb-4">
+                  The Outcome
+                </h2>
+                <p class="text-[1.05rem] leading-relaxed text-neutral-700">
+                  {outcome}
+                </p>
+              </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="space-y-8 md:sticky md:top-24">
+              {
+                quote && (
+                  <figure class="bg-neutral-50 border-l-4 border-accent px-6 py-6">
+                    <blockquote class="font-serif text-lg text-primary leading-snug italic mb-4">
+                      &ldquo;{quote}&rdquo;
+                    </blockquote>
+                    {quoteAttribution && (
+                      <figcaption class="text-xs text-neutral-500 uppercase tracking-wide">
+                        — {quoteAttribution}
+                      </figcaption>
+                    )}
+                  </figure>
+                )
+              }
+
+              <div class="border border-neutral-200 p-6 space-y-4">
+                <h3 class="font-serif text-lg text-primary">Practice Area</h3>
+                <a
+                  href={`/practice-areas/${practiceAreaSlug}`}
+                  class="inline-flex items-center gap-2 text-sm text-accent hover:underline underline-offset-4"
+                >
+                  {practiceArea}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+
+              <div class="bg-primary px-6 py-7 space-y-4">
+                <p class="font-serif text-lg text-white">
+                  Have a similar matter?
+                </p>
+                <p class="text-sm text-white/70">
+                  Our team is ready to discuss your situation confidentially.
+                </p>
+                <a
+                  href="/contact-us"
+                  class="inline-flex items-center justify-center w-full px-5 py-3 bg-accent text-accent-foreground text-sm font-semibold hover:bg-white hover:text-primary transition-colors"
+                >
+                  Schedule a Consultation
+                </a>
+                <a
+                  href={phoneHref}
+                  class="block text-center text-sm text-white/60 hover:text-accent transition-colors"
+                >
+                  {firmInfo.phone}
+                </a>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prev / Next navigation -->
+      {
+        (prevCase || nextCase) && (
+          <div class="border-t border-neutral-200 bg-neutral-50">
+            <div class="mx-auto w-full max-w-5xl px-6 py-8 grid sm:grid-cols-2 gap-4">
+              {prevCase ? (
+                <a
+                  href={`/case-studies/${prevCase.id}`}
+                  class="group flex flex-col gap-1 p-5 border border-neutral-200 hover:border-accent transition-colors"
+                >
+                  <span class="text-xs uppercase tracking-widest text-neutral-400 group-hover:text-accent transition-colors">
+                    ← Previous
+                  </span>
+                  <span class="font-serif text-primary group-hover:text-accent transition-colors">
+                    {prevCase.data.title}
+                  </span>
+                </a>
+              ) : (
+                <div />
+              )}
+              {nextCase && (
+                <a
+                  href={`/case-studies/${nextCase.id}`}
+                  class="group flex flex-col gap-1 p-5 border border-neutral-200 hover:border-accent transition-colors text-right sm:items-end"
+                >
+                  <span class="text-xs uppercase tracking-widest text-neutral-400 group-hover:text-accent transition-colors">
+                    Next →
+                  </span>
+                  <span class="font-serif text-primary group-hover:text-accent transition-colors">
+                    {nextCase.data.title}
+                  </span>
+                </a>
+              )}
+            </div>
+          </div>
+        )
+      }
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

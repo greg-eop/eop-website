@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "practiceArea": {
+      "type": "string"
+    },
+    "practiceAreaSlug": {
+      "type": "string"
+    },
+    "clientDescription": {
+      "type": "string"
+    },
+    "isAnonymized": {
+      "default": true,
+      "type": "boolean"
+    },
+    "challenge": {
+      "type": "string"
+    },
+    "solution": {
+      "type": "string"
+    },
+    "outcome": {
+      "type": "string"
+    },
+    "stats": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "value",
+          "label"
+        ]
+      }
+    },
+    "quote": {
+      "type": "string"
+    },
+    "quoteAttribution": {
+      "type": "string"
+    },
+    "featured": {
+      "default": false,
+      "type": "boolean"
+    },
+    "order": {
+      "default": 100,
+      "type": "integer",
+      "minimum": -9007199254740991,
+      "maximum": 9007199254740991
+    },
+    "$schema": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "practiceArea",
+    "practiceAreaSlug",
+    "clientDescription",
+    "challenge",
+    "solution",
+    "outcome"
+  ]
+}

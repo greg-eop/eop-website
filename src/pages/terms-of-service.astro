@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import page from '../data/home.json';
+import firmInfo from '../data/firm-info.json';
+---
+
+<BaseLayout title="Terms of Service | EOP Law" description="Terms of Service for Elliott, Ostrander & Preston, P.C.">
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <section class="mx-auto w-full max-w-5xl px-6 pt-10 pb-16 md:pt-14 md:pb-20">
+        <h1 class="font-serif text-4xl text-primary md:text-5xl">Terms of Service</h1>
+        <p class="mt-4 text-sm text-neutral-500">Last updated: June 2026</p>
+        <div class="mt-8 space-y-8 text-[1.05rem] leading-relaxed text-neutral-700">
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Acceptance of Terms</h2>
+            <p>
+              By accessing or using the website of Elliott, Ostrander &amp; Preston, P.C. ("EOP Law," "we," "us," or
+              "our"), you agree to be bound by these Terms of Service. If you do not agree to these terms, please do
+              not use this website.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Informational Purposes Only</h2>
+            <p>
+              The content on this website is provided for general informational purposes only. Nothing on this site
+              constitutes legal advice, and no attorney-client relationship is created by your use of this website or
+              by submitting a contact inquiry. Legal matters vary widely; please consult a qualified attorney regarding
+              your specific situation.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Intellectual Property</h2>
+            <p>
+              All content on this website — including text, graphics, logos, and images — is the property of Elliott,
+              Ostrander &amp; Preston, P.C. and is protected by applicable intellectual property laws. You may view
+              and print materials from this site for your personal, non-commercial use only. Any other reproduction,
+              distribution, or use without our prior written consent is prohibited.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">No Warranties</h2>
+            <p>
+              This website is provided "as is" without warranties of any kind, express or implied. We do not warrant
+              that the site will be uninterrupted, error-free, or free of viruses or other harmful components. We
+              reserve the right to modify or discontinue the website at any time without notice.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Limitation of Liability</h2>
+            <p>
+              To the fullest extent permitted by law, Elliott, Ostrander &amp; Preston, P.C. shall not be liable for
+              any direct, indirect, incidental, or consequential damages arising from your use of, or inability to
+              use, this website or its content. This includes damages resulting from reliance on any information
+              published on this site.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Third-Party Links</h2>
+            <p>
+              This website may contain links to third-party websites for your convenience. We do not endorse or
+              control those sites and are not responsible for their content, accuracy, or practices. Visiting any
+              linked website is at your own risk.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Governing Law</h2>
+            <p>
+              These Terms of Service are governed by the laws of the State of Oregon, without regard to its conflict
+              of law principles. Any disputes arising from your use of this website shall be subject to the exclusive
+              jurisdiction of the state and federal courts located in Multnomah County, Oregon.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Changes to These Terms</h2>
+            <p>
+              We may revise these Terms of Service at any time by updating this page. Your continued use of the
+              website following any changes constitutes your acceptance of the revised terms.
+            </p>
+          </div>
+
+          <div>
+            <h2 class="font-serif text-2xl text-primary mb-3">Contact Us</h2>
+            <p>
+              If you have questions about these Terms of Service, please contact us at
+              <a class="text-primary underline decoration-accent underline-offset-4" href="mailto:contact@eoplaw.com">
+                contact@eoplaw.com
+              </a>
+              or by phone at {firmInfo.phone}.
+            </p>
+          </div>
+
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

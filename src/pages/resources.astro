@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import PageHero from '../components/astro/PageHero.astro';
+import page from '../data/home.json';
+import firmInfo from '../data/firm-info.json';
+import courthousePanelImg from '../images/courthouse-panel.webp';
+---
+
+<BaseLayout title="Resources | EOP Law" description={page.meta.description}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <PageHero
+        title="Resources"
+        subtitle="Helpful legal and business links for clients and partners."
+        backgroundImageSrc={courthousePanelImg.src}
+        containerMaxWidthClass="max-w-5xl"
+      />
+
+      <section class="mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
+        <ul class="list-disc space-y-3 pl-6 text-[1.05rem] leading-relaxed text-neutral-700 marker:text-accent">
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.osbar.org/public/" target="_blank" rel="noopener noreferrer">Oregon State Bar Legal Information Topics</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.portlandoregon.gov/27456" target="_blank" rel="noopener noreferrer">City of Portland Business Information</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://egov.sos.state.or.us/br/pkg_web_name_srch_inq.login" target="_blank" rel="noopener noreferrer">Oregon Secretary of State - Business Search</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.uspto.gov/" target="_blank" rel="noopener noreferrer">U.S. Patent and Trademark Office</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.irs.gov/businesses" target="_blank" rel="noopener noreferrer">Internal Revenue Service - Businesses</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.oregonlegislature.gov/bills_laws/Pages/ORS.aspx" target="_blank" rel="noopener noreferrer">Oregon Revised Statutes</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.oregon.gov/boli/Pages/index.aspx" target="_blank" rel="noopener noreferrer">Oregon Bureau of Labor and Industries</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.courts.oregon.gov/Multnomah/Pages/index.aspx" target="_blank" rel="noopener noreferrer">Multnomah County Circuit Court</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.ord.uscourts.gov/" target="_blank" rel="noopener noreferrer">U.S. District Court of Oregon</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://research.lawyers.com/Guidelines-For-Hiring-A-Personal-Lawyer.html" target="_blank" rel="noopener noreferrer">Lawyers.com: How to Choose a Lawyer</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.lawyers.com/Oregon/Portland/Elliott-Ostrander-and-Preston-P-C--1499459-f.html" target="_blank" rel="noopener noreferrer">Martindale-Hubbell Profile for Elliott, Ostrander &amp; Preston</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.filinginoregon.com/" target="_blank" rel="noopener noreferrer">Oregon Secretary of State</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.wsba.org/The-Public" target="_blank" rel="noopener noreferrer">Washington State Bar Association</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.copyright.gov/" target="_blank" rel="noopener noreferrer">US Copyright Office</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.uspto.gov/" target="_blank" rel="noopener noreferrer">US Patent &amp; Trademark Office</a>
+          </li>
+          <li>
+            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.sos.wa.gov/corps" target="_blank" rel="noopener noreferrer">Washington Secretary of State</a>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

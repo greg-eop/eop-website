@@ -1,0 +1,24 @@
+{
+  "firmName": "Elliott, Ostrander & Preston, P.C.",
+  "summary": "Founded in Portland, Oregon. Providing legal guidance to businesses and individuals since 1995.",
+  "phone": "+1 503.224.7112",
+  "tollFree": "+1 866.716.3410",
+  "fax": "+1 503.224.7819",
+  "email": "contact@eoplaw.com",
+  "addressLines": [
+    "707 SW Washington St., Suite 1500",
+    "Portland, OR 97205"
+  ],
+  "officeHours": [
+    "Monday - Friday: 9:00 AM - 5:00 PM"
+  ],
+  "mapUrl": "https://maps.google.com/?q=707+SW+Washington+St+Suite+1500,+Portland,+OR+97205",
+  "parkingInfo": "We validate parking in our building and at all Smart Park, Star Park, and PMC garages.",
+  "socialLinks": [
+    {
+      "label": "LinkedIn",
+      "href": "https://www.linkedin.com/company/eoplaw"
+    }
+  ],
+  "copyright": "© 2026 Elliott Ostrander & Preston, PC. All rights reserved."
+}

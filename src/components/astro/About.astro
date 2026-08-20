@@ -1,0 +1,79 @@
+---
+import HandshakeIcon from '../../icons/handshake.svg';
+import LightbulbIcon from '../../icons/lightbulb.svg';
+import ScalesIcon from '../../icons/scales.svg';
+import bgImage from '../../images/lawyer-working-with-documents.webp';
+
+interface Highlight {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  eyebrow: string;
+  heading: string;
+  lead: string;
+  body: string;
+  highlights: Highlight[];
+}
+
+const { eyebrow, heading, lead, body, highlights } = Astro.props;
+
+const highlightIcons = [HandshakeIcon, ScalesIcon, LightbulbIcon];
+---
+
+<section id="about" class="about-section py-8 md:py-16 lg:py-32 bg-primary text-white relative overflow-hidden"
+  style={`background-image: url(${bgImage.src}); background-size: cover; background-position: center;`}
+>
+  <div class="absolute inset-0 bg-primary/90"></div>
+  <div class="relative max-w-7xl mx-auto px-6 lg:px-12">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div data-motion="motion-preset-slide-right motion-duration-700" class="relative h-[600px] lg:h-[700px]">
+        <img
+          src="/images/about-courthouse.jpg"
+          alt="Portland courthouse"
+          class="w-full h-full object-cover"
+        />
+        <div class="absolute -bottom-8 -right-8 w-64 h-64 bg-accent/20 border-4 border-accent"></div>
+      </div>
+
+      <div data-motion="motion-preset-slide-left motion-duration-700" data-motion-delay="150">
+        <div class="inline-block px-6 py-2 bg-accent/20 border border-accent mb-8">
+          <span class="text-accent">{eyebrow}</span>
+        </div>
+
+        <h2 class="text-4xl md:text-6xl mb-8">{heading}</h2>
+
+        <p class="text-md text-white/90 mb-8 leading-relaxed">{lead}</p>
+
+        <p class="text-md text-white/80 mb-12 leading-relaxed">{body}</p>
+
+        <div class="space-y-6">
+          {highlights.map((item, i) => {
+            const Icon = highlightIcons[i];
+
+            return (
+            <div class="flex items-start gap-4">
+              <span class="text-accent flex-shrink-0 mt-1">
+                {Icon && <Icon class="h-6 w-6" aria-hidden="true" />}
+              </span>
+              <div>
+                <h4 class="text-xl mb-2">{item.title}</h4>
+                <p class="text-white/70">{item.description}</p>
+              </div>
+            </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @media (hover: hover) {
+    .about-section {
+      background-attachment: fixed;
+    }
+  }
+</style>

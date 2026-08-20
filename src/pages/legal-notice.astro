@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/astro/Header.astro';
+import Footer from '../components/astro/Footer.astro';
+import page from '../data/home.json';
+import firmInfo from '../data/firm-info.json';
+---
+
+<BaseLayout title="Legal Notice | EOP Law" description={page.meta.description}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <section class="mx-auto w-full max-w-5xl px-6 pt-10 pb-16 md:pt-14 md:pb-20">
+        <h1 class="font-serif text-4xl text-primary md:text-5xl">Legal Notice &amp; Disclaimer</h1>
+        <div class="mt-8 space-y-6 text-[1.05rem] leading-relaxed text-neutral-700">
+          <p>
+            The materials on this website are for information only. Nothing on this website is intended to create an
+            attorney-client relationship, give legal advice, or provide a legal opinion. If you have an issue
+            requiring legal advice, please contact your attorney directly. You should not make legal hiring decisions
+            based on promotional materials.
+          </p>
+          <p>
+            If you desire to engage the services of an attorney at Elliott, Ostrander &amp; Preston, P.C., please
+            contact the firm and discuss your needs with the appropriate attorney licensed in your state. No
+            attorney-client relationship will be created until you and we sign an agreement to act as your lawyer. Our
+            principal office is located in Portland, Oregon; however, we also have attorneys licensed in other states.
+          </p>
+          <p>
+            The materials on this website are the sole and exclusive property of Elliott, Ostrander &amp; Preston,
+            P.C. You are allowed to download and print materials from this website for your own information and reading
+            enjoyment. However, you may not copy, distribute, transmit, publicly display, or make other unauthorized
+            uses of this website or its contents.
+          </p>
+          <p>
+            Unauthorized uses may infringe Elliott, Ostrander &amp; Preston, P.C. rights and may subject you to civil
+            or criminal liability. Please do not link to this website from your website without prior written
+            permission. General inquiries can be made to
+            <a class="text-primary underline decoration-accent underline-offset-4" href="mailto:attorneys@eoplaw.com">
+              attorneys@eoplaw.com
+            </a>
+            .
+          </p>
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>
