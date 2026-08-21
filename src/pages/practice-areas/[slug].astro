@@ -8,6 +8,7 @@ import firmInfo from "../../data/firm-info.json";
 import courthousePanelImg from "../../images/courthouse-panel.webp";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { attorneysForPracticeArea } from "../../lib/practice-area-routing";
 
 export const getStaticPaths = async () => {
   const areas = await getCollection("practiceAreas");
@@ -26,19 +27,11 @@ const { area } = Astro.props as Props;
 const { title, description, overview, services, clientProblem, faqs } =
   area.data;
 
-// Match attorneys whose practiceAreas overlap with this page's title keywords
 const allAttorneys = await getCollection("attorneys");
-const matchedAttorneys = allAttorneys
-  .filter((a) =>
-    (a.data.practiceAreas ?? []).some(
-      (pa) =>
-        title.toLowerCase().includes(pa.toLowerCase()) ||
-        pa.toLowerCase().includes(title.toLowerCase().split(" ")[0]),
-    ),
-  )
-  .sort((a, b) =>
-    a.data.name.split(" ")[0].localeCompare(b.data.name.split(" ")[0]),
-  );
+const matchedAttorneys = attorneysForPracticeArea(allAttorneys, {
+  id: area.id,
+  title,
+});
 
 const phoneHref = `tel:${firmInfo.phone.replace(/\s/g, "")}`;
 const yearsOfExperience = new Date().getFullYear() - 1995;
@@ -60,7 +53,7 @@ const yearsOfExperience = new Date().getFullYear() - 1995;
         showCta={area.data.showCta}
         ctaDescription={area.data.ctaDescription}
         ctaText={area.data.ctaText}
-        ctaHref={area.data.ctaHref}
+        ctaHref={area.data.ctaHref || `/contact-us?practice-area=${area.id}`}
       />
 
       <div class="mx-auto w-full max-w-7xl px-6 py-12 md:py-16">

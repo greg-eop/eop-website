@@ -67,7 +67,7 @@ const attorneys = attorneyEntries.map((entry) => {
                   {attorney.photo ? (
                     <div
                       class="h-64 w-full bg-cover bg-center"
-                      style={`background-image: linear-gradient(rgba(16, 22, 36, 0.84), rgba(16, 22, 36, 0.2)), url(${woodPanelJpg.src});`}
+                      style={`background-image: linear-gradient(rgba(255, 255, 255, 0.84), rgba(100, 100, 100, 0.2));`}
                   >
                       <img
                         src={attorney.photo}
@@ -94,7 +94,7 @@ const attorneys = attorneyEntries.map((entry) => {
                     <p class="text-sm font-semibold uppercase tracking-wide text-accent">
                       {attorney.role}
                     </p>
-                    <p class="text-[1.02rem] leading-relaxed text-neutral-700">
+                    <p class="leading-relaxed text-neutral-700">
                       {attorney.excerpt}
                     </p>
                     <span class="inline-block text-primary underline decoration-accent underline-offset-4">

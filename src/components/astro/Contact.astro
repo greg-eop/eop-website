@@ -1,8 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
+import {
+  buildInquiryRouting,
+  buildPracticeAreaRoutes,
+  formsparkEndpoint,
+} from '../../lib/practice-area-routing';
 
 const practiceAreas = (await getCollection('practiceAreas'))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
+const attorneys = await getCollection('attorneys');
+const practiceAreaRoutes = buildPracticeAreaRoutes(practiceAreas, attorneys);
+const routingById = buildInquiryRouting(practiceAreas, attorneys);
+const defaultFormId = routingById.other?.attorneys[0]?.formId;
 
 interface Props {
   heading: string;
@@ -95,39 +104,121 @@ const { heading, description, phone, email, addressLines, officeHours, mapUrl, p
       <div class="bg-accent/50 p-12">
         <h3 class="text-3xl mb-8">Send us a message</h3>
 
-        <form class="space-y-6">
+        <div
+          id="contact-success"
+          class="hidden border border-primary/10 bg-white px-6 py-8"
+          role="status"
+        >
+          <p class="text-xl text-primary mb-3">Thank you. We received your inquiry.</p>
+          <p class="text-muted-foreground leading-relaxed">
+            A member of our team will be in touch shortly. If your matter is time-sensitive, please call us at
+            <a class="underline underline-offset-4 decoration-accent hover:text-accent" href={`tel:${phone}`}>{phone}</a>.
+          </p>
+        </div>
+
+        <form
+          id="contact-form"
+          class="relative space-y-6"
+          action={defaultFormId ? formsparkEndpoint(defaultFormId) : undefined}
+          method="POST"
+          data-fallback-email={email}
+          data-routing={JSON.stringify(routingById)}
+        >
+          <input type="hidden" name="_email.subject" id="email-subject" value="Website inquiry" />
+          <input type="hidden" name="assigned_attorneys" id="assigned-attorneys" value={`Firm intake (${email})`} />
+
+          <div class="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+            <label for="company-website">Company website</label>
+            <input type="text" id="company-website" name="_gotcha" tabindex="-1" autocomplete="off" />
+          </div>
+
           <div>
             <label for="name" class="block mb-2">Full Name</label>
-            <input type="text" id="name" class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white" placeholder="John Doe" />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              maxlength="120"
+              autocomplete="name"
+              class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white"
+              placeholder="John Doe"
+            />
           </div>
 
           <div>
             <label for="email" class="block mb-2">Email Address</label>
-            <input type="email" id="email" class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white" placeholder="john@example.com" />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              maxlength="120"
+              autocomplete="email"
+              class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white"
+              placeholder="john@example.com"
+            />
           </div>
 
           <div>
             <label for="phone" class="block mb-2">Phone Number</label>
-            <input type="tel" id="phone" class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white" placeholder="(555) 123-4567" />
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              maxlength="40"
+              autocomplete="tel"
+              class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white"
+              placeholder="(555) 123-4567"
+            />
           </div>
 
           <div>
-            <label for="case-type" class="block mb-2">Case Type</label>
-            <select id="case-type" class="w-full px-6 py-4 border focus:outline-none focus:border-accent bg-white">
+            <label for="case-type" class="block mb-2">Practice Area</label>
+            <select
+              id="case-type"
+              name="practice_area"
+              required
+              class="w-full px-6 py-4 border focus:outline-none focus:border-accent bg-white"
+            >
               <option value="" disabled selected>Select a practice area</option>
-              {practiceAreas.map((area) => (
-                <option value={area.id}>{area.data.title}</option>
+              {practiceAreaRoutes.map((area) => (
+                <option value={area.title} data-area-id={area.id}>
+                  {area.title}
+                </option>
               ))}
-              <option value="other">Other / Not Sure</option>
+              <option value="Other / Not Sure" data-area-id="other">Other / Not Sure</option>
             </select>
+            <p id="routing-note" class="mt-2 text-sm text-muted-foreground min-h-5" aria-live="polite"></p>
           </div>
 
           <div>
             <label for="message" class="block mb-2">Message</label>
-            <textarea id="message" rows={5} class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white resize-none" placeholder="Tell us about your legal needs..."></textarea>
+            <textarea
+              id="message"
+              name="message"
+              rows={5}
+              required
+              minlength="10"
+              maxlength="5000"
+              class="w-full px-6 py-4 border placeholder focus:outline-none focus:border-accent bg-white resize-none"
+              placeholder="Tell us about your legal needs..."
+            ></textarea>
           </div>
 
-          <button type="submit" class="w-full px-8 py-5 bg-accent text-accent-foreground hover:bg-white transition-colors">
+          <p
+            id="contact-error"
+            class="hidden text-sm text-destructive"
+            role="alert"
+          >
+            Something went wrong while sending your message. Please try again or call us.
+          </p>
+
+          <button
+            type="submit"
+            id="contact-submit"
+            class="w-full px-8 py-5 bg-accent text-accent-foreground hover:bg-white transition-colors disabled:opacity-60 disabled:pointer-events-none"
+          >
             Submit Inquiry
           </button>
 
@@ -139,3 +230,171 @@ const { heading, description, phone, email, addressLines, officeHours, mapUrl, p
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const successEl = document.getElementById('contact-success');
+  const errorEl = document.getElementById('contact-error');
+  const submitBtn = document.getElementById('contact-submit');
+  const practiceSelect = document.getElementById('case-type');
+  const assignedInput = document.getElementById('assigned-attorneys');
+  const subjectInput = document.getElementById('email-subject');
+  const routingNote = document.getElementById('routing-note');
+
+  if (
+    form instanceof HTMLFormElement &&
+    successEl &&
+    errorEl &&
+    submitBtn instanceof HTMLButtonElement &&
+    practiceSelect instanceof HTMLSelectElement &&
+    assignedInput instanceof HTMLInputElement &&
+    subjectInput instanceof HTMLInputElement &&
+    routingNote
+  ) {
+    const fallbackEmail = form.dataset.fallbackEmail || 'contact@eoplaw.com';
+    const formsparkOrigin = 'https://submit-form.com';
+    /** @type {Record<string, { id: string, title: string, attorneys: { name: string, email: string, formId: string }[] }>} */
+    const routingById = JSON.parse(form.dataset.routing || '{}');
+
+    const formatAssigned = (attorneys) => {
+      if (!attorneys || attorneys.length === 0) {
+        return `Firm intake (${fallbackEmail})`;
+      }
+      return attorneys
+        .map((attorney) => `${attorney.name} (${attorney.email})`)
+        .join(', ');
+    };
+
+    const selectedAreaId = () =>
+      practiceSelect.selectedOptions[0]?.dataset.areaId || '';
+
+    const selectedRoute = () => routingById[selectedAreaId()] || null;
+
+    const formIdsForRoute = (route) => {
+      const ids = (route?.attorneys || [])
+        .map((attorney) => attorney.formId)
+        .filter(Boolean);
+      return [...new Set(ids)];
+    };
+
+    const updateRouting = () => {
+      const areaId = selectedAreaId();
+      const route = selectedRoute();
+      const title = practiceSelect.value || 'Website inquiry';
+      assignedInput.value = formatAssigned(route?.attorneys);
+      subjectInput.value = `Website inquiry: ${title}`;
+
+      const formIds = formIdsForRoute(route);
+      if (formIds[0]) {
+        form.action = `${formsparkOrigin}/${formIds[0]}`;
+      }
+
+      if (route?.attorneys?.length) {
+        const names = route.attorneys.map((attorney) => attorney.name);
+        const last = names[names.length - 1];
+        const label =
+          names.length === 1 ? names[0] : `${names.slice(0, -1).join(', ')} and ${last}`;
+        routingNote.textContent = `This inquiry will be directed to ${label}.`;
+      } else if (areaId) {
+        routingNote.textContent = 'This inquiry will be directed to our firm intake team.';
+      } else {
+        routingNote.textContent = '';
+      }
+    };
+
+    const preselectFromQuery = () => {
+      const requested = new URLSearchParams(window.location.search).get('practice-area');
+      if (!requested) return;
+      const match = Array.from(practiceSelect.options).find(
+        (option) => option.dataset.areaId === requested,
+      );
+      if (!match) return;
+      practiceSelect.value = match.value;
+    };
+
+    const sanitizeFromName = (value) =>
+      value.replace(/[^a-zA-Z0-9 _-]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 80) ||
+      'Website inquiry';
+
+    preselectFromQuery();
+    updateRouting();
+    practiceSelect.addEventListener('change', updateRouting);
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      errorEl.classList.add('hidden');
+
+      const honeypot = form.querySelector('#company-website');
+      if (honeypot instanceof HTMLInputElement && honeypot.value) {
+        form.classList.add('hidden');
+        successEl.classList.remove('hidden');
+        return;
+      }
+
+      updateRouting();
+
+      const name = form.elements.namedItem('name');
+      const emailField = form.elements.namedItem('email');
+      const phoneField = form.elements.namedItem('phone');
+      const messageField = form.elements.namedItem('message');
+
+      if (
+        !(name instanceof HTMLInputElement) ||
+        !(emailField instanceof HTMLInputElement) ||
+        !(phoneField instanceof HTMLInputElement) ||
+        !(messageField instanceof HTMLTextAreaElement)
+      ) {
+        return;
+      }
+
+      const payload = {
+        name: name.value.trim(),
+        email: emailField.value.trim(),
+        phone: phoneField.value.trim(),
+        practice_area: practiceSelect.value,
+        assigned_attorneys: assignedInput.value,
+        message: messageField.value.trim(),
+        _gotcha: '',
+        _email: {
+          from: sanitizeFromName(name.value),
+          subject: subjectInput.value,
+        },
+      };
+
+      const formIds = formIdsForRoute(selectedRoute());
+      if (formIds.length === 0) {
+        errorEl.classList.remove('hidden');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      try {
+        const responses = await Promise.all(
+          formIds.map((formId) =>
+            fetch(`${formsparkOrigin}/${formId}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+              },
+              body: JSON.stringify(payload),
+            }),
+          ),
+        );
+
+        if (responses.some((response) => !response.ok)) {
+          throw new Error('Formspark rejected a routed submission');
+        }
+
+        form.classList.add('hidden');
+        successEl.classList.remove('hidden');
+      } catch {
+        errorEl.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Inquiry';
+      }
+    });
+  }
+</script>
