@@ -11,6 +11,7 @@ import Footer from "../components/astro/Footer.astro";
 import page from "../data/home.json";
 import firmInfo from "../data/firm-info.json";
 import { getCollection } from "astro:content";
+import { absoluteUrl, itemListNode } from "../lib/schema";
 
 const heroHeadline = page.homepageSettings?.headline || page.hero.heading;
 const heroSubhead = page.homepageSettings?.subhead || page.hero.subheading;
@@ -33,9 +34,23 @@ const practiceAreaCards = (await getCollection("practiceAreas"))
     description: entry.data.description,
     href: `/practice-areas/${entry.id}`,
   }));
+
+const site = Astro.site ?? Astro.url;
+const practiceAreaList = itemListNode({
+  id: absoluteUrl(site, "/#practice-areas"),
+  name: "Practice Areas",
+  items: practiceAreaCards.map((area) => ({
+    name: area.title,
+    url: absoluteUrl(site, area.href),
+  })),
+});
 ---
 
-<BaseLayout title={page.meta.title} description={page.meta.description}>
+<BaseLayout
+  title={page.meta.title}
+  description={page.meta.description}
+  schema={practiceAreaList}
+>
   <div class="min-h-screen">
     <Header transparentAtTop />
     <Hero

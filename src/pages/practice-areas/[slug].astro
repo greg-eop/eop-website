@@ -9,6 +9,7 @@ import courthousePanelImg from "../../images/courthouse-panel.webp";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { attorneysForPracticeArea } from "../../lib/practice-area-routing";
+import { absoluteUrl, faqPageNode, serviceNode } from "../../lib/schema";
 
 export const getStaticPaths = async () => {
   const areas = await getCollection("practiceAreas");
@@ -35,11 +36,25 @@ const matchedAttorneys = attorneysForPracticeArea(allAttorneys, {
 
 const phoneHref = `tel:${firmInfo.phone.replace(/\s/g, "")}`;
 const yearsOfExperience = new Date().getFullYear() - 1995;
+const site = Astro.site ?? Astro.url;
+const pageUrl = absoluteUrl(site, `/practice-areas/${area.id}`);
+const schema = [
+  serviceNode({
+    site,
+    slug: area.id,
+    name: title,
+    description,
+    services,
+  }),
+  faqPageNode({ url: pageUrl, faqs }),
+].filter((node): node is NonNullable<typeof node> => node !== null);
 ---
 
 <BaseLayout
   title={`${title} | Practice Areas | EOP Law`}
   description={description}
+  breadcrumbLabel={title}
+  schema={schema}
 >
   <div class="min-h-screen flex flex-col">
     <Header />

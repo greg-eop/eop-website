@@ -7,6 +7,7 @@ import firmInfo from "../../data/firm-info.json";
 import woodPanelJpg from "../../images/wood-panel.webp";
 import { getCollection, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { absoluteUrl, personNode } from "../../lib/schema";
 
 const normalizePracticeTitle = (value: string) =>
   value
@@ -93,11 +94,32 @@ const experienceItems = bioPlainText
   .filter((sentence: string) => sentence.length > 40)
   .slice(1, 4)
   .map((sentence: string) => `${sentence}.`);
+
+const site = Astro.site ?? Astro.url;
+const personDescription =
+  entry.data.specialty?.trim() ||
+  (bioPlainText
+    ? `${bioPlainText.slice(0, 220).trimEnd()}${bioPlainText.length > 220 ? "..." : ""}`
+    : undefined);
+const personImage = heroImageSrc
+  ? absoluteUrl(site, heroImageSrc)
+  : undefined;
 ---
 
 <BaseLayout
   title={`${entry.data.name} | EOP Law`}
-  description={page.meta.description}
+  description={personDescription || page.meta.description}
+  breadcrumbLabel={entry.data.name}
+  image={heroImageSrc}
+  schema={personNode({
+    site,
+    slug: entry.id,
+    name: entry.data.name,
+    description: personDescription,
+    email: entry.data.email,
+    imageUrl: personImage,
+    knowsAbout: practiceAreaItems,
+  })}
 >
   <div class="min-h-screen flex flex-col">
     <Header />

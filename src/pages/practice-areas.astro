@@ -7,6 +7,7 @@ import page from '../data/home.json';
 import firmInfo from '../data/firm-info.json';
 import { getCollection } from 'astro:content';
 import courthousePanelImg from '../images/courthouse-panel.webp';
+import { absoluteUrl, itemListNode } from '../lib/schema';
 
 interface ListingArea {
   title: string;
@@ -21,9 +22,23 @@ const listingAreas: ListingArea[] = (await getCollection('practiceAreas'))
     slug: entry.id,
     summary: entry.data.description,
   }));
+
+const site = Astro.site ?? Astro.url;
+const practiceAreaList = itemListNode({
+  id: absoluteUrl(site, '/practice-areas#practice-areas'),
+  name: 'Practice Areas',
+  items: listingAreas.map((area) => ({
+    name: area.title,
+    url: absoluteUrl(site, `/practice-areas/${area.slug}`),
+  })),
+});
 ---
 
-<BaseLayout title="Practice Areas | EOP Law" description={page.meta.description}>
+<BaseLayout
+  title="Practice Areas | EOP Law"
+  description={page.meta.description}
+  schema={practiceAreaList}
+>
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">

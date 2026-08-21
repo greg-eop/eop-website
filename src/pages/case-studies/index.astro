@@ -7,14 +7,28 @@ import page from '../../data/home.json';
 import firmInfo from '../../data/firm-info.json';
 import courthousePanelImg from '../../images/courthouse-panel.webp';
 import { getPublishedCaseStudies } from '../../lib/case-studies';
+import { absoluteUrl, itemListNode } from '../../lib/schema';
 
 const allCaseStudies = await getPublishedCaseStudies();
+const site = Astro.site ?? Astro.url;
+const caseStudyList =
+  allCaseStudies.length > 0
+    ? itemListNode({
+        id: absoluteUrl(site, '/case-studies#case-studies'),
+        name: 'Case Studies',
+        items: allCaseStudies.map((cs) => ({
+          name: cs.data.title,
+          url: absoluteUrl(site, `/case-studies/${cs.id}`),
+        })),
+      })
+    : null;
 ---
 
 <BaseLayout
   title="Case Studies | EOP Law"
   description="Real results for real clients. Explore representative matters handled by Elliott, Ostrander & Preston."
   noindex={allCaseStudies.length === 0}
+  schema={caseStudyList}
 >
   <div class="min-h-screen flex flex-col">
     <Header />

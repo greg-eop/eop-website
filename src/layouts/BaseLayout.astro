@@ -2,15 +2,35 @@
 import '../styles/globals.css';
 import firmInfo from '../data/firm-info.json';
 import defaultOgImage from '../images/courthouse-panel.webp';
+import JsonLd from '../components/astro/JsonLd.astro';
+import {
+  buildJsonLdGraph,
+  absoluteUrl,
+  type Breadcrumb,
+  type JsonLdNode,
+} from '../lib/schema';
 
 interface Props {
   title: string;
   description: string;
   image?: string;
   noindex?: boolean;
+  pageType?: string;
+  breadcrumbLabel?: string;
+  breadcrumbs?: Breadcrumb[];
+  schema?: JsonLdNode | JsonLdNode[] | null;
 }
 
-const { title, description, image, noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  image,
+  noindex = false,
+  pageType,
+  breadcrumbLabel,
+  breadcrumbs,
+  schema,
+} = Astro.props;
 
 const site = Astro.site ?? Astro.url;
 const canonicalURL = new URL(Astro.url.pathname, site);
@@ -20,6 +40,28 @@ canonicalURL.hash = '';
 const ogImageSrc = image || defaultOgImage.src;
 const ogImageURL = new URL(ogImageSrc, site);
 const siteName = firmInfo.firmName;
+const jsonLd = buildJsonLdGraph({
+  site,
+  pathname: Astro.url.pathname,
+  title,
+  description,
+  pageType,
+  breadcrumbLabel,
+  breadcrumbs,
+  extra: schema,
+  organization: {
+    name: firmInfo.firmName,
+    description: firmInfo.summary,
+    telephone: firmInfo.phone,
+    email: firmInfo.email,
+    fax: firmInfo.fax,
+    addressLines: firmInfo.addressLines,
+    mapUrl: firmInfo.mapUrl,
+    sameAs: firmInfo.socialLinks.map((link) => link.href),
+    logoUrl: absoluteUrl(site, '/images/logo.webp'),
+    imageUrl: ogImageURL.href,
+  },
+});
 ---
 
 <!doctype html>
@@ -46,6 +88,8 @@ const siteName = firmInfo.firmName;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
+
+    <JsonLd data={jsonLd} />
 
     <script is:inline>
       (function () {

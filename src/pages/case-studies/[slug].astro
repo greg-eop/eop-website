@@ -7,6 +7,7 @@ import firmInfo from "../../data/firm-info.json";
 import courthousePanelImg from "../../images/courthouse-panel.webp";
 import type { CollectionEntry } from "astro:content";
 import { getPublishedCaseStudies } from "../../lib/case-studies";
+import { articleNode } from "../../lib/schema";
 
 export const getStaticPaths = async () => {
   const cases = await getPublishedCaseStudies();
@@ -43,11 +44,23 @@ const currentIndex = allCases.findIndex((c) => c.id === cs.id);
 const prevCase = currentIndex > 0 ? allCases[currentIndex - 1] : null;
 const nextCase =
   currentIndex < allCases.length - 1 ? allCases[currentIndex + 1] : null;
+
+const site = Astro.site ?? Astro.url;
+const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140)}...`;
 ---
 
 <BaseLayout
   title={`${title} | Case Studies | EOP Law`}
-  description={`${practiceArea} case study: ${challenge.slice(0, 140)}...`}
+  description={articleDescription}
+  breadcrumbLabel={title}
+  schema={articleNode({
+    site,
+    slug: cs.id,
+    headline: title,
+    description: articleDescription,
+    practiceArea,
+    practiceAreaSlug,
+  })}
 >
   <div class="min-h-screen flex flex-col">
     <Header />

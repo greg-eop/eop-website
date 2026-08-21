@@ -8,6 +8,7 @@ import firmInfo from "../data/firm-info.json";
 import courthousePanelImg from "../images/courthouse-panel.webp";
 import woodPanelJpg from "../images/wood-panel.webp";
 import { getCollection } from "astro:content";
+import { absoluteUrl, itemListNode } from "../lib/schema";
 
 const toPlainText = (markdown: string) =>
   markdown
@@ -42,9 +43,23 @@ const attorneys = attorneyEntries.map((entry) => {
     excerpt: excerptText(bioSource),
   };
 });
+
+const site = Astro.site ?? Astro.url;
+const attorneyList = itemListNode({
+  id: absoluteUrl(site, "/our-attorneys#attorneys"),
+  name: "Our Attorneys",
+  items: attorneys.map((attorney) => ({
+    name: attorney.name,
+    url: absoluteUrl(site, `/our-attorneys/${attorney.slug}`),
+  })),
+});
 ---
 
-<BaseLayout title="Our Attorneys | EOP Law" description={page.meta.description}>
+<BaseLayout
+  title="Our Attorneys | EOP Law"
+  description={page.meta.description}
+  schema={attorneyList}
+>
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">
