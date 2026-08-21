@@ -6,7 +6,7 @@ export function formsparkEndpoint(formId: string): string {
   return `${FORMSPARK_ORIGIN}/${formId}`;
 }
 
-/** Named-partner intake when the visitor is not sure which practice area applies. */
+/** Catch-all Formspark intake when the visitor is not sure which practice area applies. */
 export const OTHER_INTAKE_EMAILS = [
   'jerry@eoplaw.com',
   'john@eoplaw.com',
@@ -39,7 +39,6 @@ export const PRACTICE_AREA_RECIPIENTS: Record<string, string[]> = {
     'robert@eoplaw.com',
   ],
   employment: ['john@eoplaw.com'],
-  'entertainment-new-technologies': ['greg@eoplaw.com'],
   insurance: ['joel@eoplaw.com', 'john@eoplaw.com'],
   'intellectual-property': ['greg@eoplaw.com'],
   'litigation-appellate-practices': [

@@ -35,7 +35,9 @@ export default defineConfig({
       '/practice-areas/business-finance',
     '/category/tax-and-estate-planning': '/practice-areas/tax-estate-planning',
     '/category/entertainment-and-new-technologies':
-      '/practice-areas/entertainment-new-technologies',
+      '/practice-areas/intellectual-property',
+    '/practice-areas/entertainment-new-technologies':
+      '/practice-areas/intellectual-property',
     '/category/intellectual-property': '/practice-areas/intellectual-property',
     '/category/affordable-housing-development-and-financing':
       '/practice-areas/affordable-housing-development-financing',

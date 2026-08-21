@@ -71,7 +71,7 @@ collections:
       - name: formsparkIds
         label: Formspark Form IDs
         widget: list
-        hint: "Formspark form ID(s) that receive contact-form inquiries for this practice area"
+        hint: "Formspark form ID that receives contact-form inquiries for this practice area"
         field: { name: id, label: Form ID, widget: string }
   - name: siteSettings
     label: Site Settings
@@ -88,7 +88,7 @@ collections:
           - { name: email, label: Email, widget: string }
           - { name: addressLines, label: Address Lines, widget: list, field: { name: line, label: Line, widget: string } }
           - { name: officeHours, label: Office Hours, widget: list, field: { name: hour, label: Hour, widget: string } }
-          - { name: otherIntakeFormsparkIds, label: Other / Not Sure Formspark Form IDs, widget: list, field: { name: id, label: Form ID, widget: string }, hint: "Used when a visitor selects Other / Not Sure on the contact form" }
+          - { name: otherIntakeFormsparkIds, label: Other / Not Sure Formspark Form IDs, widget: list, field: { name: id, label: Form ID, widget: string }, hint: "Formspark form ID used when a visitor selects Other / Not Sure on the contact form" }
           - { name: mapUrl, label: Map URL, widget: string, required: false }
           - { name: parkingInfo, label: Parking Info, widget: text, required: false }
           - { name: socialLinks, label: Social Links, widget: list, fields: [

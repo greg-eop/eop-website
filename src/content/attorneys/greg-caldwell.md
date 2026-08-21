@@ -2,8 +2,6 @@
 name: Greg Caldwell
 practiceAreas:
   - Intellectual Property
-  - Entertainment
-  - New Technologies
 photo: /uploads/greg-caldwell.webp
 specialty: ''
 email: greg@eoplaw.com
