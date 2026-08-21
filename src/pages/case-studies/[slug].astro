@@ -5,11 +5,11 @@ import Footer from "../../components/astro/Footer.astro";
 import page from "../../data/home.json";
 import firmInfo from "../../data/firm-info.json";
 import courthousePanelImg from "../../images/courthouse-panel.webp";
-import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { getPublishedCaseStudies } from "../../lib/case-studies";
 
 export const getStaticPaths = async () => {
-  const cases = await getCollection("caseStudies");
+  const cases = await getPublishedCaseStudies();
   return cases.map((entry) => ({
     params: { slug: entry.id },
     props: { cs: entry },
@@ -38,9 +38,7 @@ const {
 const phoneHref = `tel:${firmInfo.phone.replace(/\s/g, "")}`;
 
 // Fetch adjacent case studies for the bottom nav
-const allCases = (await getCollection("caseStudies")).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+const allCases = await getPublishedCaseStudies();
 const currentIndex = allCases.findIndex((c) => c.id === cs.id);
 const prevCase = currentIndex > 0 ? allCases[currentIndex - 1] : null;
 const nextCase =

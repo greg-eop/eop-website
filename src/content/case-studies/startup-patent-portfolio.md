@@ -17,5 +17,6 @@ stats:
 quote: Having counsel who could move as fast as our team was critical. They got us protected before our window closed.
 quoteAttribution: CTO, Portland Software Company
 featured: true
+published: false
 order: 1
 ---

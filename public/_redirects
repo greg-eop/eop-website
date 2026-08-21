@@ -1,0 +1,33 @@
+# WordPress attorney profiles
+/category/attorneys  /our-attorneys  301
+/category/attorneys/  /our-attorneys  301
+/category/attorneys/*  /our-attorneys/:splat  301
+/category/attorney-category/*  /our-attorneys  301
+
+# WordPress practice-area pages
+/category/employment  /practice-areas/employment  301
+/category/insurance  /practice-areas/insurance  301
+/category/litigation-and-appellate-practices  /practice-areas/litigation-appellate-practices  301
+/category/business-finance-and-real-estate  /practice-areas/business-finance  301
+/category/tax-and-estate-planning  /practice-areas/tax-estate-planning  301
+/category/entertainment-and-new-technologies  /practice-areas/entertainment-new-technologies  301
+/category/intellectual-property  /practice-areas/intellectual-property  301
+/category/affordable-housing-development-and-financing  /practice-areas/affordable-housing-development-financing  301
+
+# WordPress resource entries
+/category/resources  /resources  301
+/category/resources/*  /resources  301
+
+# Alternate / leftover WordPress routes
+/home-not-attorneys  /  301
+/cs/*  /  301
+
+# Broken relative USPTO link from the current site
+/www.uspto.gov  https://www.uspto.gov/  301
+
+# Legacy northwestlawfirm URLs (already 404 on WordPress)
+/northwestlawfirm/about-elliot-ostrander-preston  /about  301
+/northwestlawfirm/about-elliot-ostrander-preston/  /about  301
+/northwestlawfirm/attorneys/business-finance-and-real-estate/advocate-beware-oregon-products-claims  /practice-areas/business-finance  301
+/northwestlawfirm/attorneys/business-finance-and-real-estate/advocate-beware-oregon-products-claims/  /practice-areas/business-finance  301
+/northwestlawfirm/*  /  301

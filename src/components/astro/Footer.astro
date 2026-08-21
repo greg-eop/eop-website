@@ -2,6 +2,7 @@
 import LogoWhite from "../../images/logo-white.svg";
 import LinkedInLogo from "../../images/linkedin-logo.png";
 import firmInfo from "../../data/firm-info.json";
+import { hasPublishedCaseStudies } from "../../lib/case-studies";
 
 interface CompanyLink {
   label: string;
@@ -55,6 +56,14 @@ const displayedSocialLinks: SocialLink[] =
     : (socialLinks || []).map(normalizeSocialLink);
 
 const isExternalUrl = (href: string) => /^https?:\/\//i.test(href);
+
+const showCaseStudies = await hasPublishedCaseStudies();
+const displayedCompanyLinks = showCaseStudies
+  ? companyLinks
+  : companyLinks.filter((link) => link.href !== "/case-studies");
+const displayedLegalLinks = showCaseStudies
+  ? legalLinks
+  : legalLinks.filter((link) => link.href !== "/case-studies");
 
 const footerOnlyLinks = [
   { label: "Accessibility", href: "/accessibility" },
@@ -123,7 +132,7 @@ const footerOnlyLinks = [
         <h4 class="text-lg mb-4">Company</h4>
         <ul class="space-y-2 text-white/70">
           {
-            companyLinks.map((link) => (
+            displayedCompanyLinks.map((link) => (
               <li>
                 <a href={link.href} class="hover:text-accent transition-colors">
                   {link.label}
@@ -153,7 +162,7 @@ const footerOnlyLinks = [
         <h4 class="text-lg mb-4">More</h4>
         <ul class="space-y-2 text-white/70">
           {
-            legalLinks.map((link) => (
+            displayedLegalLinks.map((link) => (
               <li>
                 <a href={link.href} class="hover:text-accent transition-colors">
                   {link.label}

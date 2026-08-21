@@ -6,15 +6,15 @@ import PageHero from '../../components/astro/PageHero.astro';
 import page from '../../data/home.json';
 import firmInfo from '../../data/firm-info.json';
 import courthousePanelImg from '../../images/courthouse-panel.webp';
-import { getCollection } from 'astro:content';
+import { getPublishedCaseStudies } from '../../lib/case-studies';
 
-const allCaseStudies = (await getCollection('caseStudies'))
-  .sort((a, b) => a.data.order - b.data.order);
+const allCaseStudies = await getPublishedCaseStudies();
 ---
 
 <BaseLayout
   title="Case Studies | EOP Law"
   description="Real results for real clients. Explore representative matters handled by Elliott, Ostrander & Preston."
+  noindex={allCaseStudies.length === 0}
 >
   <div class="min-h-screen flex flex-col">
     <Header />
@@ -28,6 +28,11 @@ const allCaseStudies = (await getCollection('caseStudies'))
 
       <section class="mx-auto w-full max-w-6xl px-6 py-12 md:py-20">
         <div class="space-y-6">
+          {allCaseStudies.length === 0 && (
+            <p class="leading-relaxed text-neutral-700">
+              Case studies will appear here when they are published.
+            </p>
+          )}
           {allCaseStudies.map((cs) => (
             <a
               href={`/case-studies/${cs.id}`}

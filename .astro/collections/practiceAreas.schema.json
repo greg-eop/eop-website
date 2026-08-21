@@ -67,6 +67,13 @@
     "ctaHref": {
       "type": "string"
     },
+    "formsparkIds": {
+      "default": [],
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "$schema": {
       "type": "string"
     }

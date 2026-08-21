@@ -56,6 +56,10 @@
       "default": false,
       "type": "boolean"
     },
+    "published": {
+      "default": false,
+      "type": "boolean"
+    },
     "order": {
       "default": 100,
       "type": "integer",

@@ -26,13 +26,6 @@ const attorneys = (await getCollection("attorneys"))
     photo: entry.data.photo || null,
   }));
 
-const attorneyCount = attorneys.length;
-const heroStats = page.hero.stats.map((stat) =>
-  stat.label.toLowerCase().includes("attorney")
-    ? { ...stat, value: String(attorneyCount) }
-    : stat,
-);
-
 const practiceAreaCards = (await getCollection("practiceAreas"))
   .sort((a, b) => a.data.title.localeCompare(b.data.title))
   .map((entry) => ({
@@ -51,7 +44,6 @@ const practiceAreaCards = (await getCollection("practiceAreas"))
       subheading={heroSubhead}
       primaryCta={page.hero.primaryCta}
       secondaryCta={page.hero.secondaryCta}
-      stats={heroStats}
     />
     <PracticeAreas
       eyebrow={page.practiceAreas.eyebrow}

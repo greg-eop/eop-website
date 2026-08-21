@@ -36,6 +36,7 @@ const practiceAreas = defineCollection({
     ctaDescription: z.string().optional(),
     ctaText: z.string().optional(),
     ctaHref: z.string().optional(),
+    formsparkIds: z.array(z.string()).default([]),
   }),
 });
 
@@ -59,6 +60,7 @@ const caseStudies = defineCollection({
     quote: z.string().optional(),
     quoteAttribution: z.string().optional(),
     featured: z.boolean().default(false),
+    published: z.boolean().default(false),
     order: z.number().int().default(100),
   }),
 });

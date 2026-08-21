@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import firmInfo from '../../data/firm-info.json';
 import {
   buildInquiryRouting,
   buildPracticeAreaRoutes,
@@ -9,9 +10,10 @@ import {
 const practiceAreas = (await getCollection('practiceAreas'))
   .sort((a, b) => a.data.title.localeCompare(b.data.title));
 const attorneys = await getCollection('attorneys');
+const otherIntakeFormsparkIds = firmInfo.otherIntakeFormsparkIds ?? [];
 const practiceAreaRoutes = buildPracticeAreaRoutes(practiceAreas, attorneys);
-const routingById = buildInquiryRouting(practiceAreas, attorneys);
-const defaultFormId = routingById.other?.attorneys[0]?.formId;
+const routingById = buildInquiryRouting(practiceAreas, attorneys, otherIntakeFormsparkIds);
+const defaultFormId = routingById.other?.formIds[0];
 
 interface Props {
   heading: string;
@@ -83,7 +85,14 @@ const { heading, description, phone, email, addressLines, officeHours, mapUrl, p
             <div class="w-14 h-24 text-lg bg-accent/10 flex items-center justify-center flex-shrink-0">◷</div>
             <div>
               <h4 class="text-xl text-primary mb-2">Office Hours</h4>
-              <p class="text-muted-foreground">{officeHours[0]}<br />{officeHours[1]}</p>
+              <p class="text-muted-foreground">
+                {officeHours.filter(Boolean).map((line, index) => (
+                  <>
+                    {index > 0 && <br />}
+                    {line}
+                  </>
+                ))}
+              </p>
             </div>
           </div>
         </div>
@@ -251,9 +260,9 @@ const { heading, description, phone, email, addressLines, officeHours, mapUrl, p
     subjectInput instanceof HTMLInputElement &&
     routingNote
   ) {
-    const fallbackEmail = form.dataset.fallbackEmail || 'contact@eoplaw.com';
+    const fallbackEmail = form.dataset.fallbackEmail || 'attorneys@eoplaw.com';
     const formsparkOrigin = 'https://submit-form.com';
-    /** @type {Record<string, { id: string, title: string, attorneys: { name: string, email: string, formId: string }[] }>} */
+    /** @type {Record<string, { id: string, title: string, formIds: string[], attorneys: { name: string, email: string }[] }>} */
     const routingById = JSON.parse(form.dataset.routing || '{}');
 
     const formatAssigned = (attorneys) => {
@@ -270,12 +279,8 @@ const { heading, description, phone, email, addressLines, officeHours, mapUrl, p
 
     const selectedRoute = () => routingById[selectedAreaId()] || null;
 
-    const formIdsForRoute = (route) => {
-      const ids = (route?.attorneys || [])
-        .map((attorney) => attorney.formId)
-        .filter(Boolean);
-      return [...new Set(ids)];
-    };
+    const formIdsForRoute = (route) =>
+      [...new Set((route?.formIds || []).filter(Boolean))];
 
     const updateRouting = () => {
       const areaId = selectedAreaId();

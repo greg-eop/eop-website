@@ -1,6 +1,7 @@
 ---
 import Logo from '../../images/logo.svg';
 import { getCollection } from 'astro:content';
+import { hasPublishedCaseStudies } from '../../lib/case-studies';
 
 interface Props {
   transparentAtTop?: boolean;
@@ -21,9 +22,11 @@ const attorneyItems = (await getCollection('attorneys'))
     label: entry.data.name,
   }));
 
+const showCaseStudies = await hasPublishedCaseStudies();
+
 const otherNavLinks = [
   { href: '/about', label: 'About' },
-  { href: '/case-studies', label: 'Case Studies' },
+  ...(showCaseStudies ? [{ href: '/case-studies', label: 'Case Studies' }] : []),
   {
     href: '/contact-us',
     label: 'Contact',

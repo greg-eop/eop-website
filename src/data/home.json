@@ -12,13 +12,7 @@
     "heading": "Your Trusted Legal Partner",
     "subheading": "Dedicated to protecting your rights and delivering exceptional legal representation across all practice areas.",
     "primaryCta": "Get in Touch",
-    "secondaryCta": "Our Practice Areas",
-    "stats": [
-      { "value": "500+", "label": "Cases Won" },
-      { "value": "98%", "label": "Success Rate" },
-      { "value": "30", "label": "Years Experience" },
-      { "value": "10", "label": "Expert Attorneys" }
-    ]
+    "secondaryCta": "Our Practice Areas"
   },
   "practiceAreas": {
     "eyebrow": "Our Expertise",
@@ -122,7 +116,7 @@
       "Portland, OR 97205"
     ],
     "officeHours": [
-      "Monday - Friday: 8:00 AM - 6:00 PM"
+      "Monday - Friday: 9:00 AM - 5:00 PM"
     ]
   },
   "footer": {

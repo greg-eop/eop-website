@@ -6,17 +6,6 @@ export function formsparkEndpoint(formId: string): string {
   return `${FORMSPARK_ORIGIN}/${formId}`;
 }
 
-/** Attorney work email → Formspark form ID. */
-export const ATTORNEY_FORMSPARK_FORMS: Record<string, string> = {
-  'robert@eoplaw.com': 'ZlDVhAQTG',
-  'john@eoplaw.com': 'wWAm81dJY',
-  'joel@eoplaw.com': '4vG5chyjF',
-  'jerry@eoplaw.com': 'yeDkd41sS',
-  'jennifer@eoplaw.com': 'bzmC9KlR9',
-  'greg@eoplaw.com': 'mLNZKd9sl',
-  'billd@eoplaw.com': 'NTzrpc4Lj',
-};
-
 /** Named-partner intake when the visitor is not sure which practice area applies. */
 export const OTHER_INTAKE_EMAILS = [
   'jerry@eoplaw.com',
@@ -27,12 +16,12 @@ export const OTHER_INTAKE_EMAILS = [
 export type RoutedAttorney = {
   name: string;
   email: string;
-  formId: string;
 };
 
 export type PracticeAreaRoute = {
   id: string;
   title: string;
+  formIds: string[];
   attorneys: RoutedAttorney[];
 };
 
@@ -96,14 +85,10 @@ function sortAttorneysByEmailOrder(
 
 export function toRoutedAttorney(
   attorney: CollectionEntry<'attorneys'>,
-): RoutedAttorney | null {
-  const email = attorney.data.email.toLowerCase();
-  const formId = ATTORNEY_FORMSPARK_FORMS[email];
-  if (!formId) return null;
+): RoutedAttorney {
   return {
     name: attorney.data.name,
     email: attorney.data.email,
-    formId,
   };
 }
 
@@ -126,6 +111,10 @@ export function attorneysForPracticeArea(
     );
 }
 
+function uniqueFormIds(ids: string[] | undefined): string[] {
+  return [...new Set((ids ?? []).map((id) => id.trim()).filter(Boolean))];
+}
+
 export function buildPracticeAreaRoutes(
   practiceAreas: CollectionEntry<'practiceAreas'>[],
   attorneys: CollectionEntry<'attorneys'>[],
@@ -136,33 +125,34 @@ export function buildPracticeAreaRoutes(
     .map((area) => ({
       id: area.id,
       title: area.data.title,
+      formIds: uniqueFormIds(area.data.formsparkIds),
       attorneys: attorneysForPracticeArea(attorneys, {
         id: area.id,
         title: area.data.title,
-      })
-        .map(toRoutedAttorney)
-        .filter((attorney): attorney is RoutedAttorney => attorney !== null),
+      }).map(toRoutedAttorney),
     }));
 }
 
 export function buildOtherIntakeRoute(
   attorneys: CollectionEntry<'attorneys'>[],
+  formIds: string[] = [],
 ): PracticeAreaRoute {
   return {
     id: 'other',
     title: 'Other / Not Sure',
-    attorneys: sortAttorneysByEmailOrder(attorneys, OTHER_INTAKE_EMAILS)
-      .map(toRoutedAttorney)
-      .filter((attorney): attorney is RoutedAttorney => attorney !== null),
+    formIds: uniqueFormIds(formIds),
+    attorneys: sortAttorneysByEmailOrder(attorneys, OTHER_INTAKE_EMAILS).map(
+      toRoutedAttorney,
+    ),
   };
 }
 
 export function buildInquiryRouting(
   practiceAreas: CollectionEntry<'practiceAreas'>[],
   attorneys: CollectionEntry<'attorneys'>[],
+  otherFormIds: string[] = [],
 ): Record<string, PracticeAreaRoute> {
   const routes = buildPracticeAreaRoutes(practiceAreas, attorneys);
-  const other = buildOtherIntakeRoute(attorneys);
+  const other = buildOtherIntakeRoute(attorneys, otherFormIds);
   return Object.fromEntries([...routes, other].map((route) => [route.id, route]));
 }
-

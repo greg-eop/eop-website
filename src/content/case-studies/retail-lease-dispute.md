@@ -17,5 +17,6 @@ stats:
 quote: We kept our location and came out with better lease terms than we started with. The outcome exceeded what we thought was possible.
 quoteAttribution: Owner, Portland Retail Business
 featured: false
+published: false
 order: 3
 ---

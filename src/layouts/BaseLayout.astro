@@ -1,12 +1,25 @@
 ---
 import '../styles/globals.css';
+import firmInfo from '../data/firm-info.json';
+import defaultOgImage from '../images/courthouse-panel.webp';
 
 interface Props {
   title: string;
   description: string;
+  image?: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, image, noindex = false } = Astro.props;
+
+const site = Astro.site ?? Astro.url;
+const canonicalURL = new URL(Astro.url.pathname, site);
+canonicalURL.search = '';
+canonicalURL.hash = '';
+
+const ogImageSrc = image || defaultOgImage.src;
+const ogImageURL = new URL(ogImageSrc, site);
+const siteName = firmInfo.firmName;
 ---
 
 <!doctype html>
@@ -15,8 +28,45 @@ const { title, description } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL.href} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:image" content={ogImageURL.href} />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL.href} />
+
+    <script is:inline>
+      (function () {
+        var path = window.location.pathname.replace(/\/+$/, '') || '/';
+        if (path !== '/practice-areas') return;
+
+        var hashMap = {
+          'section-1': '/practice-areas/business-finance',
+          'section-2': '/practice-areas/employment',
+          'section-3': '/practice-areas/tax-estate-planning',
+          'section-4': '/practice-areas/entertainment-new-technologies',
+          'section-5': '/practice-areas/intellectual-property',
+          'section-6': '/practice-areas/litigation-appellate-practices',
+          'section-7': '/practice-areas/insurance',
+          'section-8': '/practice-areas/affordable-housing-development-financing',
+        };
+        var key = (window.location.hash || '').replace(/^#/, '');
+        var dest = hashMap[key];
+        if (dest) window.location.replace(dest);
+      })();
+    </script>
   </head>
   <body>
     <slot />
