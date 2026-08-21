@@ -1,6 +1,33 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
+
+function hasPublishedCaseStudies() {
+  const dir = join(process.cwd(), 'src/content/case-studies');
+  try {
+    return readdirSync(dir).some((file) => {
+      if (!file.endsWith('.md')) return false;
+      return /^published:\s*true\s*$/m.test(
+        readFileSync(join(dir, file), 'utf8'),
+      );
+    });
+  } catch {
+    return false;
+  }
+}
+
+const includeCaseStudies = hasPublishedCaseStudies();
+
+function isCaseStudiesUrl(page) {
+  try {
+    const path = new URL(page).pathname.replace(/\/+$/, '') || '/';
+    return path === '/case-studies' || path.startsWith('/case-studies/');
+  } catch {
+    return page.includes('/case-studies');
+  }
+}
 
 export default defineConfig({
   site: 'https://eoplaw.com',
@@ -12,7 +39,8 @@ export default defineConfig({
         !page.includes('/northwestlawfirm/') &&
         !page.includes('/www.uspto.gov') &&
         !page.includes('/home-not-attorneys') &&
-        !page.includes('/cs/'),
+        !page.includes('/cs/') &&
+        (includeCaseStudies || !isCaseStudiesUrl(page)),
     }),
   ],
   vite: {

@@ -6,6 +6,7 @@ import JsonLd from '../components/astro/JsonLd.astro';
 import {
   buildJsonLdGraph,
   absoluteUrl,
+  inferPageType,
   type Breadcrumb,
   type JsonLdNode,
 } from '../lib/schema';
@@ -40,12 +41,15 @@ canonicalURL.hash = '';
 const ogImageSrc = image || defaultOgImage.src;
 const ogImageURL = new URL(ogImageSrc, site);
 const siteName = firmInfo.firmName;
+const resolvedPageType = pageType ?? inferPageType(Astro.url.pathname);
+const ogType = resolvedPageType === 'ProfilePage' ? 'profile' : 'website';
+const ogImageAlt = title;
 const jsonLd = buildJsonLdGraph({
   site,
   pathname: Astro.url.pathname,
   title,
   description,
-  pageType,
+  pageType: resolvedPageType,
   breadcrumbLabel,
   breadcrumbs,
   extra: schema,
@@ -70,24 +74,27 @@ const jsonLd = buildJsonLdGraph({
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/images/logo.webp" />
     <link rel="canonical" href={canonicalURL.href} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:image" content={ogImageURL.href} />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content="en_US" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL.href} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
 
     <JsonLd data={jsonLd} />
 

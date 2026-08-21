@@ -160,6 +160,11 @@ export function organizationNode(options: {
     email: options.email,
     faxNumber: options.fax ? toE164(options.fax) : undefined,
     address: postalAddress(options.addressLines),
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 45.52099,
+      longitude: -122.6792,
+    },
     hasMap: options.mapUrl,
     sameAs: options.sameAs,
     foundingDate: '1995',

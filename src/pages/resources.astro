@@ -6,9 +6,63 @@ import PageHero from '../components/astro/PageHero.astro';
 import page from '../data/home.json';
 import firmInfo from '../data/firm-info.json';
 import courthousePanelImg from '../images/courthouse-panel.webp';
+
+const resources = [
+  {
+    href: 'https://www.osbar.org/public/',
+    label: 'Oregon State Bar Legal Information Topics',
+  },
+  {
+    href: 'https://www.portland.gov/business',
+    label: 'City of Portland Business Information',
+  },
+  {
+    href: 'https://sos.oregon.gov/business/pages/find.aspx',
+    label: 'Oregon Secretary of State — Find a Business',
+  },
+  {
+    href: 'https://ccfs.sos.wa.gov/',
+    label: 'Washington Secretary of State — Corporations Search',
+  },
+  {
+    href: 'https://www.uspto.gov/',
+    label: 'U.S. Patent and Trademark Office',
+  },
+  {
+    href: 'https://www.copyright.gov/',
+    label: 'U.S. Copyright Office',
+  },
+  {
+    href: 'https://www.irs.gov/businesses',
+    label: 'Internal Revenue Service — Businesses',
+  },
+  {
+    href: 'https://www.oregonlegislature.gov/bills_laws/Pages/ORS.aspx',
+    label: 'Oregon Revised Statutes',
+  },
+  {
+    href: 'https://www.oregon.gov/boli',
+    label: 'Oregon Bureau of Labor and Industries',
+  },
+  {
+    href: 'https://www.courts.oregon.gov/courts/multnomah/pages/default.aspx',
+    label: 'Multnomah County Circuit Court',
+  },
+  {
+    href: 'https://www.ord.uscourts.gov/',
+    label: 'U.S. District Court of Oregon',
+  },
+  {
+    href: 'https://www.wsba.org/',
+    label: 'Washington State Bar Association',
+  },
+];
 ---
 
-<BaseLayout title="Resources | EOP Law" description={page.meta.description}>
+<BaseLayout
+  title="Legal Resources | EOP Law"
+  description="Oregon and Washington legal research links from Elliott, Ostrander & Preston, including courts, bar associations, and business filings."
+>
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">
@@ -20,55 +74,22 @@ import courthousePanelImg from '../images/courthouse-panel.webp';
       />
 
       <section class="mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
+        <p class="mb-8 leading-relaxed text-neutral-700">
+          These official references are starting points for Oregon and Washington legal and business research. They are provided for convenience and are not a substitute for legal advice.
+        </p>
         <ul class="list-disc space-y-3 pl-6 leading-relaxed text-neutral-700 marker:text-accent">
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.osbar.org/public/" target="_blank" rel="noopener noreferrer">Oregon State Bar Legal Information Topics</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.portlandoregon.gov/27456" target="_blank" rel="noopener noreferrer">City of Portland Business Information</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://egov.sos.state.or.us/br/pkg_web_name_srch_inq.login" target="_blank" rel="noopener noreferrer">Oregon Secretary of State - Business Search</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.uspto.gov/" target="_blank" rel="noopener noreferrer">U.S. Patent and Trademark Office</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.irs.gov/businesses" target="_blank" rel="noopener noreferrer">Internal Revenue Service - Businesses</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.oregonlegislature.gov/bills_laws/Pages/ORS.aspx" target="_blank" rel="noopener noreferrer">Oregon Revised Statutes</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.oregon.gov/boli/Pages/index.aspx" target="_blank" rel="noopener noreferrer">Oregon Bureau of Labor and Industries</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.courts.oregon.gov/Multnomah/Pages/index.aspx" target="_blank" rel="noopener noreferrer">Multnomah County Circuit Court</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="https://www.ord.uscourts.gov/" target="_blank" rel="noopener noreferrer">U.S. District Court of Oregon</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://research.lawyers.com/Guidelines-For-Hiring-A-Personal-Lawyer.html" target="_blank" rel="noopener noreferrer">Lawyers.com: How to Choose a Lawyer</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.lawyers.com/Oregon/Portland/Elliott-Ostrander-and-Preston-P-C--1499459-f.html" target="_blank" rel="noopener noreferrer">Martindale-Hubbell Profile for Elliott, Ostrander &amp; Preston</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.filinginoregon.com/" target="_blank" rel="noopener noreferrer">Oregon Secretary of State</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.wsba.org/The-Public" target="_blank" rel="noopener noreferrer">Washington State Bar Association</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.copyright.gov/" target="_blank" rel="noopener noreferrer">US Copyright Office</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.uspto.gov/" target="_blank" rel="noopener noreferrer">US Patent &amp; Trademark Office</a>
-          </li>
-          <li>
-            <a class="text-primary underline decoration-accent underline-offset-4" href="http://www.sos.wa.gov/corps" target="_blank" rel="noopener noreferrer">Washington Secretary of State</a>
-          </li>
+          {resources.map((resource) => (
+            <li>
+              <a
+                class="text-primary underline decoration-accent underline-offset-4"
+                href={resource.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {resource.label}
+              </a>
+            </li>
+          ))}
         </ul>
       </section>
     </main>

@@ -104,10 +104,20 @@ const personDescription =
 const personImage = heroImageSrc
   ? absoluteUrl(site, heroImageSrc)
   : undefined;
+
+const joinPracticeAreas = (items: string[]) => {
+  if (items.length <= 1) return items[0] ?? "";
+  if (items.length === 2) return `${items[0]} and ${items[1]}`;
+  return `${items.slice(0, -1).join(", ")}, and ${items[items.length - 1]}`;
+};
+
+const attorneyTitle = practiceAreaItems.length
+  ? `${entry.data.name} | Portland ${joinPracticeAreas(practiceAreaItems)} Attorney | EOP Law`
+  : `${entry.data.name} | Portland Attorney | EOP Law`;
 ---
 
 <BaseLayout
-  title={`${entry.data.name} | EOP Law`}
+  title={attorneyTitle}
   description={personDescription || page.meta.description}
   breadcrumbLabel={entry.data.name}
   image={heroImageSrc}
@@ -176,9 +186,9 @@ const personImage = heroImageSrc
             <div
               class="rounded-sm border border-[#d7d2c5] border-t-[3px] border-t-[#d4ae6a] p-7 shadow-[0_12px_40px_-25px_rgba(24,32,54,0.45)] md:p-9 bg-white"
             >
-              <h1 class="font-serif text-4xl font-bold text-primary md:text-5xl">
+              <h2 class="font-serif text-4xl font-bold text-primary md:text-5xl">
                 About {firstName}
-              </h1>
+              </h2>
               <div class="mt-3 mb-6 h-0.5 w-14 bg-[#d4ae6a]"></div>
               <div
                 class="prose prose-neutral max-w-none leading-relaxed [&_p]:mb-4 [&_p:last-child]:mb-0"
