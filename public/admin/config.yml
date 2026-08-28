@@ -7,7 +7,7 @@ backend:
   name: github
   repo: greg-eop/eop-website
   branch: main
-  base_url: https://sveltia-cms-auth.greg-f78.workers.dev
+  base_url: https://sveltia-cms-authv2.greg-f78.workers.dev
 
 site_url: https://eoplaw.com
 display_url: https://eoplaw.com
