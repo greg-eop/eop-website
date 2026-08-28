@@ -29,10 +29,7 @@ export type PracticeAreaRoute = {
  * Practice area content id → attorney emails that should receive those inquiries.
  */
 export const PRACTICE_AREA_RECIPIENTS: Record<string, string[]> = {
-  'affordable-housing-development-financing': [
-    'jerry@eoplaw.com',
-    'jennifer@eoplaw.com',
-  ],
+  'affordable-housing-development-financing': ['billd@eoplaw.com'],
   'business-finance': [
     'jerry@eoplaw.com',
     'jennifer@eoplaw.com',

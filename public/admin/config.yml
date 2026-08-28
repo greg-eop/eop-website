@@ -1,9 +1,16 @@
+# yaml-language-server: $schema=https://unpkg.com/@sveltia/cms/schema/sveltia-cms.json
+
+# GitHub OAuth via a custom domain is not configured.
+# Sign in with a GitHub personal access token, or use the
+# local repository option while running `npm run dev`.
 backend:
   name: github
-  repo: seegodesign/eop-law
+  repo: greg-eop/eop-website
   branch: main
-  base_url: https://eop-law.one
-  auth_endpoint: /oauth
+  base_url: https://sveltia-cms-auth.greg-f78.workers.dev
+
+site_url: https://eoplaw.com
+display_url: https://eoplaw.com
 
 media_folder: public/uploads
 public_folder: /uploads
