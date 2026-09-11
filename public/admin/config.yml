@@ -16,91 +16,6 @@ media_folder: public/uploads
 public_folder: /uploads
 
 collections:
-  - name: caseStudies
-    label: Case Studies
-    folder: src/content/case-studies
-    create: true
-    format: frontmatter
-    extension: md
-    slug: '{{slug}}'
-    fields:
-      - { name: title, label: Title, widget: string }
-      - { name: practiceArea, label: Practice Area (Display Name), widget: string }
-      - { name: practiceAreaSlug, label: Practice Area Slug, widget: string, hint: "e.g. intellectual-property" }
-      - { name: clientDescription, label: Client Description, widget: string, hint: "e.g. 'A Portland tech startup' or real client name" }
-      - { name: isAnonymized, label: Anonymized, widget: boolean, default: true }
-      - { name: challenge, label: The Challenge, widget: text }
-      - { name: solution, label: Our Approach, widget: text }
-      - { name: outcome, label: The Outcome, widget: text }
-      - name: stats
-        label: Stats
-        widget: list
-        fields:
-          - { name: value, label: Value, widget: string, hint: "e.g. $4.2M or 18 mo" }
-          - { name: label, label: Label, widget: string, hint: "e.g. Settlement Reached" }
-      - { name: quote, label: Client Quote, widget: text, required: false }
-      - { name: quoteAttribution, label: Quote Attribution, widget: string, required: false, hint: "e.g. CEO, Portland Tech Company" }
-      - { name: featured, label: Featured, widget: boolean, default: false }
-      - { name: published, label: Published, widget: boolean, default: false, hint: "Unpublished case studies are hidden from the site and menus." }
-      - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
-  - name: attorneys
-    label: Attorneys
-    folder: src/content/attorneys
-    create: true
-    format: frontmatter
-    extension: md
-    slug: '{{slug}}'
-    fields:
-      - { name: name, label: Name, widget: string }
-      - name: practiceAreas
-        label: Practice Areas
-        widget: relation
-        collection: practiceAreas
-        multiple: true
-        required: false
-        value_field: '{{slug}}'
-        search_fields: [title]
-        display_fields: [title]
-        hint: "Select from the Practice Areas collection. These appear on the attorney's profile, team cards, and listing pages."
-      - { name: photo, label: Photo, widget: image, required: false }
-      - { name: specialty, label: Specialty, widget: text, required: false, hint: "Short blurb under the attorney's name on the homepage team cards. Also used as fallback text on their profile if Bio is empty." }
-      - { name: email, label: Email, widget: string, required: false }
-      - { name: phone, label: Phone, widget: string, required: false, hint: "Used on the Save Contact vCard. Leave blank to use the firm primary phone from Site Settings." }
-      - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
-      - { name: body, label: Bio, widget: markdown }
-  - name: practiceAreas
-    label: Practice Areas
-    folder: src/content/practice-areas
-    create: true
-    format: frontmatter
-    extension: md
-    slug: '{{slug}}'
-    fields:
-      - { name: title, label: Title, widget: string }
-      - { name: description, label: Description, widget: text }
-      - { name: overview, label: Overview Paragraphs, widget: list, field: { name: paragraph, label: Paragraph, widget: text } }
-      - { name: services, label: Services, widget: list, field: { name: service, label: Service, widget: string } }
-      - name: clientProblem
-        label: Common Challenges
-        widget: list
-        hint: "Bullet list shown under the shared 'Common Challenges We Solve' heading"
-        field: { name: item, label: Challenge, widget: text }
-      - name: faqs
-        label: FAQs
-        widget: list
-        fields:
-          - { name: question, label: Question, widget: string }
-          - { name: answer, label: Answer, widget: text }
-      - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
-      - { name: showCta, label: Show CTA Bar, widget: boolean, default: false }
-      - { name: ctaDescription, label: CTA Description, widget: text, required: false, hint: "Text shown next to the CTA button in the hero bar. Leave blank to use the default on the Practice Areas page entry." }
-      - { name: ctaText, label: CTA Button Text, widget: string, required: false, hint: "e.g. Schedule Your Free Case Evaluation" }
-      - { name: ctaHref, label: CTA Link, widget: string, required: false, hint: "e.g. /contact-us or a tel: link", default: "/contact-us" }
-      - name: formsparkIds
-        label: Formspark Form IDs
-        widget: list
-        hint: "Formspark form ID that receives contact-form inquiries for this practice area"
-        field: { name: id, label: Form ID, widget: string }
   - name: siteSettings
     label: Site Settings
     files:
@@ -475,3 +390,88 @@ collections:
           - { name: body, label: Body, widget: text }
           - { name: homeButton, label: Home Button, widget: string }
           - { name: contactButton, label: Contact Button, widget: string }
+  - name: attorneys
+    label: Attorneys
+    folder: src/content/attorneys
+    create: true
+    format: frontmatter
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - { name: name, label: Name, widget: string }
+      - name: practiceAreas
+        label: Practice Areas
+        widget: relation
+        collection: practiceAreas
+        multiple: true
+        required: false
+        value_field: '{{slug}}'
+        search_fields: [title]
+        display_fields: [title]
+        hint: "Select from the Practice Areas collection. These appear on the attorney's profile, team cards, and listing pages."
+      - { name: photo, label: Photo, widget: image, required: false }
+      - { name: specialty, label: Specialty, widget: text, required: false, hint: "Short blurb under the attorney's name on the homepage team cards. Also used as fallback text on their profile if Bio is empty." }
+      - { name: email, label: Email, widget: string, required: false }
+      - { name: phone, label: Phone, widget: string, required: false, hint: "Used on the Save Contact vCard. Leave blank to use the firm primary phone from Site Settings." }
+      - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
+      - { name: body, label: Bio, widget: markdown }
+  - name: caseStudies
+    label: Case Studies
+    folder: src/content/case-studies
+    create: true
+    format: frontmatter
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: practiceArea, label: Practice Area (Display Name), widget: string }
+      - { name: practiceAreaSlug, label: Practice Area Slug, widget: string, hint: "e.g. intellectual-property" }
+      - { name: clientDescription, label: Client Description, widget: string, hint: "e.g. 'A Portland tech startup' or real client name" }
+      - { name: isAnonymized, label: Anonymized, widget: boolean, default: true }
+      - { name: challenge, label: The Challenge, widget: text }
+      - { name: solution, label: Our Approach, widget: text }
+      - { name: outcome, label: The Outcome, widget: text }
+      - name: stats
+        label: Stats
+        widget: list
+        fields:
+          - { name: value, label: Value, widget: string, hint: "e.g. $4.2M or 18 mo" }
+          - { name: label, label: Label, widget: string, hint: "e.g. Settlement Reached" }
+      - { name: quote, label: Client Quote, widget: text, required: false }
+      - { name: quoteAttribution, label: Quote Attribution, widget: string, required: false, hint: "e.g. CEO, Portland Tech Company" }
+      - { name: featured, label: Featured, widget: boolean, default: false }
+      - { name: published, label: Published, widget: boolean, default: false, hint: "Unpublished case studies are hidden from the site and menus." }
+      - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
+  - name: practiceAreas
+    label: Practice Areas
+    folder: src/content/practice-areas
+    create: true
+    format: frontmatter
+    extension: md
+    slug: '{{slug}}'
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Description, widget: text }
+      - { name: overview, label: Overview Paragraphs, widget: list, field: { name: paragraph, label: Paragraph, widget: text } }
+      - { name: services, label: Services, widget: list, field: { name: service, label: Service, widget: string } }
+      - name: clientProblem
+        label: Common Challenges
+        widget: list
+        hint: "Bullet list shown under the shared 'Common Challenges We Solve' heading"
+        field: { name: item, label: Challenge, widget: text }
+      - name: faqs
+        label: FAQs
+        widget: list
+        fields:
+          - { name: question, label: Question, widget: string }
+          - { name: answer, label: Answer, widget: text }
+      - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
+      - { name: showCta, label: Show CTA Bar, widget: boolean, default: false }
+      - { name: ctaDescription, label: CTA Description, widget: text, required: false, hint: "Text shown next to the CTA button in the hero bar. Leave blank to use the default on the Practice Areas page entry." }
+      - { name: ctaText, label: CTA Button Text, widget: string, required: false, hint: "e.g. Schedule Your Free Case Evaluation" }
+      - { name: ctaHref, label: CTA Link, widget: string, required: false, hint: "e.g. /contact-us or a tel: link", default: "/contact-us" }
+      - name: formsparkIds
+        label: Formspark Form IDs
+        widget: list
+        hint: "Formspark form ID that receives contact-form inquiries for this practice area"
+        field: { name: id, label: Form ID, widget: string }
