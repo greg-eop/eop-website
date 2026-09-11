@@ -3,36 +3,36 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/astro/Header.astro';
 import Footer from '../components/astro/Footer.astro';
 import page from '../data/home.json';
+import notFound from '../data/not-found.json';
 import firmInfo from '../data/firm-info.json';
 ---
 
 <BaseLayout
-  title="Page Not Found | EOP Law"
-  description="The page you requested could not be found."
+  title={notFound.meta.title}
+  description={notFound.meta.description}
   noindex
 >
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">
       <section class="mx-auto w-full max-w-5xl px-6 pt-16 pb-24 md:pt-24 md:pb-32">
-        <p class="text-sm font-semibold uppercase tracking-widest text-accent mb-4">404</p>
-        <h1 class="font-serif text-4xl text-primary md:text-5xl">Page not found</h1>
+        <p class="text-sm font-semibold uppercase tracking-widest text-accent mb-4">{notFound.eyebrow}</p>
+        <h1 class="font-serif text-4xl text-primary md:text-5xl">{notFound.heading}</h1>
         <p class="mt-6 max-w-2xl leading-relaxed text-neutral-700">
-          The page you are looking for does not exist or may have moved. If you followed a link from our previous
-          website, try the attorneys or practice areas pages, or contact us and we will help you find what you need.
+          {notFound.body}
         </p>
         <div class="mt-10 flex flex-col sm:flex-row gap-4">
           <a
             href="/"
             class="inline-flex items-center justify-center px-8 py-4 bg-accent text-accent-foreground font-bold hover:bg-primary hover:text-white transition-colors"
           >
-            Return Home
+            {notFound.homeButton}
           </a>
           <a
             href="/contact-us"
             class="inline-flex items-center justify-center px-8 py-4 border border-primary text-primary font-bold hover:bg-primary hover:text-white transition-colors"
           >
-            Contact Us
+            {notFound.contactButton}
           </a>
         </div>
       </section>

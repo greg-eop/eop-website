@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "title": "Our Attorneys | Portland Lawyers | EOP Law",
+    "description": "Meet the Portland attorneys at Elliott, Ostrander & Preston. Counsel in business, litigation, intellectual property, real estate, tax, employment, and insurance."
+  },
+  "hero": {
+    "title": "Our Attorneys",
+    "subtitle": "Trusted counsel with deep experience across a wide range of legal matters."
+  },
+  "schemaName": "Our Attorneys",
+  "readMore": "Read more",
+  "backToAttorneys": "← Back to Our Attorneys",
+  "aboutHeading": "About {firstName}",
+  "practiceAreasHeading": "Practice Areas",
+  "experienceHeading": "Experience",
+  "saveContact": "Save Contact",
+  "detailMetaTitle": "{name} | Portland {practiceAreas} Attorney | EOP Law",
+  "detailMetaTitleFallback": "{name} | Portland Attorney | EOP Law"
+}

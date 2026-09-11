@@ -3,7 +3,9 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import Header from "../../components/astro/Header.astro";
 import Footer from "../../components/astro/Footer.astro";
 import page from "../../data/home.json";
+import caseStudiesPage from "../../data/case-studies-page.json";
 import firmInfo from "../../data/firm-info.json";
+import { interpolate } from "../../lib/interpolate";
 import courthousePanelImg from "../../images/courthouse-panel.webp";
 import type { CollectionEntry } from "astro:content";
 import { getPublishedCaseStudies } from "../../lib/case-studies";
@@ -46,11 +48,15 @@ const nextCase =
   currentIndex < allCases.length - 1 ? allCases[currentIndex + 1] : null;
 
 const site = Astro.site ?? Astro.url;
-const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140)}...`;
+const excerpt = `${challenge.slice(0, 140)}...`;
+const articleDescription = interpolate(caseStudiesPage.detailMetaDescription, {
+  practiceArea,
+  excerpt,
+});
 ---
 
 <BaseLayout
-  title={`${title} | Case Studies | EOP Law`}
+  title={interpolate(caseStudiesPage.detailMetaTitle, { title })}
   description={articleDescription}
   breadcrumbLabel={title}
   schema={articleNode({
@@ -94,7 +100,7 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
               <line x1="19" y1="12" x2="5" y2="12"></line>
               <polyline points="12 19 5 12 12 5"></polyline>
             </svg>
-            Case Studies
+            {caseStudiesPage.backToCaseStudies}
           </a>
 
           <p
@@ -111,9 +117,12 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
 
           <p class="text-white/60 text-sm">
             {
-              isAnonymized
-                ? `Client: ${clientDescription} (anonymized)`
-                : `Client: ${clientDescription}`
+              interpolate(
+                isAnonymized
+                  ? caseStudiesPage.clientLineAnonymized
+                  : caseStudiesPage.clientLine,
+                { clientDescription },
+              )
             }
           </p>
         </div>
@@ -147,7 +156,7 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
             <div class="space-y-12">
               <div class="relative pl-6 border-l-2 border-accent">
                 <h2 class="font-serif text-2xl text-primary mb-4">
-                  The Challenge
+                  {caseStudiesPage.challengeHeading}
                 </h2>
                 <p class="leading-relaxed text-neutral-700">
                   {challenge}
@@ -156,7 +165,7 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
 
               <div class="relative pl-6 border-l-2 border-neutral-300">
                 <h2 class="font-serif text-2xl text-primary mb-4">
-                  Our Strategy
+                  {caseStudiesPage.strategyHeading}
                 </h2>
                 <p class="leading-relaxed text-neutral-700">
                   {solution}
@@ -165,7 +174,7 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
 
               <div class="relative pl-6 border-l-2 border-neutral-300">
                 <h2 class="font-serif text-2xl text-primary mb-4">
-                  The Outcome
+                  {caseStudiesPage.outcomeHeading}
                 </h2>
                 <p class="leading-relaxed text-neutral-700">
                   {outcome}
@@ -191,7 +200,7 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
               }
 
               <div class="border border-neutral-200 p-6 space-y-4">
-                <h3 class="font-serif text-lg text-primary">Practice Area</h3>
+                <h3 class="font-serif text-lg text-primary">{caseStudiesPage.practiceAreaHeading}</h3>
                 <a
                   href={`/practice-areas/${practiceAreaSlug}`}
                   class="inline-flex items-center gap-2 text-sm text-accent hover:underline underline-offset-4"
@@ -217,16 +226,16 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
 
               <div class="bg-primary px-6 py-7 space-y-4">
                 <p class="font-serif text-lg text-white">
-                  Have a similar matter?
+                  {caseStudiesPage.sidebarCta.heading}
                 </p>
                 <p class="text-sm text-white/70">
-                  Our team is ready to discuss your situation confidentially.
+                  {caseStudiesPage.sidebarCta.body}
                 </p>
                 <a
                   href="/contact-us"
                   class="inline-flex items-center justify-center w-full px-5 py-3 bg-accent text-accent-foreground text-sm font-semibold hover:bg-white hover:text-primary transition-colors"
                 >
-                  Schedule a Consultation
+                  {caseStudiesPage.sidebarCta.button}
                 </a>
                 <a
                   href={phoneHref}
@@ -251,7 +260,7 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
                   class="group flex flex-col gap-1 p-5 border border-neutral-200 hover:border-accent transition-colors"
                 >
                   <span class="text-xs uppercase tracking-widest text-neutral-400 group-hover:text-accent transition-colors">
-                    ← Previous
+                    {caseStudiesPage.previous}
                   </span>
                   <span class="font-serif text-primary group-hover:text-accent transition-colors">
                     {prevCase.data.title}
@@ -266,7 +275,7 @@ const articleDescription = `${practiceArea} case study: ${challenge.slice(0, 140
                   class="group flex flex-col gap-1 p-5 border border-neutral-200 hover:border-accent transition-colors text-right sm:items-end"
                 >
                   <span class="text-xs uppercase tracking-widest text-neutral-400 group-hover:text-accent transition-colors">
-                    Next →
+                    {caseStudiesPage.next}
                   </span>
                   <span class="font-serif text-primary group-hover:text-accent transition-colors">
                     {nextCase.data.title}

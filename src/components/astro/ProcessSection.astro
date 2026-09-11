@@ -9,9 +9,10 @@ interface Props {
   heading: string;
   description: string;
   steps: Step[];
+  imageAlt?: string;
 }
 
-const { eyebrow, heading, description, steps } = Astro.props;
+const { eyebrow, heading, description, steps, imageAlt = "" } = Astro.props;
 ---
 
 <section class="py-8 md:py-16 lg:py-32 bg-background">
@@ -44,7 +45,7 @@ const { eyebrow, heading, description, steps } = Astro.props;
       <div data-motion="motion-preset-slide-left motion-duration-700" class="hidden lg:block relative h-[600px] lg:h-[700px] order-first lg:order-last">
         <img
           src="/images/process-handshake.jpg"
-          alt="Business handshake"
+          alt={imageAlt}
           class="w-full h-full object-cover"
         />
       </div>

@@ -2,6 +2,7 @@
 import Logo from '../../images/logo.svg';
 import { getCollection } from 'astro:content';
 import { hasPublishedCaseStudies } from '../../lib/case-studies';
+import ui from '../../data/ui.json';
 
 interface Props {
   transparentAtTop?: boolean;
@@ -25,11 +26,11 @@ const attorneyItems = (await getCollection('attorneys'))
 const showCaseStudies = await hasPublishedCaseStudies();
 
 const otherNavLinks = [
-  { href: '/about', label: 'About' },
-  ...(showCaseStudies ? [{ href: '/case-studies', label: 'Case Studies' }] : []),
+  { href: '/about', label: ui.nav.about },
+  ...(showCaseStudies ? [{ href: '/case-studies', label: ui.nav.caseStudies }] : []),
   {
     href: '/contact-us',
-    label: 'Contact',
+    label: ui.nav.contact,
     class: 'px-8 py-3 bg-accent border border-accent text-primary hover:bg-primary hover:text-white transition-colors',
   },
 ];
@@ -56,7 +57,7 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-3">
         <a href="/">
-          <Logo class="logo-default h-14 w-auto" role="img" aria-label="EOP | Elliott Ostrander & Preston, PC" />
+          <Logo class="logo-default h-14 w-auto" role="img" aria-label={ui.logoAriaLabel} />
         </a>
       </div>
 
@@ -71,7 +72,7 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
             aria-expanded="false"
             class={`flex items-center gap-1 nav-top-link text-foreground hover:text-accent transition-colors ${isPracticeAreaActive ? 'underline decoration-accent underline-offset-8' : ''}`}
           >
-            Practice Areas
+            {ui.nav.practiceAreas}
             <svg data-dropdown-chevron xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -84,7 +85,7 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
                 role="menuitem"
                 class={`block px-5 py-2.5 text-sm text-foreground hover:text-accent hover:bg-neutral-50 transition-colors ${currentPath === '/practice-areas' ? 'text-accent font-medium' : ''}`}
               >
-                All Practice Areas
+                {ui.nav.allPracticeAreas}
               </a>
               <div class="mx-5 my-1.5 border-t border-border"></div>
               {practiceAreaItems.map((item) => (
@@ -108,7 +109,7 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
             aria-expanded="false"
             class={`flex items-center gap-1 nav-top-link text-foreground hover:text-accent transition-colors ${isAttorneyActive ? 'underline decoration-accent underline-offset-8' : ''}`}
           >
-            Our Team
+            {ui.nav.ourTeam}
             <svg data-dropdown-chevron xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -121,7 +122,7 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
                 role="menuitem"
                 class={`block px-5 py-2.5 text-sm text-foreground hover:text-accent hover:bg-neutral-50 transition-colors ${currentPath === '/our-attorneys' ? 'text-accent font-medium' : ''}`}
               >
-                All Attorneys
+                {ui.nav.allAttorneys}
               </a>
               <div class="mx-5 my-1.5 border-t border-border"></div>
               {attorneyItems.map((item) => (
@@ -151,7 +152,7 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
         ))}
       </div>
 
-      <button class="nav-top-link lg:hidden p-2" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label="Toggle menu">
+      <button class="nav-top-link lg:hidden p-2" data-menu-toggle aria-expanded="false" aria-controls="mobile-menu" aria-label={ui.nav.toggleMenu}>
         <svg class="burger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <line class="burger-line line-1" x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           <line class="burger-line line-2" x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
@@ -170,13 +171,13 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
             href="/practice-areas"
             class={`text-foreground hover:text-accent transition-colors ${isPracticeAreaActive ? 'underline decoration-accent underline-offset-4' : ''}`}
           >
-            Practice Areas
+            {ui.nav.practiceAreas}
           </a>
           <button
             data-mobile-toggle="mobile-pa-list"
             aria-expanded="false"
             aria-controls="mobile-pa-list"
-            aria-label="Toggle practice areas list"
+            aria-label={ui.nav.togglePracticeAreas}
             class="p-1 text-foreground hover:text-accent transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
@@ -203,13 +204,13 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
             href="/our-attorneys"
             class={`text-foreground hover:text-accent transition-colors ${isAttorneyActive ? 'underline decoration-accent underline-offset-4' : ''}`}
           >
-            Our Attorneys
+            {ui.nav.ourAttorneys}
           </a>
           <button
             data-mobile-toggle="mobile-att-list"
             aria-expanded="false"
             aria-controls="mobile-att-list"
-            aria-label="Toggle attorneys list"
+            aria-label={ui.nav.toggleAttorneys}
             class="p-1 text-foreground hover:text-accent transition-colors"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" aria-hidden="true">
@@ -233,7 +234,7 @@ const isAttorneyActive = currentPath === '/our-attorneys' || currentPath.startsW
         href="/resources"
         class={`block text-foreground hover:text-accent py-2 transition-colors ${isActiveLink('/resources') ? 'underline decoration-accent underline-offset-4' : ''}`}
       >
-        Resources
+        {ui.nav.resources}
       </a>
       {otherNavLinks.map((link) => (
         <a

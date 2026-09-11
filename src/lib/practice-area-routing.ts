@@ -48,7 +48,7 @@ export const PRACTICE_AREA_RECIPIENTS: Record<string, string[]> = {
 };
 
 export function attorneyMatchesPracticeArea(
-  attorney: Pick<CollectionEntry<'attorneys'>['data'], 'practiceAreas' | 'specialty' | 'email'>,
+  attorney: Pick<CollectionEntry<'attorneys'>['data'], 'practiceAreas' | 'email'>,
   practiceArea: { id: string; title: string },
 ): boolean {
   const configured = PRACTICE_AREA_RECIPIENTS[practiceArea.id];
@@ -56,13 +56,7 @@ export function attorneyMatchesPracticeArea(
     return configured.includes(attorney.email.toLowerCase());
   }
 
-  const title = practiceArea.title.toLowerCase();
-  const firstWord = title.split(/\s+/)[0] ?? '';
-  return (attorney.practiceAreas ?? []).some(
-    (practiceAreaName) =>
-      title.includes(practiceAreaName.toLowerCase()) ||
-      practiceAreaName.toLowerCase().includes(firstWord),
-  );
+  return (attorney.practiceAreas ?? []).some((ref) => ref.id === practiceArea.id);
 }
 
 function sortAttorneysByEmailOrder(

@@ -5,35 +5,29 @@ import Footer from '../components/astro/Footer.astro';
 import PageHero from '../components/astro/PageHero.astro';
 import Contact from '../components/astro/Contact.astro';
 import page from '../data/home.json';
+import contact from '../data/contact.json';
 import firmInfo from '../data/firm-info.json';
 import courthousePanelImg from '../images/courthouse-panel.webp';
+import { interpolate } from '../lib/interpolate';
+
+const vars = { phone: firmInfo.phone };
 ---
 
 <BaseLayout
-  title="Contact Us | Portland Attorneys | EOP Law"
-  description="Contact Elliott, Ostrander & Preston in downtown Portland. Call +1 503.224.7112 or send a message to discuss your legal matter."
+  title={interpolate(contact.meta.title, vars)}
+  description={interpolate(contact.meta.description, vars)}
 >
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">
       <PageHero
-        title="Contact"
-        subtitle="Connect with our team to discuss your legal needs."
+        title={contact.hero.title}
+        subtitle={contact.hero.subtitle}
         backgroundImageSrc={courthousePanelImg.src}
         containerMaxWidthClass="max-w-5xl"
       />
 
-      <Contact
-        eyebrow={page.contact.eyebrow}
-        heading={page.contact.heading}
-        description={page.contact.description}
-        phone={firmInfo.phone}
-        email={firmInfo.email}
-        addressLines={firmInfo.addressLines}
-        officeHours={firmInfo.officeHours}
-        mapUrl={firmInfo.mapUrl}
-        parkingInfo={firmInfo.parkingInfo}
-      />
+      <Contact />
     </main>
     <Footer
       summary={firmInfo.summary}

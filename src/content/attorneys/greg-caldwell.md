@@ -1,9 +1,9 @@
 ---
 name: Greg Caldwell
 practiceAreas:
-  - Intellectual Property
+  - intellectual-property
 photo: /uploads/greg-caldwell.webp
-specialty: ''
+specialty: Greg practices primarily intellectual property law, including patents, trademarks, copyrights, trade secrets, licensing, and IP litigation.
 email: greg@eoplaw.com
 order: 1
 ---

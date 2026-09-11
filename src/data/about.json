@@ -1,0 +1,24 @@
+{
+  "meta": {
+    "title": "About | Portland Law Firm | EOP Law",
+    "description": "Elliott, Ostrander & Preston has advised businesses and individuals from Portland, Oregon since 1995. Practical counsel without large-firm bureaucracy."
+  },
+  "hero": {
+    "title": "About the Firm",
+    "subtitle": "Experienced counsel with practical, business-minded legal strategy."
+  },
+  "sections": [
+    {
+      "heading": "Our Firm",
+      "body": "Our law firm was established in 1995 in Portland, Oregon. Our attorneys provide advice derived from experience gained at law firms throughout the U.S. and from handling matters for clients across the U.S. and other countries. We believe that our broad collective experience benefits our clients by providing a solid foundation for the legal guidance we provide.\n\nOur experience and training allow us to provide the full range of legal services expected of a larger firm, but without the inefficiency of an institutional bureaucracy. Our practice areas include business, finance, real estate, insurance, intellectual property, litigation, appeals, tax, and estate planning."
+    },
+    {
+      "heading": "Our Philosophy",
+      "body": "Our practice philosophy is based on clear communication and prompt service. We provide sound solutions to our clients' legal problems in a personalized, responsive, and cost-effective manner. Not mere scriveners and litigators, we strive to become trusted counselors.\n\nOur clients want timely and sensible advice. Beginning with applicable legal principles, we remain aware of relevant business and relationship issues that may affect a client's overall strategy. Those whom we advise typically do not want a voluminous legal memo with footnotes in response to a relatively straightforward question."
+    },
+    {
+      "heading": "Our Approach to Value",
+      "body": "We know who pays the bills and where that money comes from. Consequently, we urge our clients to decide how much practical risk they are comfortable accepting, based on their own cost/benefit analysis, to avoid creating a $10,000 legal bill in order to solve a $5,000 business problem. Through our advice and counsel, and in concert with client objectives, we aim to provide real value.\n\nPlease see our [Our Attorneys](/our-attorneys) page for more information about each lawyer."
+    }
+  ]
+}

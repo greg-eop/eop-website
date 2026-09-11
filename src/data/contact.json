@@ -1,0 +1,39 @@
+{
+  "meta": {
+    "title": "Contact Us | Portland Attorneys | EOP Law",
+    "description": "Contact Elliott, Ostrander & Preston in downtown Portland. Call {phone} or send a message to discuss your legal matter."
+  },
+  "hero": {
+    "title": "Contact",
+    "subtitle": "Connect with our team to discuss your legal needs."
+  },
+  "heading": "Schedule Your Consultation",
+  "description": "Ready to discuss your legal needs? Contact our team for a confidential consultation.",
+  "form": {
+    "heading": "Send us a message",
+    "successTitle": "Thank you. We received your inquiry.",
+    "successBody": "A member of our team will be in touch shortly. If your matter is time-sensitive, please call us at {phone}.",
+    "error": "Something went wrong while sending your message. Please try again or call us.",
+    "submit": "Submit Inquiry",
+    "sending": "Sending...",
+    "disclaimer": "Submitting this form does not establish an attorney-client relationship. Do not submit confidential or time-sensitive information.",
+    "honeypotLabel": "Company website",
+    "otherOption": "Other / Not Sure",
+    "selectPlaceholder": "Select a practice area",
+    "routingNamed": "This inquiry will be directed to {names}.",
+    "routingIntake": "This inquiry will be directed to our firm intake team.",
+    "phoneLabel": "Phone",
+    "addressLabel": "Address",
+    "hoursLabel": "Office Hours",
+    "mapTitle": "Elliott, Ostrander & Preston office location",
+    "nameLabel": "Full Name",
+    "namePlaceholder": "John Doe",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "john@example.com",
+    "phoneFieldLabel": "Phone Number",
+    "phonePlaceholder": "(555) 123-4567",
+    "practiceAreaLabel": "Practice Area",
+    "messageLabel": "Message",
+    "messagePlaceholder": "Tell us about your legal needs..."
+  }
+}

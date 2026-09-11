@@ -1,5 +1,5 @@
 import { glob } from 'astro/loaders';
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, reference, z } from 'astro:content';
 
 const attorneys = defineCollection({
   loader: glob({
@@ -8,11 +8,12 @@ const attorneys = defineCollection({
   }),
   schema: z.object({
     name: z.string(),
-    practiceAreas: z.array(z.string()).optional(),
+    practiceAreas: z.array(reference('practiceAreas')).default([]),
     role: z.string().optional(),
     specialty: z.string(),
     photo: z.string().optional(),
     email: z.string().email(),
+    phone: z.string().optional(),
     order: z.number().int().default(100),
   }),
 });

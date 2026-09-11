@@ -2,6 +2,7 @@
 import LogoWhite from "../../images/logo-white.svg";
 import LinkedInLogo from "../../images/linkedin-logo.png";
 import firmInfo from "../../data/firm-info.json";
+import ui from "../../data/ui.json";
 import { hasPublishedCaseStudies } from "../../lib/case-studies";
 
 interface CompanyLink {
@@ -65,10 +66,7 @@ const displayedLegalLinks = showCaseStudies
   ? legalLinks
   : legalLinks.filter((link) => link.href !== "/case-studies");
 
-const footerOnlyLinks = [
-  { label: "Accessibility", href: "/accessibility" },
-  { label: "Legal Notice & Disclaimer", href: "/legal-notice" },
-];
+const footerOnlyLinks = ui.footer.extraLinks;
 
 ---
 
@@ -80,7 +78,7 @@ const footerOnlyLinks = [
           <LogoWhite
             class="h-10 w-auto"
             role="img"
-            aria-label="Elliott Ostrander & Preston, PC"
+            aria-label={ui.footerLogoAriaLabel}
           />
         </div>
         <p class="text-white/70 mb-6">{displayedSummary}</p>
@@ -114,7 +112,7 @@ const footerOnlyLinks = [
       </div>
 
       <div>
-        <h4 class="text-lg mb-4">Practice Areas</h4>
+        <h4 class="text-lg mb-4">{ui.footer.practiceAreasHeading}</h4>
         <ul class="space-y-2 text-white/70">
           {
             practiceLinks.map((link) => (
@@ -129,7 +127,7 @@ const footerOnlyLinks = [
       </div>
 
       <div>
-        <h4 class="text-lg mb-4">Company</h4>
+        <h4 class="text-lg mb-4">{ui.footer.companyHeading}</h4>
         <ul class="space-y-2 text-white/70">
           {
             displayedCompanyLinks.map((link) => (
@@ -144,7 +142,7 @@ const footerOnlyLinks = [
       </div>
 
       <div>
-        <h4 class="text-lg mb-4">Legal</h4>
+        <h4 class="text-lg mb-4">{ui.footer.legalHeading}</h4>
         <ul class="space-y-2 text-white/70">
           {
             footerOnlyLinks.map((link) => (
@@ -159,7 +157,7 @@ const footerOnlyLinks = [
       </div>
 
       <div>
-        <h4 class="text-lg mb-4">More</h4>
+        <h4 class="text-lg mb-4">{ui.footer.moreHeading}</h4>
         <ul class="space-y-2 text-white/70">
           {
             displayedLegalLinks.map((link) => (

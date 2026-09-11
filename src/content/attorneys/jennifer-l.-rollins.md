@@ -1,11 +1,10 @@
 ---
 name: Jennifer L. Rollins
 practiceAreas:
-  - Business
-  - Real Estate
-  - Finance
+  - business-finance
+  - real-estate
 photo: /uploads/jennifer-rollins.webp
-specialty: ''
+specialty: Jennifer practices in the areas of business, real estate, and finance.
 email: jennifer@eoplaw.com
 order: 100
 ---

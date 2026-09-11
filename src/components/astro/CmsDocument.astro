@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import MarkdownContent from './MarkdownContent.astro';
+import page from '../../data/home.json';
+import firmInfo from '../../data/firm-info.json';
+
+interface Props {
+  title: string;
+  description: string;
+  heading: string;
+  lastUpdated?: string;
+  body: string;
+  noindex?: boolean;
+}
+
+const { title, description, heading, lastUpdated, body, noindex = false } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex={noindex}>
+  <div class="min-h-screen flex flex-col">
+    <Header />
+    <main class="flex-1 bg-white">
+      <section class="mx-auto w-full max-w-5xl px-6 pt-10 pb-16 md:pt-14 md:pb-20">
+        <h1 class="font-serif text-4xl text-primary md:text-5xl">{heading}</h1>
+        {lastUpdated && (
+          <p class="mt-4 text-sm text-neutral-500">{lastUpdated}</p>
+        )}
+        <div class="mt-8">
+          <MarkdownContent content={body} />
+        </div>
+      </section>
+    </main>
+    <Footer
+      summary={firmInfo.summary}
+      practiceLinks={page.footer.practiceLinks}
+      companyLinks={page.footer.companyLinks}
+      legalLinks={page.footer.legalLinks}
+      socialLinks={firmInfo.socialLinks}
+      copyright={firmInfo.copyright}
+      phone={firmInfo.phone}
+      addressLines={firmInfo.addressLines}
+    />
+  </div>
+</BaseLayout>

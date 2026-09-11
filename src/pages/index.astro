@@ -12,9 +12,16 @@ import page from "../data/home.json";
 import firmInfo from "../data/firm-info.json";
 import { getCollection } from "astro:content";
 import { absoluteUrl, itemListNode } from "../lib/schema";
+import {
+  formatPracticeAreaTitles,
+  practiceAreaMap,
+  resolvePracticeAreas,
+} from "../lib/attorney-practice-areas";
 
 const heroHeadline = page.homepageSettings?.headline || page.hero.heading;
 const heroSubhead = page.homepageSettings?.subhead || page.hero.subheading;
+const practiceAreaEntries = await getCollection("practiceAreas");
+const practiceAreasById = practiceAreaMap(practiceAreaEntries);
 const attorneys = (await getCollection("attorneys"))
   .sort((a, b) =>
     a.data.name.split(" ")[0].localeCompare(b.data.name.split(" ")[0]),
@@ -22,12 +29,17 @@ const attorneys = (await getCollection("attorneys"))
   .map((entry) => ({
     id: entry.id,
     name: entry.data.name,
-    role: entry.data.practiceAreas?.join(", ") || entry.data.role || "",
+    role:
+      formatPracticeAreaTitles(
+        resolvePracticeAreas(entry.data.practiceAreas, practiceAreasById),
+      ) ||
+      entry.data.role ||
+      "",
     specialty: entry.data.specialty,
     photo: entry.data.photo || null,
   }));
 
-const practiceAreaCards = (await getCollection("practiceAreas"))
+const practiceAreaCards = practiceAreaEntries
   .sort((a, b) => a.data.title.localeCompare(b.data.title))
   .map((entry) => ({
     title: entry.data.title,
@@ -38,7 +50,7 @@ const practiceAreaCards = (await getCollection("practiceAreas"))
 const site = Astro.site ?? Astro.url;
 const practiceAreaList = itemListNode({
   id: absoluteUrl(site, "/#practice-areas"),
-  name: "Practice Areas",
+  name: page.practiceAreas.heading,
   items: practiceAreaCards.map((area) => ({
     name: area.title,
     url: absoluteUrl(site, area.href),
@@ -71,6 +83,7 @@ const practiceAreaList = itemListNode({
       heading={page.process.heading}
       description={page.process.description}
       steps={page.process.steps}
+      imageAlt={page.process.imageAlt}
     />
     <About
       eyebrow={page.about.eyebrow}
@@ -78,6 +91,7 @@ const practiceAreaList = itemListNode({
       lead={page.about.lead}
       body={page.about.body}
       highlights={page.about.highlights}
+      imageAlt={page.about.imageAlt}
     />
 
     <Team

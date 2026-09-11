@@ -15,9 +15,10 @@ interface Props {
   lead: string;
   body: string;
   highlights: Highlight[];
+  imageAlt?: string;
 }
 
-const { eyebrow, heading, lead, body, highlights } = Astro.props;
+const { eyebrow, heading, lead, body, highlights, imageAlt = "" } = Astro.props;
 
 const highlightIcons = [HandshakeIcon, ScalesIcon, LightbulbIcon];
 ---
@@ -31,7 +32,7 @@ const highlightIcons = [HandshakeIcon, ScalesIcon, LightbulbIcon];
       <div data-motion="motion-preset-slide-right motion-duration-700" class="relative h-[600px] lg:h-[700px]">
         <img
           src="/images/about-courthouse.jpg"
-          alt="Portland courthouse"
+          alt={imageAlt}
           class="w-full h-full object-cover"
         />
       </div>

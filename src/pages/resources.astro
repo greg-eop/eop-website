@@ -4,81 +4,31 @@ import Header from '../components/astro/Header.astro';
 import Footer from '../components/astro/Footer.astro';
 import PageHero from '../components/astro/PageHero.astro';
 import page from '../data/home.json';
+import resources from '../data/resources.json';
 import firmInfo from '../data/firm-info.json';
 import courthousePanelImg from '../images/courthouse-panel.webp';
-
-const resources = [
-  {
-    href: 'https://www.osbar.org/public/',
-    label: 'Oregon State Bar Legal Information Topics',
-  },
-  {
-    href: 'https://www.portland.gov/business',
-    label: 'City of Portland Business Information',
-  },
-  {
-    href: 'https://sos.oregon.gov/business/pages/find.aspx',
-    label: 'Oregon Secretary of State — Find a Business',
-  },
-  {
-    href: 'https://ccfs.sos.wa.gov/',
-    label: 'Washington Secretary of State — Corporations Search',
-  },
-  {
-    href: 'https://www.uspto.gov/',
-    label: 'U.S. Patent and Trademark Office',
-  },
-  {
-    href: 'https://www.copyright.gov/',
-    label: 'U.S. Copyright Office',
-  },
-  {
-    href: 'https://www.irs.gov/businesses',
-    label: 'Internal Revenue Service — Businesses',
-  },
-  {
-    href: 'https://www.oregonlegislature.gov/bills_laws/Pages/ORS.aspx',
-    label: 'Oregon Revised Statutes',
-  },
-  {
-    href: 'https://www.oregon.gov/boli',
-    label: 'Oregon Bureau of Labor and Industries',
-  },
-  {
-    href: 'https://www.courts.oregon.gov/courts/multnomah/pages/default.aspx',
-    label: 'Multnomah County Circuit Court',
-  },
-  {
-    href: 'https://www.ord.uscourts.gov/',
-    label: 'U.S. District Court of Oregon',
-  },
-  {
-    href: 'https://www.wsba.org/',
-    label: 'Washington State Bar Association',
-  },
-];
 ---
 
 <BaseLayout
-  title="Legal Resources | EOP Law"
-  description="Oregon and Washington legal research links from Elliott, Ostrander & Preston, including courts, bar associations, and business filings."
+  title={resources.meta.title}
+  description={resources.meta.description}
 >
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">
       <PageHero
-        title="Resources"
-        subtitle="Helpful legal and business links for clients and partners."
+        title={resources.hero.title}
+        subtitle={resources.hero.subtitle}
         backgroundImageSrc={courthousePanelImg.src}
         containerMaxWidthClass="max-w-5xl"
       />
 
       <section class="mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
         <p class="mb-8 leading-relaxed text-neutral-700">
-          These official references are starting points for Oregon and Washington legal and business research. They are provided for convenience and are not a substitute for legal advice.
+          {resources.intro}
         </p>
         <ul class="list-disc space-y-3 pl-6 leading-relaxed text-neutral-700 marker:text-accent">
-          {resources.map((resource) => (
+          {resources.links.map((resource) => (
             <li>
               <a
                 class="text-primary underline decoration-accent underline-offset-4"

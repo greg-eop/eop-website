@@ -1,0 +1,34 @@
+{
+  "logoAriaLabel": "EOP | Elliott Ostrander & Preston, PC",
+  "footerLogoAriaLabel": "Elliott Ostrander & Preston, PC",
+  "nav": {
+    "practiceAreas": "Practice Areas",
+    "allPracticeAreas": "All Practice Areas",
+    "ourTeam": "Our Team",
+    "ourAttorneys": "Our Attorneys",
+    "allAttorneys": "All Attorneys",
+    "about": "About",
+    "caseStudies": "Case Studies",
+    "contact": "Contact",
+    "resources": "Resources",
+    "toggleMenu": "Toggle menu",
+    "togglePracticeAreas": "Toggle practice areas list",
+    "toggleAttorneys": "Toggle attorneys list"
+  },
+  "footer": {
+    "practiceAreasHeading": "Practice Areas",
+    "companyHeading": "Company",
+    "legalHeading": "Legal",
+    "moreHeading": "More",
+    "extraLinks": [
+      { "label": "Accessibility", "href": "/accessibility" },
+      { "label": "Legal Notice & Disclaimer", "href": "/legal-notice" }
+    ]
+  },
+  "shared": {
+    "learnMore": "Learn More",
+    "swipeToExplore": "Swipe to explore",
+    "readMore": "Read more",
+    "starRating": "5 out of 5 stars"
+  }
+}

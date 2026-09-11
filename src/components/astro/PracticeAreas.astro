@@ -1,5 +1,6 @@
 ---
 import bg from '../../images/justice.jpg';
+import ui from '../../data/ui.json';
 
 interface Practice {
   title: string;
@@ -41,7 +42,7 @@ const { eyebrow, heading, description, items } = Astro.props;
           <h3 class="text-xl text-white mb-3 group-hover:text-accent transition-colors">{practice.title}</h3>
           <p class="text-white/70 text-md leading-relaxed flex-1">{practice.description}</p>
           <span class="mt-6 inline-flex items-center gap-1.5 text-accent text-xs font-semibold tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            Learn More
+            {ui.shared.learnMore}
             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
           </span>
         </a>
@@ -49,7 +50,7 @@ const { eyebrow, heading, description, items } = Astro.props;
     </div>
 
     <!-- Scroll hint visible only on mobile -->
-    <p class="mt-4 text-center text-white/30 text-xs tracking-widest uppercase md:hidden">Swipe to explore</p>
+    <p class="mt-4 text-center text-white/30 text-xs tracking-widest uppercase md:hidden">{ui.shared.swipeToExplore}</p>
 
 
   </div>

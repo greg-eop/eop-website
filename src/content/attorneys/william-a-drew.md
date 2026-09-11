@@ -1,11 +1,10 @@
 ---
 name: William A. Drew
 practiceAreas:
-  - Litigation
-  - Appellate Practices
-  - Affordable Housing Development & Financing
+  - litigation-appellate-practices
+  - affordable-housing-development-financing
 photo: /uploads/william-drew.webp
-specialty: William represents clients in high-stakes disputes and appellate proceedings.
+specialty: Bill advises clients on complex business disputes, real property, insurance, employment, and intellectual property matters, and regularly appears in trial and appellate courts.
 email: billd@eoplaw.com
 order: 4
 ---

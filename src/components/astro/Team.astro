@@ -1,4 +1,6 @@
 ---
+import ui from '../../data/ui.json';
+
 interface Member {
   id: string;
   name: string;
@@ -52,7 +54,7 @@ const { eyebrow, heading, description, members } = Astro.props;
       ))}
     </div>
 
-    <p class="mt-4 text-center text-muted-foreground/40 text-xs tracking-widest uppercase md:hidden">Swipe to explore</p>
+    <p class="mt-4 text-center text-muted-foreground/40 text-xs tracking-widest uppercase md:hidden">{ui.shared.swipeToExplore}</p>
   </div>
 </section>
 

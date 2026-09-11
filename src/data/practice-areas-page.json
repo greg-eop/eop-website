@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "title": "Practice Areas | Portland Attorneys | EOP Law",
+    "description": "Portland legal services in business and finance, real estate, employment, litigation, intellectual property, tax and estate planning, insurance, and affordable housing."
+  },
+  "hero": {
+    "title": "Practice Areas",
+    "subtitle": "Comprehensive legal services tailored to meet your unique needs with precision and dedication."
+  },
+  "intro": "We advise businesses and individuals across a broad range of legal matters. Explore each practice area to learn how our attorneys approach strategy, risk, and results.",
+  "viewPracticeArea": "View Practice Area",
+  "backToPracticeAreas": "← Back To Practice Areas",
+  "detailMetaTitle": "Portland {title} Attorneys | EOP Law",
+  "detailHeroTitle": "Portland {title} Attorneys",
+  "commonChallengesHeading": "Common Challenges We Solve",
+  "faqsHeading": "Frequently Asked Questions",
+  "keyServicesHeading": "Key Services",
+  "attorneysHeading": "Attorneys",
+  "ctaDefaults": {
+    "description": "Ready to discuss your matter? Our attorneys are here to help.",
+    "text": "Schedule Your Free Case Evaluation"
+  },
+  "trust": {
+    "heading": "Why Clients Trust EOP Law",
+    "items": [
+      {
+        "title": "Deep Experience",
+        "description": "Our attorneys bring decades of experience helping Portland businesses and individuals navigate complex legal matters."
+      },
+      {
+        "title": "Boutique Service",
+        "description": "You'll work directly with experienced attorneys who know your goals and provide personalized guidance."
+      },
+      {
+        "title": "Trusted Relationships",
+        "description": "We're known for our approachable, responsive style and commitment to building lasting client relationships."
+      }
+    ]
+  }
+}

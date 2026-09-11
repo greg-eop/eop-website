@@ -4,11 +4,17 @@ import Header from "../components/astro/Header.astro";
 import Footer from "../components/astro/Footer.astro";
 import PageHero from "../components/astro/PageHero.astro";
 import page from "../data/home.json";
+import attorneysPage from "../data/attorneys-page.json";
 import firmInfo from "../data/firm-info.json";
 import courthousePanelImg from "../images/courthouse-panel.webp";
 import woodPanelJpg from "../images/wood-panel.webp";
 import { getCollection } from "astro:content";
 import { absoluteUrl, itemListNode } from "../lib/schema";
+import {
+  formatPracticeAreaTitles,
+  practiceAreaMap,
+  resolvePracticeAreas,
+} from "../lib/attorney-practice-areas";
 
 const toPlainText = (markdown: string) =>
   markdown
@@ -21,6 +27,7 @@ const toPlainText = (markdown: string) =>
 const excerptText = (value: string, max = 200) =>
   value.length <= max ? value : `${value.slice(0, max).trimEnd()}...`;
 
+const practiceAreasById = practiceAreaMap(await getCollection("practiceAreas"));
 const attorneyEntries = (await getCollection("attorneys")).sort(
   (a, b) => a.data.name.split(' ')[0].localeCompare(b.data.name.split(' ')[0]),
 );
@@ -37,7 +44,12 @@ const attorneys = attorneyEntries.map((entry) => {
   return {
     slug: entry.id,
     name: entry.data.name,
-    role: entry.data.practiceAreas?.join(", ") || entry.data.role || "",
+    role:
+      formatPracticeAreaTitles(
+        resolvePracticeAreas(entry.data.practiceAreas, practiceAreasById),
+      ) ||
+      entry.data.role ||
+      "",
     photo: entry.data.photo,
     initials,
     excerpt: excerptText(bioSource),
@@ -47,7 +59,7 @@ const attorneys = attorneyEntries.map((entry) => {
 const site = Astro.site ?? Astro.url;
 const attorneyList = itemListNode({
   id: absoluteUrl(site, "/our-attorneys#attorneys"),
-  name: "Our Attorneys",
+  name: attorneysPage.schemaName,
   items: attorneys.map((attorney) => ({
     name: attorney.name,
     url: absoluteUrl(site, `/our-attorneys/${attorney.slug}`),
@@ -56,16 +68,16 @@ const attorneyList = itemListNode({
 ---
 
 <BaseLayout
-  title="Our Attorneys | Portland Lawyers | EOP Law"
-  description="Meet the Portland attorneys at Elliott, Ostrander & Preston. Counsel in business, litigation, intellectual property, real estate, tax, employment, and insurance."
+  title={attorneysPage.meta.title}
+  description={attorneysPage.meta.description}
   schema={attorneyList}
 >
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">
       <PageHero
-        title="Our Attorneys"
-        subtitle="Trusted counsel with deep experience across a wide range of legal matters."
+        title={attorneysPage.hero.title}
+        subtitle={attorneysPage.hero.subtitle}
         backgroundImageSrc={courthousePanelImg.src}
         containerMaxWidthClass="max-w-6xl"
       />
@@ -113,7 +125,7 @@ const attorneyList = itemListNode({
                       {attorney.excerpt}
                     </p>
                     <span class="inline-block text-primary underline decoration-accent underline-offset-4">
-                      Read more
+                      {attorneysPage.readMore}
                     </span>
                   </div>
                 </article>

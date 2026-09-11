@@ -52,10 +52,20 @@ collections:
     slug: '{{slug}}'
     fields:
       - { name: name, label: Name, widget: string }
-      - { name: practiceAreas, label: Practice Areas, widget: list, field: { name: area, label: Area, widget: string } }
+      - name: practiceAreas
+        label: Practice Areas
+        widget: relation
+        collection: practiceAreas
+        multiple: true
+        required: false
+        value_field: '{{slug}}'
+        search_fields: [title]
+        display_fields: [title]
+        hint: "Select from the Practice Areas collection. These appear on the attorney's profile, team cards, and listing pages."
       - { name: photo, label: Photo, widget: image, required: false }
-      - { name: specialty, label: Specialty, widget: text, required: false }
+      - { name: specialty, label: Specialty, widget: text, required: false, hint: "Short blurb under the attorney's name on the homepage team cards. Also used as fallback text on their profile if Bio is empty." }
       - { name: email, label: Email, widget: string, required: false }
+      - { name: phone, label: Phone, widget: string, required: false, hint: "Used on the Save Contact vCard. Leave blank to use the firm primary phone from Site Settings." }
       - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
       - { name: body, label: Bio, widget: markdown }
   - name: practiceAreas
@@ -70,9 +80,20 @@ collections:
       - { name: description, label: Description, widget: text }
       - { name: overview, label: Overview Paragraphs, widget: list, field: { name: paragraph, label: Paragraph, widget: text } }
       - { name: services, label: Services, widget: list, field: { name: service, label: Service, widget: string } }
+      - name: clientProblem
+        label: Common Challenges
+        widget: list
+        hint: "Bullet list shown under the shared 'Common Challenges We Solve' heading"
+        field: { name: item, label: Challenge, widget: text }
+      - name: faqs
+        label: FAQs
+        widget: list
+        fields:
+          - { name: question, label: Question, widget: string }
+          - { name: answer, label: Answer, widget: text }
       - { name: order, label: Display Order, widget: number, value_type: int, min: 1, default: 100 }
       - { name: showCta, label: Show CTA Bar, widget: boolean, default: false }
-      - { name: ctaDescription, label: CTA Description, widget: text, required: false, hint: "Text shown next to the CTA button in the hero bar" }
+      - { name: ctaDescription, label: CTA Description, widget: text, required: false, hint: "Text shown next to the CTA button in the hero bar. Leave blank to use the default on the Practice Areas page entry." }
       - { name: ctaText, label: CTA Button Text, widget: string, required: false, hint: "e.g. Schedule Your Free Case Evaluation" }
       - { name: ctaHref, label: CTA Link, widget: string, required: false, hint: "e.g. /contact-us or a tel: link", default: "/contact-us" }
       - name: formsparkIds
@@ -103,6 +124,50 @@ collections:
               { name: href, label: URL, widget: string }
             ] }
           - { name: copyright, label: Copyright, widget: string }
+      - name: ui
+        label: Navigation & Labels
+        file: src/data/ui.json
+        fields:
+          - { name: logoAriaLabel, label: Header Logo Label, widget: string }
+          - { name: footerLogoAriaLabel, label: Footer Logo Label, widget: string }
+          - name: nav
+            label: Navigation
+            widget: object
+            fields:
+              - { name: practiceAreas, label: Practice Areas, widget: string }
+              - { name: allPracticeAreas, label: All Practice Areas, widget: string }
+              - { name: ourTeam, label: Our Team (Desktop), widget: string }
+              - { name: ourAttorneys, label: Our Attorneys (Mobile), widget: string }
+              - { name: allAttorneys, label: All Attorneys, widget: string }
+              - { name: about, label: About, widget: string }
+              - { name: caseStudies, label: Case Studies, widget: string }
+              - { name: contact, label: Contact, widget: string }
+              - { name: resources, label: Resources, widget: string }
+              - { name: toggleMenu, label: Toggle Menu (Screen Reader), widget: string }
+              - { name: togglePracticeAreas, label: Toggle Practice Areas (Screen Reader), widget: string }
+              - { name: toggleAttorneys, label: Toggle Attorneys (Screen Reader), widget: string }
+          - name: footer
+            label: Footer
+            widget: object
+            fields:
+              - { name: practiceAreasHeading, label: Practice Areas Heading, widget: string }
+              - { name: companyHeading, label: Company Heading, widget: string }
+              - { name: legalHeading, label: Legal Heading, widget: string }
+              - { name: moreHeading, label: More Heading, widget: string }
+              - name: extraLinks
+                label: Extra Legal Links
+                widget: list
+                fields:
+                  - { name: label, label: Label, widget: string }
+                  - { name: href, label: URL, widget: string }
+          - name: shared
+            label: Shared UI Labels
+            widget: object
+            fields:
+              - { name: learnMore, label: Learn More, widget: string }
+              - { name: swipeToExplore, label: Swipe to Explore, widget: string }
+              - { name: readMore, label: Read More, widget: string }
+              - { name: starRating, label: Star Rating (Screen Reader), widget: string }
   - name: pages
     label: Pages
     files:
@@ -135,6 +200,7 @@ collections:
               { name: heading, label: Heading, widget: string },
               { name: lead, label: Lead, widget: text },
               { name: body, label: Body, widget: text },
+              { name: imageAlt, label: Image Alt Text, widget: string },
               { name: highlights, label: Highlights, widget: list, fields: [
                 { name: title, label: Title, widget: string },
                 { name: description, label: Description, widget: text }
@@ -144,6 +210,7 @@ collections:
               { name: eyebrow, label: Eyebrow, widget: string },
               { name: heading, label: Heading, widget: string },
               { name: description, label: Description, widget: text },
+              { name: imageAlt, label: Image Alt Text, widget: string },
               { name: steps, label: Steps, widget: list, fields: [
                 { name: title, label: Title, widget: string },
                 { name: description, label: Description, widget: text }
@@ -163,16 +230,248 @@ collections:
                 { name: title, label: Title, widget: string }
               ] }
             ] }
-          - { name: contact, label: Contact, widget: object, fields: [
-              { name: eyebrow, label: Eyebrow, widget: string },
-              { name: heading, label: Heading, widget: string },
-              { name: description, label: Description, widget: text }
-            ] }
           - { name: footer, label: Footer, widget: object, fields: [
-              { name: practiceLinks, label: Practice Links, widget: list, field: { name: item, label: Item, widget: string } },
+              { name: practiceLinks, label: Practice Links, widget: list, fields: [
+                { name: label, label: Label, widget: string },
+                { name: href, label: Href, widget: string }
+              ] },
               { name: companyLinks, label: Company Links, widget: list, fields: [
                 { name: label, label: Label, widget: string },
                 { name: href, label: Href, widget: string }
               ] },
-              { name: legalLinks, label: Legal Links, widget: list, field: { name: item, label: Item, widget: string } }
+              { name: legalLinks, label: Legal Links, widget: list, fields: [
+                { name: label, label: Label, widget: string },
+                { name: href, label: Href, widget: string }
+              ] }
             ] }
+      - name: about
+        label: About Page
+        file: src/data/about.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: hero, label: Hero, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: subtitle, label: Subtitle, widget: text }
+            ] }
+          - name: sections
+            label: Sections
+            widget: list
+            fields:
+              - { name: heading, label: Heading, widget: string }
+              - { name: body, label: Body, widget: markdown }
+      - name: contact
+        label: Contact Page
+        file: src/data/contact.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text, hint: "Use {phone} to insert the Firm Info primary phone." }
+            ] }
+          - { name: hero, label: Hero, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: subtitle, label: Subtitle, widget: text }
+            ] }
+          - { name: heading, label: Section Heading, widget: string }
+          - { name: description, label: Section Description, widget: text }
+          - name: form
+            label: Contact Form
+            widget: object
+            collapsed: true
+            fields:
+              - { name: heading, label: Form Heading, widget: string }
+              - { name: successTitle, label: Success Title, widget: string }
+              - { name: successBody, label: Success Body, widget: text, hint: "Use {phone} to insert the Firm Info primary phone." }
+              - { name: error, label: Error Message, widget: text }
+              - { name: submit, label: Submit Button, widget: string }
+              - { name: sending, label: Sending Label, widget: string }
+              - { name: disclaimer, label: Disclaimer, widget: text }
+              - { name: honeypotLabel, label: Honeypot Label, widget: string }
+              - { name: otherOption, label: Other / Not Sure Option, widget: string }
+              - { name: selectPlaceholder, label: Practice Area Placeholder, widget: string }
+              - { name: routingNamed, label: Routing Note (Named), widget: string, hint: "Use {names} for the assigned attorney names." }
+              - { name: routingIntake, label: Routing Note (Intake), widget: string }
+              - { name: phoneLabel, label: Phone Label, widget: string }
+              - { name: addressLabel, label: Address Label, widget: string }
+              - { name: hoursLabel, label: Office Hours Label, widget: string }
+              - { name: mapTitle, label: Map Title, widget: string }
+              - { name: nameLabel, label: Name Label, widget: string }
+              - { name: namePlaceholder, label: Name Placeholder, widget: string }
+              - { name: emailLabel, label: Email Label, widget: string }
+              - { name: emailPlaceholder, label: Email Placeholder, widget: string }
+              - { name: phoneFieldLabel, label: Phone Field Label, widget: string }
+              - { name: phonePlaceholder, label: Phone Placeholder, widget: string }
+              - { name: practiceAreaLabel, label: Practice Area Label, widget: string }
+              - { name: messageLabel, label: Message Label, widget: string }
+              - { name: messagePlaceholder, label: Message Placeholder, widget: string }
+      - name: practiceAreasPage
+        label: Practice Areas Page
+        file: src/data/practice-areas-page.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: hero, label: Hero, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: subtitle, label: Subtitle, widget: text }
+            ] }
+          - { name: intro, label: Intro, widget: text }
+          - { name: viewPracticeArea, label: View Practice Area Link, widget: string }
+          - { name: backToPracticeAreas, label: Back Link, widget: string }
+          - { name: detailMetaTitle, label: Detail Meta Title, widget: string, hint: "Use {title} for the practice area name." }
+          - { name: detailHeroTitle, label: Detail Hero Title, widget: string, hint: "Use {title} for the practice area name." }
+          - { name: commonChallengesHeading, label: Common Challenges Heading, widget: string }
+          - { name: faqsHeading, label: FAQs Heading, widget: string }
+          - { name: keyServicesHeading, label: Key Services Heading, widget: string }
+          - { name: attorneysHeading, label: Attorneys Heading, widget: string }
+          - name: ctaDefaults
+            label: Default CTA
+            widget: object
+            fields:
+              - { name: description, label: Description, widget: text }
+              - { name: text, label: Button Text, widget: string }
+          - name: trust
+            label: Trust Section
+            widget: object
+            fields:
+              - { name: heading, label: Heading, widget: string }
+              - name: items
+                label: Items
+                widget: list
+                fields:
+                  - { name: title, label: Title, widget: string }
+                  - { name: description, label: Description, widget: text }
+      - name: attorneysPage
+        label: Attorneys Page
+        file: src/data/attorneys-page.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: hero, label: Hero, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: subtitle, label: Subtitle, widget: text }
+            ] }
+          - { name: schemaName, label: Schema Name, widget: string }
+          - { name: readMore, label: Read More, widget: string }
+          - { name: backToAttorneys, label: Back Link, widget: string }
+          - { name: aboutHeading, label: About Heading, widget: string, hint: "Use {firstName} for the attorney's first name." }
+          - { name: practiceAreasHeading, label: Practice Areas Heading, widget: string }
+          - { name: experienceHeading, label: Experience Heading, widget: string }
+          - { name: saveContact, label: Save Contact Button, widget: string }
+          - { name: detailMetaTitle, label: Detail Meta Title, widget: string, hint: "Use {name} and {practiceAreas}." }
+          - { name: detailMetaTitleFallback, label: Detail Meta Title Fallback, widget: string, hint: "Used when the attorney has no practice areas listed. Use {name}." }
+      - name: caseStudiesPage
+        label: Case Studies Page
+        file: src/data/case-studies-page.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: hero, label: Hero, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: subtitle, label: Subtitle, widget: text }
+            ] }
+          - { name: schemaName, label: Schema Name, widget: string }
+          - { name: emptyState, label: Empty State, widget: text }
+          - { name: readCaseStudy, label: Read Case Study, widget: string }
+          - { name: anonymizedSuffix, label: Anonymized Suffix, widget: string }
+          - { name: backToCaseStudies, label: Back Link, widget: string }
+          - { name: clientLine, label: Client Line, widget: string, hint: "Use {clientDescription}." }
+          - { name: clientLineAnonymized, label: Anonymized Client Line, widget: string, hint: "Use {clientDescription}." }
+          - { name: challengeHeading, label: Challenge Heading, widget: string }
+          - { name: strategyHeading, label: Strategy Heading, widget: string }
+          - { name: outcomeHeading, label: Outcome Heading, widget: string }
+          - { name: practiceAreaHeading, label: Practice Area Heading, widget: string }
+          - { name: previous, label: Previous, widget: string }
+          - { name: next, label: Next, widget: string }
+          - { name: detailMetaTitle, label: Detail Meta Title, widget: string, hint: "Use {title}." }
+          - { name: detailMetaDescription, label: Detail Meta Description, widget: text, hint: "Use {practiceArea} and {excerpt}." }
+          - name: sidebarCta
+            label: Sidebar CTA
+            widget: object
+            fields:
+              - { name: heading, label: Heading, widget: string }
+              - { name: body, label: Body, widget: text }
+              - { name: button, label: Button, widget: string }
+      - name: resources
+        label: Resources Page
+        file: src/data/resources.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: hero, label: Hero, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: subtitle, label: Subtitle, widget: text }
+            ] }
+          - { name: intro, label: Intro, widget: text }
+          - name: links
+            label: Links
+            widget: list
+            fields:
+              - { name: label, label: Label, widget: string }
+              - { name: href, label: URL, widget: string }
+      - name: privacyPolicy
+        label: Privacy Policy
+        file: src/data/privacy-policy.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: heading, label: Heading, widget: string }
+          - { name: lastUpdated, label: Last Updated Line, widget: string, required: false }
+          - { name: body, label: Body, widget: markdown, hint: "Use {phone} to insert the Firm Info primary phone." }
+      - name: termsOfService
+        label: Terms of Service
+        file: src/data/terms-of-service.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: heading, label: Heading, widget: string }
+          - { name: lastUpdated, label: Last Updated Line, widget: string, required: false }
+          - { name: body, label: Body, widget: markdown, hint: "Use {phone} to insert the Firm Info primary phone." }
+      - name: legalNotice
+        label: Legal Notice
+        file: src/data/legal-notice.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: heading, label: Heading, widget: string }
+          - { name: lastUpdated, label: Last Updated Line, widget: string, required: false }
+          - { name: body, label: Body, widget: markdown }
+      - name: accessibility
+        label: Accessibility
+        file: src/data/accessibility.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: heading, label: Heading, widget: string }
+          - { name: lastUpdated, label: Last Updated Line, widget: string, required: false }
+          - { name: body, label: Body, widget: markdown }
+      - name: notFound
+        label: 404 Page
+        file: src/data/not-found.json
+        fields:
+          - { name: meta, label: Meta, widget: object, fields: [
+              { name: title, label: Title, widget: string },
+              { name: description, label: Description, widget: text }
+            ] }
+          - { name: eyebrow, label: Eyebrow, widget: string }
+          - { name: heading, label: Heading, widget: string }
+          - { name: body, label: Body, widget: text }
+          - { name: homeButton, label: Home Button, widget: string }
+          - { name: contactButton, label: Contact Button, widget: string }

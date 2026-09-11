@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "title": "Legal Resources | EOP Law",
+    "description": "Oregon and Washington legal research links from Elliott, Ostrander & Preston, including courts, bar associations, and business filings."
+  },
+  "hero": {
+    "title": "Resources",
+    "subtitle": "Helpful legal and business links for clients and partners."
+  },
+  "intro": "These official references are starting points for Oregon and Washington legal and business research. They are provided for convenience and are not a substitute for legal advice.",
+  "links": [
+    {
+      "href": "https://www.osbar.org/public/",
+      "label": "Oregon State Bar Legal Information Topics"
+    },
+    {
+      "href": "https://www.portland.gov/business",
+      "label": "City of Portland Business Information"
+    },
+    {
+      "href": "https://sos.oregon.gov/business/pages/find.aspx",
+      "label": "Oregon Secretary of State — Find a Business"
+    },
+    {
+      "href": "https://ccfs.sos.wa.gov/",
+      "label": "Washington Secretary of State — Corporations Search"
+    },
+    {
+      "href": "https://www.uspto.gov/",
+      "label": "U.S. Patent and Trademark Office"
+    },
+    {
+      "href": "https://www.copyright.gov/",
+      "label": "U.S. Copyright Office"
+    },
+    {
+      "href": "https://www.irs.gov/businesses",
+      "label": "Internal Revenue Service — Businesses"
+    },
+    {
+      "href": "https://www.oregonlegislature.gov/bills_laws/Pages/ORS.aspx",
+      "label": "Oregon Revised Statutes"
+    },
+    {
+      "href": "https://www.oregon.gov/boli",
+      "label": "Oregon Bureau of Labor and Industries"
+    },
+    {
+      "href": "https://www.courts.oregon.gov/courts/multnomah/pages/default.aspx",
+      "label": "Multnomah County Circuit Court"
+    },
+    {
+      "href": "https://www.ord.uscourts.gov/",
+      "label": "U.S. District Court of Oregon"
+    },
+    {
+      "href": "https://www.wsba.org/",
+      "label": "Washington State Bar Association"
+    }
+  ]
+}

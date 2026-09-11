@@ -4,6 +4,7 @@ import Header from '../components/astro/Header.astro';
 import Footer from '../components/astro/Footer.astro';
 import PageHero from '../components/astro/PageHero.astro';
 import page from '../data/home.json';
+import practiceAreasPage from '../data/practice-areas-page.json';
 import firmInfo from '../data/firm-info.json';
 import { getCollection } from 'astro:content';
 import courthousePanelImg from '../images/courthouse-panel.webp';
@@ -26,7 +27,7 @@ const listingAreas: ListingArea[] = (await getCollection('practiceAreas'))
 const site = Astro.site ?? Astro.url;
 const practiceAreaList = itemListNode({
   id: absoluteUrl(site, '/practice-areas#practice-areas'),
-  name: 'Practice Areas',
+  name: practiceAreasPage.hero.title,
   items: listingAreas.map((area) => ({
     name: area.title,
     url: absoluteUrl(site, `/practice-areas/${area.slug}`),
@@ -35,16 +36,16 @@ const practiceAreaList = itemListNode({
 ---
 
 <BaseLayout
-  title="Practice Areas | Portland Attorneys | EOP Law"
-  description="Portland legal services in business and finance, real estate, employment, litigation, intellectual property, tax and estate planning, insurance, and affordable housing."
+  title={practiceAreasPage.meta.title}
+  description={practiceAreasPage.meta.description}
   schema={practiceAreaList}
 >
   <div class="min-h-screen flex flex-col">
     <Header />
     <main class="flex-1 bg-white">
       <PageHero
-        title="Practice Areas"
-        subtitle={page.practiceAreas.description}
+        title={practiceAreasPage.hero.title}
+        subtitle={practiceAreasPage.hero.subtitle}
         backgroundImageSrc={courthousePanelImg.src}
         containerMaxWidthClass="max-w-5xl"
       />
@@ -52,8 +53,7 @@ const practiceAreaList = itemListNode({
       <section id="practice" class="mx-auto w-full max-w-5xl px-6 py-12 md:py-16">
         <div class="max-w-4xl text-neutral-700">
           <p class="leading-relaxed">
-            We advise businesses and individuals across a broad range of legal matters. Explore each practice area to
-            learn how our attorneys approach strategy, risk, and results.
+            {practiceAreasPage.intro}
           </p>
         </div>
 
@@ -66,7 +66,7 @@ const practiceAreaList = itemListNode({
                 href={`/practice-areas/${area.slug}`}
                 class="mt-6 inline-flex items-center text-primary underline decoration-accent underline-offset-4 transition-colors hover:text-accent"
               >
-                View Practice Area
+                {practiceAreasPage.viewPracticeArea}
               </a>
             </article>
           ))}

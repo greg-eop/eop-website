@@ -1,7 +1,7 @@
 ---
 name: John D. Ostrander
 practiceAreas:
-  - Litigation
+  - litigation-appellate-practices
 photo: /uploads/john-ostrander.webp
 specialty: John specializes in trial work, focusing on commercial, employment, insurance, tort, and transportation litigation.
 email: john@eoplaw.com

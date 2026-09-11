@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "title": "Case Studies | EOP Law",
+    "description": "Real results for real clients. Explore representative matters handled by Elliott, Ostrander & Preston."
+  },
+  "hero": {
+    "title": "Case Studies",
+    "subtitle": "Representative matters illustrating how we approach complex legal challenges and deliver results."
+  },
+  "schemaName": "Case Studies",
+  "emptyState": "Case studies will appear here when they are published.",
+  "readCaseStudy": "Read Case Study",
+  "anonymizedSuffix": " (anonymized)",
+  "backToCaseStudies": "Case Studies",
+  "clientLine": "Client: {clientDescription}",
+  "clientLineAnonymized": "Client: {clientDescription} (anonymized)",
+  "challengeHeading": "The Challenge",
+  "strategyHeading": "Our Strategy",
+  "outcomeHeading": "The Outcome",
+  "practiceAreaHeading": "Practice Area",
+  "previous": "← Previous",
+  "next": "Next →",
+  "detailMetaTitle": "{title} | Case Studies | EOP Law",
+  "detailMetaDescription": "{practiceArea} case study: {excerpt}",
+  "sidebarCta": {
+    "heading": "Have a similar matter?",
+    "body": "Our team is ready to discuss your situation confidentially.",
+    "button": "Schedule a Consultation"
+  }
+}

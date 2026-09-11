@@ -1,11 +1,10 @@
 ---
 name: Robert J. Preston
 practiceAreas:
-  - Business
-  - Tax
-  - Estate Planning
+  - business-finance
+  - tax-estate-planning
 photo: /uploads/robert-preston.webp
-specialty: Robert advises clients on long-range planning, tax strategy, and complex business matters.
+specialty: Robert practices in trusts and estates, tax planning and controversy, and business and real estate transactions, with an emphasis on closely-held and family businesses.
 email: robert@eoplaw.com
 order: 3
 ---

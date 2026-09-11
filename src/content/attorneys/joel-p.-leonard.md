@@ -1,12 +1,11 @@
 ---
 name: Joel P. Leonard
 practiceAreas:
-  - Litigation
-  - Commercial Construction
-  - Trade Secrets
-  - Insurance
+  - litigation-appellate-practices
+  - insurance
+  - intellectual-property
 photo: /uploads/joel-leonard.webp
-specialty: ''
+specialty: Joel represents clients in commercial and insurance litigation, including products liability, coverage disputes, and non-competition agreements, and also counsels health care providers.
 email: joel@eoplaw.com
 order: 100
 ---

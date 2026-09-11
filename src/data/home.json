@@ -24,6 +24,7 @@
     "heading": "Decades of Legal Excellence",
     "lead": "Founded in 1995, Elliott Ostrander & Preston has built a reputation as one of the region's most trusted law firms.",
     "body": "We combine deep legal expertise with a genuine understanding of our clients' needs, delivering personalized strategies that achieve real results.",
+    "imageAlt": "Portland courthouse",
     "highlights": [
       {
         "title": "Client-Centered Approach",
@@ -43,6 +44,7 @@
     "eyebrow": "Why Choose Us",
     "heading": "Commitment to Your Success",
     "description": "We provide clear guidance and focused execution at every stage of your legal matter.",
+    "imageAlt": "Business handshake",
     "steps": [
       {
         "title": "Initial Consultation",
@@ -104,19 +106,6 @@
         "author": "Phil",
         "title": "Google Review"
       }
-    ]
-  },
-  "contact": {
-    "heading": "Schedule Your Consultation",
-    "description": "Ready to discuss your legal needs? Contact our team for a confidential consultation.",
-    "phone": "+1 503.224.7112",
-    "email": "contact@eoplaw.com",
-    "addressLines": [
-      "707 SW Washington St., Suite 1500",
-      "Portland, OR 97205"
-    ],
-    "officeHours": [
-      "Monday - Friday: 9:00 AM - 5:00 PM"
     ]
   },
   "footer": {

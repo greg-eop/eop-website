@@ -8,7 +8,41 @@
     "practiceAreas": {
       "type": "array",
       "items": {
-        "type": "string"
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "collection": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "collection"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "slug": {
+                "type": "string"
+              },
+              "collection": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "slug",
+              "collection"
+            ]
+          }
+        ]
       }
     },
     "role": {
@@ -24,6 +58,9 @@
       "type": "string",
       "format": "email",
       "pattern": "^(?!\\.)(?!.*\\.\\.)([A-Za-z0-9_'+\\-\\.]*)[A-Za-z0-9_+-]@([A-Za-z0-9][A-Za-z0-9\\-]*\\.)+[A-Za-z]{2,}$"
+    },
+    "phone": {
+      "type": "string"
     },
     "order": {
       "default": 100,

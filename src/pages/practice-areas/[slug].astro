@@ -4,12 +4,19 @@ import Header from "../../components/astro/Header.astro";
 import Footer from "../../components/astro/Footer.astro";
 import PageHero from "../../components/astro/PageHero.astro";
 import page from "../../data/home.json";
+import practiceAreasPage from "../../data/practice-areas-page.json";
 import firmInfo from "../../data/firm-info.json";
+import { interpolate } from "../../lib/interpolate";
 import courthousePanelImg from "../../images/courthouse-panel.webp";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { attorneysForPracticeArea } from "../../lib/practice-area-routing";
 import { absoluteUrl, faqPageNode, serviceNode } from "../../lib/schema";
+import {
+  formatPracticeAreaTitles,
+  practiceAreaMap,
+  resolvePracticeAreas,
+} from "../../lib/attorney-practice-areas";
 
 export const getStaticPaths = async () => {
   const areas = await getCollection("practiceAreas");
@@ -29,13 +36,12 @@ const { title, description, overview, services, clientProblem, faqs } =
   area.data;
 
 const allAttorneys = await getCollection("attorneys");
+const practiceAreasById = practiceAreaMap(await getCollection("practiceAreas"));
 const matchedAttorneys = attorneysForPracticeArea(allAttorneys, {
   id: area.id,
   title,
 });
 
-const phoneHref = `tel:${firmInfo.phone.replace(/\s/g, "")}`;
-const yearsOfExperience = new Date().getFullYear() - 1995;
 const site = Astro.site ?? Astro.url;
 const pageUrl = absoluteUrl(site, `/practice-areas/${area.id}`);
 const schema = [
@@ -51,7 +57,7 @@ const schema = [
 ---
 
 <BaseLayout
-  title={`Portland ${title} Attorneys | EOP Law`}
+  title={interpolate(practiceAreasPage.detailMetaTitle, { title })}
   description={description}
   breadcrumbLabel={title}
   schema={schema}
@@ -61,13 +67,13 @@ const schema = [
     <main class="flex-1 bg-white">
       <!-- Hero -->
       <PageHero
-        title={`Portland ${title} Attorneys`}
+        title={interpolate(practiceAreasPage.detailHeroTitle, { title })}
         subtitle={description}
         backgroundImageSrc={courthousePanelImg.src}
         containerMaxWidthClass="max-w-7xl"
         showCta={area.data.showCta}
-        ctaDescription={area.data.ctaDescription}
-        ctaText={area.data.ctaText}
+        ctaDescription={area.data.ctaDescription || practiceAreasPage.ctaDefaults.description}
+        ctaText={area.data.ctaText || practiceAreasPage.ctaDefaults.text}
         ctaHref={area.data.ctaHref || `/contact-us?practice-area=${area.id}`}
       />
 
@@ -87,7 +93,7 @@ const schema = [
               clientProblem.length > 0 && (
                 <section class="bg-neutral-50 border-l-4 border-accent px-8 py-8 space-y-4">
                   <h2 class="font-serif text-2xl text-primary md:text-3xl">
-                    Common Challenges We Solve
+                    {practiceAreasPage.commonChallengesHeading}
                   </h2>
                   <ul class="mt-3 space-y-3 leading-relaxed text-neutral-700">
                     {clientProblem.map((item) => (
@@ -108,36 +114,19 @@ const schema = [
               <h2
                 class="font-serif text-2xl md:text-3xl mb-8 border-b border-accent pb-2"
               >
-                Why Clients Trust EOP Law
+                {practiceAreasPage.trust.heading}
               </h2>
               <div class="grid sm:grid-cols-3 gap-8">
-                <div>
-                  <h3 class="font-serif text-xl text-accent mb-3">
-                    Deep Experience
-                  </h3>
-                  <p class="text-white/70 text-sm leading-relaxed">
-                    Our attorneys bring decades of experience helping Portland
-                    businesses and individuals navigate complex legal matters.
-                  </p>
-                </div>
-                <div>
-                  <h3 class="font-serif text-xl text-accent mb-3">
-                    Boutique Service
-                  </h3>
-                  <p class="text-white/70 text-sm leading-relaxed">
-                    You'll work directly with experienced attorneys who know
-                    your goals and provide personalized guidance.
-                  </p>
-                </div>
-                <div>
-                  <h3 class="font-serif text-xl text-accent mb-3">
-                    Trusted Relationships
-                  </h3>
-                  <p class="text-white/70 text-sm leading-relaxed">
-                    We're known for our approachable, responsive style and
-                    commitment to building lasting client relationships.
-                  </p>
-                </div>
+                {practiceAreasPage.trust.items.map((item) => (
+                  <div>
+                    <h3 class="font-serif text-xl text-accent mb-3">
+                      {item.title}
+                    </h3>
+                    <p class="text-white/70 text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                ))}
               </div>
             </section>
 
@@ -146,7 +135,7 @@ const schema = [
               faqs.length > 0 && (
                 <section class="px-8 py-10 border border-neutral-200 rounded-sm">
                   <h2 class="font-serif text-2xl text-primary md:text-3xl">
-                    Frequently Asked Questions
+                    {practiceAreasPage.faqsHeading}
                   </h2>
                   <dl class="mt-6 divide-y divide-neutral-200">
                     {faqs.map((faq) => (
@@ -190,7 +179,7 @@ const schema = [
                 href="/practice-areas"
                 class="inline-flex items-center justify-center px-6 py-3 border border-primary text-primary transition-colors hover:border-accent hover:text-accent"
               >
-                ← Back To Practice Areas
+                {practiceAreasPage.backToPracticeAreas}
               </a>
             </div>
           </div><!-- /main content -->
@@ -202,7 +191,7 @@ const schema = [
               matchedAttorneys.length > 0 && (
                 <div class="border border-neutral-200">
                   <div class="bg-primary px-6 py-4">
-                    <h2 class="font-serif text-lg text-white">Attorneys</h2>
+                    <h2 class="font-serif text-lg text-white">{practiceAreasPage.attorneysHeading}</h2>
                   </div>
                   <div class="divide-y divide-neutral-100">
                     {matchedAttorneys.map((attorney) => (
@@ -226,7 +215,13 @@ const schema = [
                             {attorney.data.name}
                           </p>
                           <p class="text-xs text-neutral-500 mt-0.5">
-                            {(attorney.data.practiceAreas ?? []).join(" · ")}
+                            {formatPracticeAreaTitles(
+                              resolvePracticeAreas(
+                                attorney.data.practiceAreas,
+                                practiceAreasById,
+                              ),
+                              " · ",
+                            )}
                           </p>
                         </div>
                       </a>
@@ -241,7 +236,7 @@ const schema = [
               services.length > 0 && (
                 <div class="border border-neutral-200">
                   <div class="bg-primary px-6 py-4 mb-2">
-                    <h2 class="font-serif text-lg text-white">Key Services</h2>
+                    <h2 class="font-serif text-lg text-white">{practiceAreasPage.keyServicesHeading}</h2>
                   </div>
                   <ul class="divide-y divide-neutral-100">
                     {services.map((service) => (

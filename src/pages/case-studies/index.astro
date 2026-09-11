@@ -4,6 +4,7 @@ import Header from '../../components/astro/Header.astro';
 import Footer from '../../components/astro/Footer.astro';
 import PageHero from '../../components/astro/PageHero.astro';
 import page from '../../data/home.json';
+import caseStudiesPage from '../../data/case-studies-page.json';
 import firmInfo from '../../data/firm-info.json';
 import courthousePanelImg from '../../images/courthouse-panel.webp';
 import { getPublishedCaseStudies } from '../../lib/case-studies';
@@ -15,7 +16,7 @@ const caseStudyList =
   allCaseStudies.length > 0
     ? itemListNode({
         id: absoluteUrl(site, '/case-studies#case-studies'),
-        name: 'Case Studies',
+        name: caseStudiesPage.schemaName,
         items: allCaseStudies.map((cs) => ({
           name: cs.data.title,
           url: absoluteUrl(site, `/case-studies/${cs.id}`),
@@ -25,8 +26,8 @@ const caseStudyList =
 ---
 
 <BaseLayout
-  title="Case Studies | EOP Law"
-  description="Real results for real clients. Explore representative matters handled by Elliott, Ostrander & Preston."
+  title={caseStudiesPage.meta.title}
+  description={caseStudiesPage.meta.description}
   noindex={allCaseStudies.length === 0}
   schema={caseStudyList}
 >
@@ -34,8 +35,8 @@ const caseStudyList =
     <Header />
     <main class="flex-1 bg-white">
       <PageHero
-        title="Case Studies"
-        subtitle="Representative matters illustrating how we approach complex legal challenges and deliver results."
+        title={caseStudiesPage.hero.title}
+        subtitle={caseStudiesPage.hero.subtitle}
         backgroundImageSrc={courthousePanelImg.src}
         containerMaxWidthClass="max-w-6xl"
       />
@@ -44,7 +45,7 @@ const caseStudyList =
         <div class="space-y-6">
           {allCaseStudies.length === 0 && (
             <p class="leading-relaxed text-neutral-700">
-              Case studies will appear here when they are published.
+              {caseStudiesPage.emptyState}
             </p>
           )}
           {allCaseStudies.map((cs) => (
@@ -61,13 +62,13 @@ const caseStudyList =
                   {cs.data.title}
                 </h2>
                 <p class="text-md text-neutral-400 uppercase tracking-wide mb-6">
-                  {cs.data.clientDescription}{cs.data.isAnonymized ? ' (anonymized)' : ''}
+                  {cs.data.clientDescription}{cs.data.isAnonymized ? caseStudiesPage.anonymizedSuffix : ''}
                 </p>
                 <p class="text-neutral-600 text-[0.95rem] leading-relaxed line-clamp-2 mb-8 max-w-xl">
                   {cs.data.challenge}
                 </p>
                 <span class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary group-hover:gap-4 transition-all duration-200 bg-accent px-8 py-4">
-                  Read Case Study
+                  {caseStudiesPage.readCaseStudy}
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>

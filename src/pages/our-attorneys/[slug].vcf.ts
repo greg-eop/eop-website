@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 
 export const GET: APIRoute = ({ props, url }) => {
   const entry = props.entry as CollectionEntry<'attorneys'>;
-  const { name, role, specialty, email } = entry.data;
+  const { name, role, specialty, email, phone } = entry.data;
 
   // Parse name into parts: first, middle(s), last
   const nameParts = name.trim().split(/\s+/);
@@ -21,8 +21,8 @@ export const GET: APIRoute = ({ props, url }) => {
   const givenName = nameParts[0] ?? '';
   const additionalNames = nameParts.slice(1, -1).join(' ');
 
-  // Clean firm phone: "+1 503.224.7112" → "+15032247112"
-  const cleanPhone = firmInfo.phone.replace(/[\s.]/g, '');
+  const rawPhone = phone?.trim() || firmInfo.phone;
+  const cleanPhone = rawPhone.replace(/[\s.]/g, '');
 
   // Build profile URL from the request origin
   const origin = url.origin;

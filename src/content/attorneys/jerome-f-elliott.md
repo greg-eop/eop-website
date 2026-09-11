@@ -1,11 +1,10 @@
 ---
 name: Jerome F. Elliott
 practiceAreas:
-  - Business
-  - Finance
-  - Real Estate
+  - business-finance
+  - real-estate
 photo: /uploads/jerome-elliot.webp
-specialty: Jerry assists clients primarily on business and real estate matters, including formations, financings, and transactions.
+specialty: Jerry assists clients primarily on business and real estate matters, including formations, financings, mergers and acquisitions, and commercial transactions.
 email: jerry@eoplaw.com
 order: 1
 ---
