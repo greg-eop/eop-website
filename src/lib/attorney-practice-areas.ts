@@ -6,18 +6,32 @@ export type ResolvedPracticeArea = {
   href: string;
 };
 
+type PracticeAreaRef = string | { id?: string; slug?: string } | null | undefined;
+
 export function practiceAreaMap(
   entries: CollectionEntry<'practiceAreas'>[],
 ): Map<string, CollectionEntry<'practiceAreas'>> {
   return new Map(entries.map((entry) => [entry.id, entry]));
 }
 
+export function practiceAreaRefId(ref: PracticeAreaRef): string | undefined {
+  if (typeof ref === 'string') return ref || undefined;
+  if (ref && typeof ref === 'object') {
+    if (typeof ref.id === 'string' && ref.id) return ref.id;
+    if (typeof ref.slug === 'string' && ref.slug) return ref.slug;
+  }
+  return undefined;
+}
+
 export function resolvePracticeAreas(
-  refs: Array<{ id: string }> | undefined,
+  refs: PracticeAreaRef[] | undefined,
   byId: Map<string, CollectionEntry<'practiceAreas'>>,
 ): ResolvedPracticeArea[] {
   return (refs ?? [])
-    .map((ref) => byId.get(ref.id))
+    .map((ref) => {
+      const id = practiceAreaRefId(ref);
+      return id ? byId.get(id) : undefined;
+    })
     .filter((entry): entry is CollectionEntry<'practiceAreas'> => Boolean(entry))
     .map((entry) => ({
       id: entry.id,

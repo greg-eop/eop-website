@@ -7,7 +7,7 @@ import attorneysPage from "../../data/attorneys-page.json";
 import firmInfo from "../../data/firm-info.json";
 import { interpolate } from "../../lib/interpolate";
 import woodPanelJpg from "../../images/wood-panel.webp";
-import { getCollection, render } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { absoluteUrl, personNode } from "../../lib/schema";
 import {
@@ -16,20 +16,19 @@ import {
   resolvePracticeAreas,
 } from "../../lib/attorney-practice-areas";
 
-interface Props {
-  entry: CollectionEntry<"attorneys">;
-}
-
 export async function getStaticPaths() {
   const attorneys = await getCollection("attorneys");
 
   return attorneys.map((entry: CollectionEntry<"attorneys">) => ({
     params: { slug: entry.id },
-    props: { entry },
   }));
 }
 
-const { entry } = Astro.props as Props;
+const slug = Astro.params.slug!;
+const entry = await getEntry("attorneys", slug);
+if (!entry) {
+  throw new Error(`Attorney not found: ${slug}`);
+}
 const { Content } = await render(entry);
 const practiceAreaLinks = resolvePracticeAreas(
   entry.data.practiceAreas,

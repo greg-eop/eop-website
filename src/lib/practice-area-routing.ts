@@ -56,7 +56,10 @@ export function attorneyMatchesPracticeArea(
     return configured.includes(attorney.email.toLowerCase());
   }
 
-  return (attorney.practiceAreas ?? []).some((ref) => ref.id === practiceArea.id);
+  return (attorney.practiceAreas ?? []).some((ref) => {
+    const id = typeof ref === 'string' ? ref : ref.id;
+    return id === practiceArea.id;
+  });
 }
 
 function sortAttorneysByEmailOrder(
