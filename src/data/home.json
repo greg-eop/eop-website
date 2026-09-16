@@ -5,7 +5,7 @@
   },
   "homepageSettings": {
     "headline": "Trusted Portland Attorneys. Big-Firm Experience. Boutique-Firm Attention.",
-    "subhead": "We provide the full range of legal services expected of a larger firm, but without the inefficiency of an institutional bureaucracy. "
+    "subhead": "We provide the full range of legal services expected of a larger firm, but without the inefficiency of an institutional bureaucracy."
   },
   "hero": {
     "badge": "Excellence in Legal Practice Since 1995",
@@ -23,7 +23,7 @@
     "eyebrow": "About Our Firm",
     "heading": "Decades of Legal Excellence",
     "lead": "Founded in 1995, Elliott Ostrander & Preston has built a reputation as one of the region's most trusted law firms.",
-    "body": "We combine deep legal expertise with a genuine understanding of our clients' needs, delivering personalized strategies that achieve real results.",
+    "body": "We combine deep legal expertise and decades of experience with a genuine understanding of our clients' needs, delivering personalized strategies that achieve real results.",
     "imageAlt": "Portland courthouse",
     "highlights": [
       {
@@ -109,30 +109,80 @@
     ]
   },
   "footer": {
-    "summary": "Founded in Portland, Oregon. Providing legal guidance to businesses and individuals since 1995.",
     "practiceLinks": [
-      { "label": "Affordable Housing Development & Financing", "href": "/practice-areas/affordable-housing-development-financing" },
-      { "label": "Business & Finance", "href": "/practice-areas/business-finance" },
-      { "label": "Employment", "href": "/practice-areas/employment" },
-      { "label": "Insurance", "href": "/practice-areas/insurance" },
-      { "label": "Intellectual Property", "href": "/practice-areas/intellectual-property" },
-      { "label": "Litigation & Appellate Practices", "href": "/practice-areas/litigation-appellate-practices" },
-      { "label": "Real Estate", "href": "/practice-areas/real-estate" },
-      { "label": "Tax & Estate Planning", "href": "/practice-areas/tax-estate-planning" }
+      {
+        "label": "Affordable Housing Development & Financing",
+        "href": "/practice-areas/affordable-housing-development-financing"
+      },
+      {
+        "label": "Business & Finance",
+        "href": "/practice-areas/business-finance"
+      },
+      {
+        "label": "Employment",
+        "href": "/practice-areas/employment"
+      },
+      {
+        "label": "Insurance",
+        "href": "/practice-areas/insurance"
+      },
+      {
+        "label": "Intellectual Property",
+        "href": "/practice-areas/intellectual-property"
+      },
+      {
+        "label": "Litigation & Appellate Practices",
+        "href": "/practice-areas/litigation-appellate-practices"
+      },
+      {
+        "label": "Real Estate",
+        "href": "/practice-areas/real-estate"
+      },
+      {
+        "label": "Tax & Estate Planning",
+        "href": "/practice-areas/tax-estate-planning"
+      }
     ],
     "companyLinks": [
-      { "label": "About The Firm", "href": "/about" },
-      { "label": "Our Team", "href": "/our-attorneys" },
-      { "label": "Case Studies", "href": "/case-studies" },
-      { "label": "Contact", "href": "/contact-us" }
+      {
+        "label": "About The Firm",
+        "href": "/about"
+      },
+      {
+        "label": "Our Team",
+        "href": "/our-attorneys"
+      },
+      {
+        "label": "Case Studies",
+        "href": "/case-studies"
+      },
+      {
+        "label": "Contact",
+        "href": "/contact-us"
+      }
     ],
     "legalLinks": [
-      { "label": "Resources", "href": "/resources" },
-      { "label": "Privacy Policy", "href": "/privacy-policy" },
-      { "label": "Terms of Service", "href": "/terms-of-service" },
-      { "label": "Disclaimer", "href": "/legal-notice" }
+      {
+        "label": "Resources",
+        "href": "/resources"
+      },
+      {
+        "label": "Privacy Policy",
+        "href": "/privacy-policy"
+      },
+      {
+        "label": "Terms of Service",
+        "href": "/terms-of-service"
+      },
+      {
+        "label": "Disclaimer",
+        "href": "/legal-notice"
+      }
     ],
-    "socialLinks": ["LinkedIn"],
-    "copyright": "© 2026 Elliott Ostrander & Preston, PC. All rights reserved."
+    "copyright": "© 2026 Elliott Ostrander & Preston, PC. All rights reserved.",
+    "socialLinks": [
+      "LinkedIn"
+    ],
+    "summary": "Founded in Portland, Oregon. Providing legal guidance to businesses and individuals since 1995."
   }
 }
